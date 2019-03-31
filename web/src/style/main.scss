@@ -1,0 +1,42 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 14px !important;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+div,h1,h2,h3,h4,h5,h6,p,header,ul,li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+i {
+  font-style: normal;
+}
+a, button, input {
+  outline-style: none;
+}
+// 去掉input[type=number]默认的加减号
+input[type=‘number‘] {
+  -moz-appearance:textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
