@@ -6,16 +6,18 @@
         </div>
         <div class="news-body">
             <div class="news-item-cont"
-            v-for='obj in newsSoure' :key=obj.id>
+            v-for='(obj) in newsSoure' :key=obj.id>
                 <div class="ns-item">
-                    <div class="out-border"></div>
-                    <transition name='opa'>
-                        <img :src="obj.imgSrc" v-if="isCmptShow" alt="精彩瞬间">
-                    </transition>
-                    <div class="item-body">
-                        <h4>{{obj.title}}</h4>
-                        <p>{{obj.article}}</p>
-                    </div>
+                    <router-link :to="{path:obj.path}">
+                        <div class="out-border"></div>
+                        <transition name='opa'>
+                            <img :src="obj.imgSrc" v-if="isCmptShow" alt="精彩瞬间">
+                        </transition>
+                        <div class="item-body" >
+                            <h4>{{obj.title}}</h4>
+                            <p>{{obj.article}}{{obj.path}}</p>
+                        </div>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -164,7 +166,7 @@ export default {
         width: 90%;
         margin: 0 auto;
         line-height: 1.5rem;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         text-indent: 1.4rem;
         letter-spacing: 0.1rem;
         text-align:justify;

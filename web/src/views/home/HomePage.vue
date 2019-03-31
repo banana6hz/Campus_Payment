@@ -20,23 +20,23 @@
           {id: 5, imgSrc: require('../../../static/img/banner5.jpg')}
         ],
         newsSoure:[
-          {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),
+          {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),path:'/search',
             article:`刺猬在天冷时彼此靠拢取暖，但是保持一定距离，以免互相刺伤。
                         要去保持亲密的重要方法，乃是要保持适当的距离。测验一个人的智力是否是属于上乘，
                         只要看脑子里能否是能同时容纳两种相反的思想，而无碍于其处世行事。`
           },
-          {id:2,title:'缴费',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+          {id:2,title:'缴费',imgSrc:require('../../../static/img/home-news-pic2.jpg'),path:'/search',
             article:`可是不知道何时起，仿佛自己更加喜欢熟悉的味道，可能觉得那更加踏实吧，
                         熟悉的味道总是让我们少了很多担心，多了一份踏实很多时候，
                         可能是害怕太多的顾虑，所有干脆放弃，也许在将来的某一刻，
                         我会后悔我现在的选择，但是我却从来的没有忘记我当初的决心。`
           },
-          {id:3,title:'订单',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
+          {id:3,title:'订单',imgSrc:require('../../../static/img/home-news-pic3.jpg'),path:'/search',
             article:`当我还住在她丢掉的那首歌里，怀抱所有音符；当我仍在她丢掉的那本书里面，
                 封面封底夹着我所有的白昼与黑夜的时候，阿谷，这个如山间清风，
                 拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`
           },
-          {id:4,title:'敬请期待',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
+          {id:4,title:'敬请期待',imgSrc:require('../../../static/img/home-news-pic3.jpg'),path:'/search',
             article:`当我还住在她丢掉的那首歌里，怀抱所有音符；当我仍在她丢掉的那本书里面，
                 封面封底夹着我所有的白昼与黑夜的时候，阿谷，这个如山间清风，
                 拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`

@@ -208,7 +208,8 @@
         })
       },
       submitForm (formName) {
-        this.$refs[formName].validate((valid) => {
+        this.$router.push({path: '/HomePage'})
+        /*this.$refs[formName].validate((valid) => {
           if (valid) {
             const key = [6, 9, 16, 11, 3, 6, 2, 3, 4, 2, 8, 2, 5, 9, 8, 2],
                     pwd = this.loginForm.passWord,
@@ -226,7 +227,7 @@
             console.log('error submit!!');
             return false
           }
-        })
+        })*/
       },
       resetForm (formName) {
         this.$refs[formName].resetFields()
@@ -348,7 +349,7 @@
   .login-help-tip{
     $tip-width : 5rem;
     position: absolute;
-    top: 5%;
+    top: 10%;
     right: 5%;
     width: $tip-width;
     height: $tip-width /2;

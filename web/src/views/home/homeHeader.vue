@@ -55,7 +55,7 @@
             }
         },
         mounted(){
-            this.checkLogin()
+            // this.checkLogin()
         },
         methods:{
             // 检验是否登录

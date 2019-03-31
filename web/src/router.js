@@ -46,6 +46,14 @@ export default new Router({
         path:'/suggest',
         name:'suggest',
         component: () => import(/* webpackChunkName: "about" */ './views/suggest/suggest.vue'),
+      },{
+        path:'/search',
+        name:'search',
+        component: () => import(/* webpackChunkName: "about" */ './views/search/search.vue'),
+      },{
+        path:'/payment',
+        name:'payment',
+        component: () => import(/* webpackChunkName: "about" */ './views/payment/payment.vue'),
       }]
     }
   ]

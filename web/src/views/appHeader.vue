@@ -162,7 +162,7 @@ $header-height:3rem;
     color: $color;
     // @include transition(.3s);
     cursor: pointer;
-    z-index: 9999;
+    z-index: 2000;
 }
 .logo{
     flex-grow: 2;
