@@ -8,7 +8,7 @@
         </div>
         <div class="footTip">
                     <span class="f-tip">
-                        一一一 共建美好生活 !
+                        一一一 不排队、不费事，让生活更简单一些 !
                     </span>
         </div>
       </div>

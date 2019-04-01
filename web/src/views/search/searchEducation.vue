@@ -9,7 +9,7 @@
         data () {
             return {
                 arrearageData: [{
-                    test: '查询等级考试费用'
+                    test: '查询学费'
                 },{
                     test: 222
                 }]

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <arrearage></arrearage>
+        <arrearage :arrearageData="arrearageData"></arrearage>
     </div>
 </template>
 <script>
@@ -8,7 +8,7 @@
     export default {
         data () {
             return {
-                baseData: [{
+                arrearageData: [{
                     test: '查询电费'
                 },{
                     test: 222

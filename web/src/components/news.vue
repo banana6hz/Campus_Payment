@@ -41,8 +41,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '../style/mixin';
+<style scoped lang='scss'>
+@import "../style/_mixin.scss";
 .home-news{
     position: relative;
     width: 100%;
@@ -89,7 +89,7 @@ export default {
     top: 0;
     margin-top: -$circle-h +0.7rem;
     margin-left: -$circle-h;
-    @include circle($circle-w,#fff);
+    // @include circle($circle-w,#fff);
     &::after{
         $moveValue:0.5rem;
         content:'';
@@ -110,7 +110,7 @@ export default {
     width: 77%;
     margin: 0.05rem auto 0;
     padding-bottom: 2rem;
-    @include box-shadow(0 0 0.3rem 0.3rem #ccc);
+      @include box-shadow(0 0 0.3rem 0.3rem #ccc);
     cursor: pointer;
 }
 .news-item-cont{

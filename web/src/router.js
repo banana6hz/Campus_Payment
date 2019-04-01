@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import login from './views/login.vue'
 
 Vue.use(Router)
 
@@ -8,8 +8,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'login',
+      component: login
     },
     {
       path: '/HomePage',
@@ -20,8 +20,8 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/home/HomePage.vue'),
       children: [{
         path:'/',
-        name:'homes',
-        component: () => import(/* webpackChunkName: "about" */ './views/home/homes.vue')
+        name:'homeContainer',
+        component: () => import(/* webpackChunkName: "about" */ './views/home/homeContainer.vue')
       },{
         path:'/userPerson',
         name:'userPerson',
@@ -74,6 +74,14 @@ export default new Router({
           path:'/searchExamRecord',
           name:'searchExamRecord',
           component: () => import('./views/search/searchExamRecord')
+        },{
+          path:'/searchEducation',
+          name:'searchEducation',
+          component: () => import('./views/search/searchEducation')
+        },{
+          path:'/searchEducationRecord',
+          name:'searchEducationRecord',
+          component: () => import('./views/search/searchEducationRecord')
         }]
       },{
         path:'/payment',

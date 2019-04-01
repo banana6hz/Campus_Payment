@@ -12,8 +12,8 @@
     </div>
 </template>
 <script>
-    import homeBanner from '../banner'
-    import news from '../news'
+    import homeBanner from '../../components/banner'
+    import news from '../../components/news'
     export default {
         data(){
             return {

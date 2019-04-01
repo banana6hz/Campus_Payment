@@ -1,6 +1,6 @@
 <template>
     <div>
-        <record></record>
+        <record :recordData="recordData"></record>
     </div>
 </template>
 <script>
@@ -8,7 +8,7 @@
     export default {
         data () {
             return {
-                baseData: [{test: '电费记录'}]
+                recordData: [{test: '电费记录'}]
             }
         },
         components: {

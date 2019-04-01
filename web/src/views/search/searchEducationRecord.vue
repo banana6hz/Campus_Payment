@@ -1,6 +1,6 @@
 <template>
     <div>
-        <record :recordData='recordData'></record>
+        <record :recordData="recordData"></record>
     </div>
 </template>
 <script>
@@ -8,7 +8,7 @@
     export default {
         data () {
             return {
-                recordData: [{test: '水费缴纳记录'}]
+                recordData: [{test: '学费记录'}]
             }
         },
         components: {

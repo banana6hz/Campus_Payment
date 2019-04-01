@@ -1,6 +1,6 @@
 <template>
     <div>
-        <arrearage></arrearage>
+        <arrearage :arrearageData='arrearageData'></arrearage>
     </div>
 </template>
 <script>
@@ -8,7 +8,7 @@
     export default {
         data () {
             return {
-                leftMenuData: [{
+                arrearageData: [{
                     test: "查找水费"
                 },{
                     test: 222

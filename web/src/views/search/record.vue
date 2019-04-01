@@ -1,20 +1,19 @@
 <template>
     <div>
-        <div>55</div>
-        <div v-for="obj in menuData">
-            <p>{{obj.test}}</p>
+        <div :router='true' v-for="item in recordData">
+            <p>{{item.test}}</p>
         </div>
     </div>
 </template>
 <script>
     export default {
         props:{
-            leftMenuData:Array
+            recordData:Array
         },
         data() {
             return {
                 isCollapse: false,//默认展开
-                menuData:this.leftMenuData,
+                recordData:this.recordData,
                 // defaultActive:'userInformation'
             };
         },

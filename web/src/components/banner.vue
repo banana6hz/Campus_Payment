@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import "../style/mixin";
+@import "../style/_mixin.css";
 .app-home-banner{
     position: relative;
     width: 100%;
