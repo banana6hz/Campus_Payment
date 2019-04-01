@@ -50,6 +50,31 @@ export default new Router({
         path:'/search',
         name:'search',
         component: () => import(/* webpackChunkName: "about" */ './views/search/search.vue'),
+        children:[{
+          path:'/searchWater',
+          name:'searchWater',
+          component: () => import('./views/search/searchWater')
+        },{
+          path:'/searchWaterRecord',
+          name:'searchWaterRecord',
+          component: () => import('./views/search/searchWaterRecord')
+        },{
+          path:'/searchEnergyCharge',
+          name:'searchEnergyCharge',
+          component: () => import('./views/search/searchEnergyCharge')
+        },{
+          path:'/searchEnergyChargeRecord',
+          name:'searchEnergyChargeRecord',
+          component: () => import('./views/search/searchEnergyChargeRecord')
+        },{
+          path:'/searchExam',
+          name:'searchExam',
+          component: () => import('./views/search/searchExam')
+        },{
+          path:'/searchExamRecord',
+          name:'searchExamRecord',
+          component: () => import('./views/search/searchExamRecord')
+        }]
       },{
         path:'/payment',
         name:'payment',
