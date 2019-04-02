@@ -9,9 +9,17 @@
         data () {
             return {
                 arrearageData: [{
-                    test: '查询电费'
+                    title: '余额',
+                    test: 88,
+                    unit: '元',
+                    src: require('../../assets/img/chargeMoney.png'),
+                    alt: '电'
                 },{
-                    test: 222
+                    title: '可用电量',
+                    test: 222,
+                    unit: '度',
+                    src: require('../../assets/img/charge.png'),
+                    alt: '电'
                 }]
             }
         },

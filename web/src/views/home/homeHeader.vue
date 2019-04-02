@@ -15,8 +15,6 @@
                     <el-badge is-dot
                               class="item">个人中心</el-badge>
                 </router-link>
-                <router-link :class="{'link-active':currentPage=='suggest'}"
-                             to="/suggest">收费公示</router-link>
             </div>
             <div class="login-and-exit">
                 <a v-if="!loginState"

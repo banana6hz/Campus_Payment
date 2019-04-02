@@ -11,6 +11,7 @@
                  :class="{'isCollapse-w':isCollapse}">
                 <transition name='opa-keep' mode="in-out">
                     <keep-alive>
+                        <!-- 所有路径匹配到的视图组件都会被缓存！ -->
                         <router-view v-if="$route.meta.keepAlive"></router-view>
                     </keep-alive>
                 </transition>
@@ -32,13 +33,13 @@
                         icon:'el-icon-location',
                         title:'水费',
                         menuItem:[
-                            {route:'searchWater',listTitle:'未缴纳水费'},
+                            {route:'searchWater',listTitle:'热水卡余额'},
                             {route:'searchWaterRecord',listTitle:'水费缴纳记录'},
                         ]
                     },
                     {
                         index:"2",
-                        icon:'el-icon-tickets',
+                        icon:'el-icon-document',
                         title:'电费',
                         menuItem:[
                             {route:'searchEnergyCharge',listTitle:'未缴纳电费'},
@@ -47,7 +48,7 @@
                     },
                     {
                         index:"3",
-                        icon:'el-icon-message',
+                        icon:'el-icon-edit',
                         title:'等级考试费',
                         menuItem:[
                             {route:'searchExam',listTitle:'未缴纳等级考试费'},
@@ -56,7 +57,7 @@
                     },
                     {
                         index:"4",
-                        icon:'el-icon-edit-outline',
+                        icon:'el-icon-bell',
                         title:'学费',
                         menuItem:[
                             {route:'searchEducation',listTitle:'未缴纳学费'},
@@ -82,12 +83,11 @@
         position: relative;
         display: flex;
         width: 80%;
-        margin: 0 auto 5rem;
+        margin: 2rem auto 0;
     }
     .person-user{
         position: relative;
         width: 100%;
-        min-height: 100vh;
         background-color: #f7f7f7;
     }
     .person-router-cont{

@@ -35,15 +35,15 @@
                         可能是害怕太多的顾虑，所有干脆放弃，也许在将来的某一刻，
                         我会后悔我现在的选择，但是我却从来的没有忘记我当初的决心。`,path:'/payment'
                     },
-                    {id:3,title:'订单',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
+                    {id:3,title:'收费公示',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
                         article:`当我还住在她丢掉的那首歌里，怀抱所有音符；当我仍在她丢掉的那本书里面，
                 封面封底夹着我所有的白昼与黑夜的时候，阿谷，这个如山间清风，
-                拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`,path:'/search'
+                拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`,path:'/chargeNotice'
                     },
-                    {id:4,title:'尽情期待',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                    {id:4,title:'投诉建议',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
                         article:`当我还住在她丢掉的那首歌里，怀抱所有音符；当我仍在她丢掉的那本书里面，
                 封面封底夹着我所有的白昼与黑夜的时候，阿谷，这个如山间清风，
-                拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`,path:'/search'
+                拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`,path:'/suggest'
                     }
                 ]
             }

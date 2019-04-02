@@ -9,9 +9,17 @@
         data () {
             return {
                 arrearageData: [{
-                    test: "查找水费"
+                    title: '余额',
+                    test: 88,
+                    unit: '元',
+                    src: require('../../assets/img/waterCard.png'),
+                    alt: '热水卡'
                 },{
-                    test: 222
+                    title: '可用吨数',
+                    test: 222,
+                    unit: '吨',
+                    src: require('../../assets/img/water.png'),
+                    alt: '热水'
                 }]
             }
         },

@@ -117,7 +117,7 @@
         position: relative;
         display: flex;
         width: 80%;
-        margin: 0 auto 5rem;
+        margin: 0 auto;
     }
     .user-left-menu{
         background-color: #fff;

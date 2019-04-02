@@ -1,10 +1,31 @@
 <template>
-    <div>
-        <p>footer</p>
+    <div class="app-footer">
+        <copyRight></copyRight>
     </div>
 </template>
-<script>
-    export default {
 
+<script>
+    //import homeFooter from '../../components/footer/footer'
+    import copyRight from '../../components/footer/copyRight'
+    export default {
+        components:{
+            //homeFooter,
+            copyRight
+        }
     }
 </script>
+
+<style scoped lang='scss'>
+    .app-footer{
+        position: relative;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        background-color:darken(#f7f7f7,1%);
+    }
+    @media only screen and (max-width:1200px){
+        .app-footer{
+            margin-top: 15rem;
+        }
+    }
+</style>

@@ -43,10 +43,6 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/users/addInformation.vue'),
         }]
       },{
-        path:'/suggest',
-        name:'suggest',
-        component: () => import(/* webpackChunkName: "about" */ './views/suggest/suggest.vue'),
-      },{
         path:'/search',
         name:'search',
         component: () => import(/* webpackChunkName: "about" */ './views/search/search.vue'),
@@ -87,6 +83,14 @@ export default new Router({
         path:'/payment',
         name:'payment',
         component: () => import(/* webpackChunkName: "about" */ './views/payment/payment.vue'),
+      },{
+        path:'/suggest',
+        name:'suggest',
+        component: () => import(/* webpackChunkName: "about" */ './views/suggest/suggest.vue'),
+      },{
+        path:'/chargeNotice',
+        name:'chargeNotice',
+        component: () => import(/* webpackChunkName: "about" */ './views/charge/chargeNotice.vue'),
       }]
     }
   ]
