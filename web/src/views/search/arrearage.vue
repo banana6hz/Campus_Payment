@@ -32,9 +32,14 @@
         // border:1px solid red;
         padding: 5rem;
         .imgBox {
-            width: 50%;
-            height: 8em;
+            box-sizing: border-box;
+            border: 1px solid #77aca4;
+            width: 39%;
+            margin: 0 2rem;
+            height: 12em;
             float: left;
+            padding: 1rem;
+            box-shadow: 5px 5px 3px #77aca4;
         }
         img {
             float: left;

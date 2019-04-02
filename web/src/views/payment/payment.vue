@@ -1,7 +1,24 @@
 <template>
     <div class="person-user">
         <div class="person-user-body">
-            <div class="person-router-cont">
+            <div class="user-left-menu">
+                <leftMenu
+                        :leftMenuData='leftMenuData'
+                        @isCollapse='handleIsCollapse'>
+                </leftMenu>
+            </div>
+            <div class="person-router-cont"
+                 :class="{'isCollapse-w':isCollapse}">
+                <transition name='opa-keep' mode="in-out">
+                    <keep-alive>
+                        <router-view v-if="$route.meta.keepAlive"></router-view>
+                    </keep-alive>
+                </transition>
+                <transition name='opa-mini' mode="out-in">
+                    <router-view v-if="!$route.meta.keepAlive"></router-view>
+                </transition>
+            </div>
+            <!--<div class="person-router-cont">
                 <el-form :model="baseData" ref="baseData" label-width="100px">
                     <el-row :gutter="10">
                         <el-col :sm="6" :md="6">
@@ -24,7 +41,7 @@
                         </el-col>
                     </el-row>
                 </el-form>
-            </div>
+            </div>-->
         </div>
     </div>
 </template>
@@ -33,6 +50,20 @@
     export default {
         data () {
             return {
+                leftMenuData:[
+                    {
+                        index:"1",
+                        icon:'el-icon-location',
+                        title:'缴费',
+                        menuItem:[
+                            {route:'waterPayment',listTitle:'热水费'},
+                            {route:'energyPayment',listTitle:'电费'},
+                            {route:'examPayment',listTitle:'等级考试费'},
+                            {route:'schoolPayment',listTitle:'学费'},
+                        ]
+                    }
+                ],
+                isCollapse:false,
                 baseData: [{
                     address: '22栋'
                 },{
@@ -52,6 +83,9 @@
             reChooseFn (formName) {
                 this.$refs[formName].resetFields()
             },
+            handleIsCollapse(newVal){
+                this.isCollapse = newVal;
+            }
         }
     }
 </script>
@@ -60,7 +94,8 @@
         position: relative;
         display: flex;
         width: 80%;
-        margin: 0 auto 5rem;
+        margin: 0 auto;
+        padding-top: 2rem;
     }
     .person-user{
         position: relative;

@@ -31,6 +31,10 @@ export default new Router({
           name:'userInformation',
           component: () => import(/* webpackChunkName: "about" */ './views/users/userInformation.vue'),
         },{
+          path:'/energyRecord',
+          name:'energyRecord',
+          component: () => import('./views/users/energyRecord')
+        },{
             path:'/userInformation',
             component: () => import(/* webpackChunkName: "about" */ './views/users/userInformation.vue'),
         },{
@@ -83,6 +87,23 @@ export default new Router({
         path:'/payment',
         name:'payment',
         component: () => import(/* webpackChunkName: "about" */ './views/payment/payment.vue'),
+        children: [{
+          path: '/waterPayment',
+          name: 'waterPayment',
+          component: () => import('./views/payment/waterPayment')
+        },{
+          path: '/energyPayment',
+          name: 'energyPayment',
+          component: () => import('./views/payment/energyPayment')
+        },{
+          path: '/examPayment',
+          name: 'examPayment',
+          component: () => import('./views/payment/examPayment')
+        },{
+          path: '/schoolPayment',
+          name: 'schoolPayment',
+          component: () => import('./views/payment/schoolPayment')
+        }]
       },{
         path:'/suggest',
         name:'suggest',

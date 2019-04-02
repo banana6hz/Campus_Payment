@@ -31,6 +31,7 @@
         },
         data(){
             return{
+                defaultActive:'userInformation',
                 leftMenuData:[
                     {
                         index:"1",
@@ -40,7 +41,6 @@
                             {route:'userInformation',listTitle:'我的信息'},
                             {route:'changePassword',listTitle:'修改密码'},
                             {route:'addInformation',listTitle:'完善个人信息'}
-
                         ]
                     },
                     {
@@ -48,7 +48,7 @@
                         icon:'el-icon-tickets',
                         title:'我的缴费记录',
                         menuItem:[
-                            {route:'currentOrder',listTitle:'电费记录'},
+                            {route:'energyRecord',listTitle:'电费记录'},
                             {route:'newOrder',listTitle:'水费记录'},
                             {route:'historyOrder',listTitle:'等级考试缴费记录'},
                             {route:'userFindOrder',listTitle:'学费记录'}

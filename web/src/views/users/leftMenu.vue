@@ -1,5 +1,8 @@
 <template>
 <div class="personLeftMenu">
+    <div class="userImg">
+        <img src="../../assets/img/userInfo-header-pic-man.jpg" alt="头像">
+    </div>
     <el-menu
     :default-active="defaultActive"
     class="el-menu-vertical-demo"
@@ -45,6 +48,15 @@
 </script>
 
 <style lang='scss'>
+    .userImg {
+        padding:2rem 0;
+        width: 11rem;
+        text-align: center;
+        border-bottom: 1px solid rgb(238, 236, 236);
+        img {
+            width: 5rem;
+        }
+    }
 .personLeftMenu{
     position: relative;
     text-align: right;
