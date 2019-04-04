@@ -47,6 +47,15 @@ export default new Router({
           component: () => import(/* webpackChunkName: "about" */ './views/users/addInformation.vue'),
         }]
       },{
+        path:'/workerPerson',
+        name:'workerPerson',
+        component: () => import(/* webpackChunkName: "about" */ './views/worker/workerPerson.vue'),
+        children: [{
+          path: '/workerInformation.vue',
+          name: 'workerInformation',
+          component: () => import('./views/worker/workerInformation.vue')
+        }]
+      },{
         path:'/search',
         name:'search',
         component: () => import(/* webpackChunkName: "about" */ './views/search/search.vue'),

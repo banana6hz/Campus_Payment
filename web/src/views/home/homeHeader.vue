@@ -32,6 +32,7 @@
         data() {
             return {
                 loginState: true,
+                userType: 1
             }
         },
         computed:{
