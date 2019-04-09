@@ -1,11 +1,11 @@
 <template>
 <transition name='moveY'>
-    <div class="suggest-cont" 
+    <div class="suggest-cont"
     ref="sugCont"
     :class="{'hiden-h':!sugcontshow}"
-    v-if="contShow"> 
+    v-if="contShow">
         <transition name='transX'>
-            <div class="sug-cont-body" v-if="sugcontshow"> 
+            <div class="sug-cont-body" v-if="sugcontshow">
                     <ul class="sug-list">
                         <li>
                             <label>姓名 : <input type="text"
@@ -14,20 +14,20 @@
                         <li>
                             <label>电话 : <input type="text"
                              v-model.trim="sugcontForm.phoneNum"></label>
-                        </li>   
+                        </li>
                     </ul>
                 <div class="textarea">
                     <span>内容 : </span>
-                    <textarea name="suggestText" 
-                        id="suggestText" 
+                    <textarea name="suggestText"
+                        id="suggestText"
                         v-model.trim="sugcontForm.suggestText"></textarea>
                 </div>
                 <div class="submit">
-                    <input type="button" 
+                    <input type="button"
                     @click="$emit('handleSubSuggest',sugcontForm)" value="提交">
                 </div>
-            </div>        
-        </transition>    
+            </div>
+        </transition>
     </div>
 </transition>
 </template>
@@ -56,21 +56,22 @@ $text-color:#777;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    width: 60%;
-    margin: -4rem auto 10rem;
-    border:0.4rem solid #4facfe;
+    width: 50%;
+    margin: 0 auto 10rem;
+    border:0.4rem solid #7dafa7;
     box-sizing: border-box;
     box-shadow: 1rem 1rem 1rem #888;
     transition:.6s;
-    height: 24.5rem;
+    height: 28.5rem;
     background-color: #fff;
+    border-radius: 2rem;
 }
 .hiden-h{
     height: 2.5rem;
     margin-bottom: 10rem + 24.5rem - 2.5rem;
 }
 .sug-cont-body{
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
 }
 .sug-list{
     width: 100%;
@@ -91,14 +92,14 @@ $text-color:#777;
             width: 60%;
             margin-left: 0.2rem;
             border: 2px solid transparent;
-            border-bottom: 2px solid #4facfe;
+            border-bottom: 2px solid #7dafa7;
             border-radius: 1rem;
             font-size: 0.9rem;
             letter-spacing: 0.1rem;
             text-align: center;
             outline: none;
             &:focus{
-                border: 2px solid #4facfe;
+                border: 2px solid #7dafa7;
             }
         }
     }
@@ -119,7 +120,7 @@ $text-color:#777;
     height: 5rem;
     margin-left: 0.3rem;
     outline: none;
-    border: 1px solid #4facfe;
+    border: 1px solid #7dafa7;
     border-radius: 1rem;
     text-indent: 0.5rem;
     padding-top: 0.5rem;
@@ -129,20 +130,20 @@ $text-color:#777;
 }
 .submit{
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 3rem;
     input{
         width: 40%;
         height: 2rem;
         border: none;
         border-radius: 1rem;
-        background-color:lighten(#4facfe, 5%);
-        background-image: linear-gradient(to bottom, #48c6ef 0%, #6f86d6 100%);
+        background-color:lighten(#7dafa7, 5%);
+        background-image: linear-gradient(to bottom, #92d6cb 0%, #75d6c7 100%);
         outline: none;
         font-size: 1rem;
         color: #fff;
         letter-spacing: 10px;
         &:hover{
-            background-image: linear-gradient(to bottom, #41c1ec 0%, #5a74cf 100%);
+            background-image: linear-gradient(to bottom, #91dfd2 0%, #7dafa7 100%);
         }
     }
 }
@@ -153,6 +154,6 @@ $text-color:#777;
     .hiden-h{
         margin-bottom: 32rem + 15rem;
     }
-   
+
 }
 </style>

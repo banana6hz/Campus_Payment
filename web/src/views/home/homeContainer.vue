@@ -69,9 +69,13 @@
 <style scoped lang="scss">
     @import "../../style/_mixin.css";
     .homeBackground{
-        height: 100%;
-        width: 100%;
-        background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
+        // height: 100%;
+        margin: 0 auto;
+        width: 80%;
+        border-left:1px solid #7dafa7;
+        border-right:1px solid #7dafa7;
+        border-bottom:1px solid #7dafa7;
+        // background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
     }
     .homeHeader{
         height: 100%;

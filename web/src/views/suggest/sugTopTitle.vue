@@ -1,13 +1,13 @@
 <template>
     <div class="sug-title">
         <div class="circle-top"></div>
-        <div class="title-cont">  
+        <div class="title-cont">
             <div class="line-y"></div>
             <div class="circle" @click="$emit('cahngeShow')">
-                 <h2>OFF</h2>
-                 <h2 class="show">ON</h2>
-            </div>  
-        </div>     
+                 <h2>我要投诉</h2>
+                 <h2 class="show">on</h2>
+            </div>
+        </div>
    </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
 
 <style scoped lang='scss'>
 @import '../../style/mixin';
-$title-h:10rem; 
+$title-h:10rem;
 $circle-top-h:1rem;
 $cicle-h:3rem;
 .sug-title{
@@ -32,9 +32,9 @@ $cicle-h:3rem;
     width: $circle-top-h;
     height: $circle-top-h;
     @include border-radius(100%);
-    border: 0.15rem solid#4facfe;
+    border: 0.15rem solid #4facfe;
 }
-.title-cont{  
+.title-cont{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,11 +42,7 @@ $cicle-h:3rem;
     cursor: pointer;
     z-index: 66;
     transform-origin: center top;
-    @include transition(.6s);
-    animation: rotateline 3s infinite ease-in-out alternate;
     &:hover{
-        animation-play-state:paused;
-        -webkit-animation-play-state:paused; 
     }
     .line-y{
         width: 0.3rem;
@@ -55,7 +51,7 @@ $cicle-h:3rem;
         @include border-radius(0.3rem);
         background-image: linear-gradient(to top, #4facfe 0%, #bbc1bf 28%, #57c6e1 42%, #b49fda 79%, #eea2a2 100%);
     }
-    .circle{   
+    .circle{
         position: relative;
         overflow: hidden;
         width:$cicle-h;

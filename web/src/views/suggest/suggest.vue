@@ -1,7 +1,5 @@
 <template>
     <div class="suggest">
-        <topTitle
-        @cahngeShow='sugcontshow=!sugcontshow'></topTitle>
         <sugBody
         :sugcontshow='sugcontshow'
         @handleSubSuggest='handleSubSuggest'
@@ -17,7 +15,7 @@ import axios from 'axios'
 export default {
     data(){
         return{
-            sugcontshow:false,
+            sugcontshow:true,
             contShow:false
         }
     },
@@ -85,6 +83,7 @@ export default {
     width: 100%;
     background-color: #f7f7f7;
     min-height: 100vh;
+    padding: 4rem 0;
 }
 
 </style>
