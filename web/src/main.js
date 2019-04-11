@@ -11,6 +11,8 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.use(vuex);
 
+import person_title from './components/personContTitle'
+Vue.component('person-title', person_title);
 
 new Vue({
   router,

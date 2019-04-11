@@ -12,7 +12,7 @@ export default{
     mutations:{
         saveUserInfo(state,user){//这里的state是上面的,第二个参数是传过来的
             state.userInfo = {...state.userInfo ,...user};
-            console.log('111', state.userInfo)
+            console.log('userInfo', state.userInfo)
         },
     },
     //多个 state 的操作 , 使用 mutations 会来触发会比较好维护

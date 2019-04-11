@@ -35,13 +35,14 @@
 <script>
   export default {
     props:{
-        leftMenuData:Array
+        leftMenuData:Array,
+        defaultActive: ''
     },
     data() {
       return {
         isCollapse: false,//默认展开
         menuData:this.leftMenuData,
-        defaultActive:'userInformation'
+        // defaultActive:'userInformation'
       };
     },
   }

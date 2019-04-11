@@ -8,11 +8,11 @@
                     <div class="userinfo-cont-left">
                         <div class="cont-left-hedaer">
                             <div class="header-name">
-                                <div class="circle" :class="{'woman':userInformation.gender==0}">
-                                    <span>{{userInformation.userName}}</span>
+                                <div class="circle" :class="{'woman':userInformation.gender==='女'}">
+                                    <!--<span>{{userInformation.userName}}</span>-->
                                 </div>
                                 <div class="gender">
-                                    <span>{{userInformation.gender==0?'女':'男'}}</span>
+                                    <span>{{userInformation.gender}}</span>
                                 </div>
                             </div>
                             <ul class="left-info-list">
@@ -24,19 +24,19 @@
                                 <li class="info-item">
                                     <i class="el-icon-star-on" style='color:#7dafa7;'></i>
                                     <span class="title">用户等级 :</span>
-                                    {{userInformation.grade==0?'工作人员':'普通用户'}}
+                                    {{userInformation.userType===0?'学生用户':'工作人员'}}
                                 </li>
                                 <li class="info-item">
                                     <i class="el-icon-phone" style='color:#7dafa7;'></i>
                                     <span class="title">联系电话 :</span>
-                                    {{userInformation.phoneNum}}
+                                    {{userInformation.userPhone}}
                                     <i class="el-icon-edit changeinfo"
                                        @click="PhoneFormVisible = true"></i>
                                 </li>
                                 <li class="info-item">
                                     <i class="el-icon-time" style='color:#7dafa7;'></i>
-                                    <span class="title">注册时间 :</span>
-                                    {{userInformation.regDate}}
+                                    <span class="title">入学时间 :</span>
+                                    {{userInformation.entrance}}
                                 </li>
                             </ul>
                         </div>
@@ -105,7 +105,7 @@
 
 <script>
     import axios from 'axios'
-    // import { mapState } from 'vuex'
+    import { mapState } from 'vuex'
     export default {
         data(){
             return{
@@ -124,42 +124,43 @@
                 }
             }
         },
-        // computed:{
-        //     ...mapState({
-        //         userId:state=>state.user.userInfo.userId
-        //     })
-        // },
+        computed:{
+            ...mapState({
+                userId:state=>state.user.userInfo.userId
+             })
+        },
         mounted(){
             this.getUserInfo();
         },
         methods:{
             getUserInfo(){
                 // let loading = this.$loading({lock:true,text:'玩命加载中...'});
-                /*axios.get(`/users/userInformation`).then(response=>{
+                axios.get(`/notices/userInformation`, this.userId).then(response=>{
                     let res = response.data;
-                    loading.close();
+                    // loading.close();
                     if(res.status==='0'){
                         this.userInformation = res.result;
-                        this.changeForm.newPhone = res.result.phoneNum;
-                        this.changeForm.newAddress = res.result.address;
+                        this.userInformation.newPhone = res.result.userPhone;
+                        console.log('userInformation', this.userInformation)
                     }else{
+                        console.log(res.result);
                         console.log(res.msg);
                     }
                 }).catch(err=>{
                     console.log(err);
 
-                })*/
+                })
             },
             handleChangePhone(formName){
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.PhoneFormVisible = false;
-                        /*axios.get(`/users/userInformation/ChangePhone?phoneNum=${this.changeForm.newPhone}`)
+                        axios.get(`/notices/userInformation/ChangePhone?userPhone=${this.changeForm.newPhone}`)
                             .then(response=>{
                                 let res = response.data;
-                                if(res.status=='0'){
+                                if(res.status==='0'){
                                     this.$message({
-                                        message: '恭喜你，修改成功!',
+                                        message: res.msg,
                                         type: 'success',
                                         showClose:true
                                     });
@@ -174,7 +175,7 @@
                                 }
                             }).catch(err=>{
                             console.log(err);
-                        })*/
+                        })
                     } else {
                         return false;
                     }
@@ -266,7 +267,7 @@
             width: 60%;
             height: 100%;
             .changeinfo{
-                width: 1.5rem;
+                width: 1rem;
                 height: 1rem;
                 line-height: 1rem;
                 margin-left: 0.2rem;

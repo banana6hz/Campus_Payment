@@ -6,6 +6,7 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
   import homeHeader from './homeHeader'
   import homeFooter from './homeFooter'
   export default {
@@ -26,9 +27,6 @@
       homeFooter
     },
     computed:{
-      currentPage(){
-        return this.$route.path.split('/')[1];
-      },
       gotoPage(){
         if(this.grade===1){
           return 'wokerPerson'
@@ -36,6 +34,28 @@
           return 'person'
         }
       }
+    },
+    methods: {
+      // 检验是否登录
+      checkLogin(){
+        axios.get("/notices/checkLogin").then((res)=>{
+          console.log('checkLoginhome', res.data)
+          if(res.data.status==="0"){
+            this.loginState=true;
+            this.$store.commit("saveUserInfo",res.data.result);
+            console.log(res.data.result.userName)
+          }else{
+            console.log('loginStatushome', res.data.status)
+            //this.$router.push({path: '/'});
+          }
+        }).catch(err=>{
+          console.log(err);
+
+        })
+      },
+    },
+    mounted() {
+      //this.checkLogin()
     }
   }
 </script>

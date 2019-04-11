@@ -109,7 +109,7 @@
         color: $color;
         // @include transition(.3s);
         cursor: pointer;
-        z-index: 9999;
+        z-index: 999;
     }
     .logo{
         flex-grow: 2;
@@ -225,7 +225,7 @@
         color: $color;
         // @include transition(.3s);
         cursor: pointer;
-        z-index: 9999;
+        z-index: 999;
     }
 
 </style>

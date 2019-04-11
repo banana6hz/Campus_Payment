@@ -3,6 +3,7 @@
         <div class="person-user-body">
             <div class="user-left-menu">
                 <leftMenu
+                        :default-active="defaultActive"
                         :leftMenuData='leftMenuData'
                         @isCollapse='handleIsCollapse'>
                 </leftMenu>
@@ -75,32 +76,25 @@
             }
         },
         methods:{
-            checkLogin(){
+            getUserInfo(){
                 // let loading = this.$loading({lock:true,text:'正在加载...'});
-               /* axios.get("/users/checkLogin").then((response)=>{
+                axios.post("/notices/userInformation").then((response)=>{
                     let res = response.data;
-                    loading.close();
                     if(res.status==="0"){
-
+                        console.log(res)
                     }else{
-                        this.$message({
-                            message: '当前未登录!',
-                            type: 'error',
-                            showClose:true
-                        });
-                        this.$router.push({ path: '/login' });
+                        console.log(res)
                     }
                 }).catch(err=>{
-                    loading.close();
                     console.log(err);
-                })*/
+                })
             },
             handleIsCollapse(newVal){
                 this.isCollapse = newVal;
             }
         },
         created() {
-            this.checkLogin();
+            //this.getUserInfo();
         }
 
     }

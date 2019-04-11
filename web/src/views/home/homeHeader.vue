@@ -7,6 +7,9 @@
                     <h1>校园缴费</h1>
                 </a>
             </div>
+            <div class="welcome">
+                <p>{{userName}}同学，欢迎你！</p>
+            </div>
             <div class="header-menu">
                 <router-link :class="{'link-active':currentPage==='home'}"
                              to="/homePage">主页</router-link>
@@ -32,13 +35,14 @@
         data() {
             return {
                 loginState: true,
-                userType: 1
+                // userType: 1
             }
         },
         computed:{
             ...mapState({
                 userId:state=>state.user.userInfo.userId,
                 userType:state=>state.user.userInfo.userType,
+                userName:state=>state.user.userInfo.userName
                 // vuexUserName:state=>state.user.userInfo.userName,
                 // msgLen:state=>state.user.userInfo.msgLen
             }),
@@ -54,20 +58,20 @@
             }
         },
         mounted(){
-            // this.checkLogin()
+            this.checkLogin()
         },
         methods:{
             // 检验是否登录
             checkLogin(){
                 axios.get("/notices/checkLogin").then((res)=>{
-                    // console.log(res)
+                    console.log('checkLogin', res.data)
                     if(res.data.status==="0"){
                         this.loginState=true;
                         this.$store.commit("saveUserInfo",res.data.result);
-                        console.log(res.data.msg);
+                        console.log(res.data.result.userName)
                     }else{
+                        console.log('loginStatus', res.data.status)
                         this.$router.push({path: '/'});
-                        console.log(res.data.msg);
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -78,15 +82,20 @@
             logout(){
                 axios.post("/notices/logout").then((response)=>{
                     let res = response.data;
-                    console.log(this.session)
                     if(res.status==="0"){
                         // this.loginState=false;
                         this.$store.commit("saveUserInfo",{userId:'',userName:''});
                         this.$router.push({path: '/'});
-                        console.log(res.msg);
+                        this.$notify({
+                            title: '退出成功',
+                            message: '恭喜你! 退出成功!',
+                            duration: 2000,
+                            type: 'success'
+                        })
                     }else{
                         console.log(res.msg);
                     }
+                    console.log('退出', res.result);
                 }).catch(err=>{
                     console.log(err);
 
@@ -135,7 +144,7 @@
         color: $color;
         // @include transition(.3s);
         cursor: pointer;
-        z-index: 9999;
+        z-index: 999;
     }
     .logo{
         flex-grow: 2;
@@ -251,7 +260,7 @@
         color: $color;
         // @include transition(.3s);
         cursor: pointer;
-        z-index: 9999;
+        z-index: 999;
     }
 
 </style>
