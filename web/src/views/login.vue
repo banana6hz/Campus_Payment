@@ -129,11 +129,11 @@
           passWord:[
             { required: true, message: '请输入密码', trigger: 'blur' }
           ],
-          validateCode:[
+          /*validateCode:[
             { required: true, message: '请输入验证码', trigger: 'blur' },
             { validator: validateCode , trigger: 'blur'},
             { validator: validateCode , trigger: 'change'}
-          ]
+          ]*/
         },
         validateCodeImg:[
           require('../../static/img/login-Verification-1.png'),
@@ -195,7 +195,6 @@
               type: 'success'
             })
             console.log('登录成功', res.result.list)
-            this.checkLogin()
             this.$router.push({path: '/HomePage'})
           } else {
             this.$notify({
@@ -210,7 +209,6 @@
         })
       },
       submitForm (formName) {
-        this.$router.push({path: '/HomePage'})
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const key = [6, 9, 16, 11, 3, 6, 2, 3, 4, 2, 8, 2, 5, 9, 8, 2],
@@ -229,23 +227,6 @@
             console.log('登录失败');
             return false
           }
-        })
-      },
-      // 检验是否登录
-      checkLogin(){
-        axios.get("/notices/checkLogin").then((res)=>{
-          console.log('跳转前', res.data.result.list)
-          if(res.data.status==="0"){
-            this.loginState=true;
-            this.$store.commit("saveUserInfo",res.data.result);
-            // console.log(res.data.result.userName)
-          }else{
-            console.log('loginStatuslogin', res.data.status)
-            this.$router.push({path: '/'});
-          }
-        }).catch(err=>{
-          console.log(err);
-
         })
       },
       resetForm (formName) {

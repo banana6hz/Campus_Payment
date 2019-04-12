@@ -68,7 +68,7 @@
             <div class="changePhone">
                 <el-dialog title="修改联系号码" :visible.sync="PhoneFormVisible">
                     <el-form :model="changeForm"
-                             ref="userphone"
+                             ref="phoneNum"
                              @submit.native.prevent
                              :rules="rules">
                         <el-form-item label="联系电话 :" prop='newPhone'>
@@ -78,7 +78,7 @@
                     <div slot="footer" class="dialog-footer">
                         <el-button @click="PhoneFormVisible = false">取 消</el-button>
                         <el-button type="primary"
-                                   @click="handleChangePhone('userphone')">确 定</el-button>
+                                   @click="handleChangePhone('phoneNum')">确 定</el-button>
                     </div>
                 </el-dialog>
             </div>
@@ -143,7 +143,6 @@
                         this.userInformation.newPhone = res.result.userPhone;
                         console.log('userInformation', this.userInformation)
                     }else{
-                        console.log(res.result);
                         console.log(res.msg);
                     }
                 }).catch(err=>{
@@ -160,7 +159,7 @@
                                 let res = response.data;
                                 if(res.status==='0'){
                                     this.$message({
-                                        message: res.msg,
+                                        message: '恭喜你，修改成功!',
                                         type: 'success',
                                         showClose:true
                                     });

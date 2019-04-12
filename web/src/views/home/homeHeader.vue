@@ -57,7 +57,7 @@
                 }
             }
         },
-        mounted(){
+        created(){
             this.checkLogin()
         },
         methods:{
@@ -68,7 +68,6 @@
                     if(res.data.status==="0"){
                         this.loginState=true;
                         this.$store.commit("saveUserInfo",res.data.result);
-                        console.log(res.data.result.userName)
                     }else{
                         console.log('loginStatus', res.data.status)
                         this.$router.push({path: '/'});
