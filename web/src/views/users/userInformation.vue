@@ -135,7 +135,7 @@
         methods:{
             getUserInfo(){
                 // let loading = this.$loading({lock:true,text:'玩命加载中...'});
-                axios.get(`/notices/userInformation`, this.userId).then(response=>{
+                axios.get(`/notices/userInformation`).then(response=>{
                     let res = response.data;
                     // loading.close();
                     if(res.status==='0'){

@@ -36,11 +36,11 @@
   export default {
     props:{
         leftMenuData:Array,
-        defaultActive: ''
+        defaultActive: '',
+        isCollapse: Boolean
     },
     data() {
       return {
-        isCollapse: false,//默认展开
         menuData:this.leftMenuData,
         // defaultActive:'userInformation'
       };

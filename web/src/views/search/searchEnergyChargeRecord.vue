@@ -1,6 +1,6 @@
 <template>
     <div>
-        <record :recordData="recordData"></record>
+        <record :recordDatas="recordData"></record>
     </div>
 </template>
 <script>

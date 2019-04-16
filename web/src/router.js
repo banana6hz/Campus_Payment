@@ -28,24 +28,24 @@ export default new Router({
         component: () => import(/* webpackChunkName: "about" */ './views/users/userPerson.vue'),
         children:[{
           path:'/',
-          name:'userInformation',
+          redirect:'userInformation',
           component: () => import(/* webpackChunkName: "about" */ './views/users/userInformation.vue'),
         },{
-          path:'/energyRecord',
-          name:'energyRecord',
-          component: () => import('./views/users/energyRecord')
-        },{
-            path:'/userInformation',
+            path:'userInformation',
             component: () => import(/* webpackChunkName: "about" */ './views/users/userInformation.vue'),
         },{
-          path:'/changePassword',
+          path:'changePassword',
           name:'changePassword',
           component: () => import(/* webpackChunkName: "about" */ './views/users/changePassword.vue'),
         },{
-          path:'/addInformation',
+          path:'addInformation',
           name:'addInformation',
           component: () => import(/* webpackChunkName: "about" */ './views/users/addInformation.vue'),
-        }]
+        },{
+          path:'energyRecord',
+          name:'energyRecord',
+          component: () => import(/* webpackChunkName: "about" */ './views/users/energyRecord.vue'),
+        },]
       },{
         path:'/workerPerson',
         name:'workerPerson',
@@ -60,35 +60,39 @@ export default new Router({
         name:'search',
         component: () => import(/* webpackChunkName: "about" */ './views/search/search.vue'),
         children:[{
-          path:'/searchWater',
+          path:'/',
+          redirect:'searchWater',
+          component: () => import('./views/search/searchWater')
+        },{
+          path:'searchWater',
           name:'searchWater',
           component: () => import('./views/search/searchWater')
         },{
-          path:'/searchWaterRecord',
+          path:'searchWaterRecord',
           name:'searchWaterRecord',
           component: () => import('./views/search/searchWaterRecord')
         },{
-          path:'/searchEnergyCharge',
+          path:'searchEnergyCharge',
           name:'searchEnergyCharge',
           component: () => import('./views/search/searchEnergyCharge')
         },{
-          path:'/searchEnergyChargeRecord',
+          path:'searchEnergyChargeRecord',
           name:'searchEnergyChargeRecord',
           component: () => import('./views/search/searchEnergyChargeRecord')
         },{
-          path:'/searchExam',
+          path:'searchExam',
           name:'searchExam',
           component: () => import('./views/search/searchExam')
         },{
-          path:'/searchExamRecord',
+          path:'searchExamRecord',
           name:'searchExamRecord',
           component: () => import('./views/search/searchExamRecord')
         },{
-          path:'/searchEducation',
+          path:'searchEducation',
           name:'searchEducation',
           component: () => import('./views/search/searchEducation')
         },{
-          path:'/searchEducationRecord',
+          path:'searchEducationRecord',
           name:'searchEducationRecord',
           component: () => import('./views/search/searchEducationRecord')
         }]
@@ -97,6 +101,10 @@ export default new Router({
         name:'payment',
         component: () => import(/* webpackChunkName: "about" */ './views/payment/payment.vue'),
         children: [{
+          path: '/',
+          name: 'waterPayment',
+          component: () => import('./views/payment/waterPayment')
+        },{
           path: '/waterPayment',
           name: 'waterPayment',
           component: () => import('./views/payment/waterPayment')
@@ -112,6 +120,10 @@ export default new Router({
           path: '/schoolPayment',
           name: 'schoolPayment',
           component: () => import('./views/payment/schoolPayment')
+        },{
+          path: '/checkPayment',
+          name: 'checkPayment',
+          component: () => import('./views/payment/checkPayment')
         }]
       },{
         path:'/suggest',

@@ -1,39 +1,66 @@
 <template>
-    <div class="table">
-        <table class="table-body">
-            <tr class="table-title">
-                <th>收费公示</th>
-            </tr>
-            <tr class="table-cont">
-                <td>
-                    电费
-                </td>
-                <td>
-                    0.69/度
-                </td>
-                <td>
-                    水费
-                </td>
-                <td>
-                    7/吨
-                </td>
-            </tr>
-        </table>
+    <div class="notice-body">
+        <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+            <el-table-column
+                    prop="date"
+                    label="费用"
+                    >
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="单价"
+                    >
+            </el-table-column>
+            <el-table-column
+                    prop="address"
+                    label="单位">
+            </el-table-column>
+        </el-table>
+        <div class="btn-back">
+            <el-button>返回</el-button>
+        </div>
     </div>
 </template>
-<style lang="scss">
-    .table {
-        width: 60%;
-        margin: 0 auto;
-        min-height: 500px;
-        tr {
-            width: 100%;
+
+<script>
+    export default {
+        data() {
+            return {
+                tableData: [{
+                    date: '热水费',
+                    name: '10',
+                    address: '/吨'
+                }, {
+                    date: '电费',
+                    name: '0.69',
+                    address: '/度'
+                }, {
+                    date: '网费',
+                    name: '5',
+                    address: '/月'
+                }, {
+                    date: '学费',
+                    name: '5800',
+                    address: '/学年'
+                }]
+            }
         }
     }
-    .table-body {
-        margin: 1rem auto;
+</script>
+<style class="scss">
+    .notice-body {
+        margin: 3rem auto;
+        width:60%;
+        /*min-height:calc(100vh - 80px);*/
     }
-    .table-title {
-        width: 100%;
+    .el-table .cell{
+        text-align:center;
+    }
+    .btn-back {
+        text-align: right;
+        margin:3rem;
     }
 </style>

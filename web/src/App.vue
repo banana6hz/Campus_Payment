@@ -22,4 +22,7 @@
     }
   }
 }
+* {
+  box-sizing: border-box;//重点
+}
 </style>

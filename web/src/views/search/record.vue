@@ -30,7 +30,7 @@
     export default {
         props:{
             // 表格数据源
-            recordData:{
+            recordDatas:{
                 type:Array,
                 default:()=>{}
             },
@@ -73,7 +73,7 @@
         data() {
             return {
                 isCollapse: false,//默认展开
-                recordData:this.recordData,
+                recordData:this.recordDatas,
                 // defaultActive:'userInformation'
             }
         },

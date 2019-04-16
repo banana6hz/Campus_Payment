@@ -15,12 +15,12 @@
 <script>
     export default {
         props:{
-            arrearageData:Array
+            arrearageDatas:Array
         },
         data() {
             return {
                 isCollapse: false,//默认展开
-                arrearageData:this.arrearageData,
+                arrearageData:this.arrearageDatas,
                 // defaultActive:'userInformation'
             };
         },

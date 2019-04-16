@@ -4,22 +4,22 @@
             <ul v-for='it in footList' :key='it.id'>
                 <li><h5>{{it.title}}</h5></li>
                 <li
-                v-for='(list,index) in it.liList' 
+                v-for='(list,index) in it.liList'
                 :key='index'>
-                <el-tooltip class="item" effect="dark" 
+                <el-tooltip class="item" effect="dark"
                 :content="list" placement="right">
                     <a href="javascript:void(0);">{{list}}</a>
-                </el-tooltip>                   
+                </el-tooltip>
                 </li>
             </ul>
         </div>
         <div class="callUs">
             <div class="serviceNumber">
                 <span>24小时客服热线 :</span>
-                <el-tooltip class="item" effect="dark" 
+                <el-tooltip class="item" effect="dark"
                 content="5201314" placement="top">
                      <a href="javascript:void(0)">5201314</a>
-                </el-tooltip>   
+                </el-tooltip>
             </div>
             <div class="wechat">
                 <span>联系我们 :</span>
@@ -60,9 +60,8 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped> 
+<style lang='scss' scoped>
 .footer{
-    position: relative;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -71,6 +70,10 @@ export default {
     padding-top: 2rem;
     padding-bottom: 5rem;
     cursor: pointer;
+    height: 180px;
+    position:absolute;
+    bottom:0px;
+    left:0px;
 }
 .foot-link{
     position: relative;
@@ -87,7 +90,7 @@ export default {
         }
         li{
             display: block;
-            line-height: 1.2rem;            
+            line-height: 1.2rem;
         }
         a{
             color: #666;
@@ -103,7 +106,7 @@ export default {
     position: relative;
     .wechat{
         text-align: left;
-    }   
+    }
 }
 .wechat-qq-img{
     max-width: 10rem;

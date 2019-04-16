@@ -3,6 +3,7 @@
         <div class="person-user-body">
             <div class="user-left-menu">
                 <leftMenu
+                        :default-active="defaultActive"
                         :leftMenuData='leftMenuData'
                         @isCollapse='handleIsCollapse'>
                 </leftMenu>
@@ -50,6 +51,8 @@
     export default {
         data () {
             return {
+                defaultActive:'waterPayment',
+                isCollapse:false,
                 leftMenuData:[
                     {
                         index:"1",
@@ -63,7 +66,6 @@
                         ]
                     }
                 ],
-                isCollapse:false,
                 baseData: [{
                     address: '22栋'
                 },{
@@ -74,11 +76,7 @@
         components: {
             leftMenu
         },
-        method: {
-            // 查询
-            search () {
-
-            },
+        methods: {
             // 重置
             reChooseFn (formName) {
                 this.$refs[formName].resetFields()

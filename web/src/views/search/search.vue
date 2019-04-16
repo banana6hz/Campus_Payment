@@ -3,6 +3,7 @@
         <div class="person-user-body">
             <div class="user-left-menu">
                 <leftMenu
+                        :default-active="defaultActive"
                         :leftMenuData='leftMenuData'
                         @isCollapse='handleIsCollapse'>
                 </leftMenu>
@@ -27,6 +28,7 @@
     export default {
         data () {
             return {
+                defaultActive:'searchWater',
                 leftMenuData:[
                     {
                         index:"1",

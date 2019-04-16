@@ -1,6 +1,6 @@
 <template>
     <div>
-        <arrearage :arrearageData="arrearageData"></arrearage>
+        <arrearage :arrearageDatas="arrearageData"></arrearage>
     </div>
 </template>
 <script>
