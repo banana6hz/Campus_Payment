@@ -63,7 +63,7 @@
         methods:{
             // 检验是否登录
             checkLogin(){
-                axios.get("/notices/checkLogin").then((res)=>{
+                axios.get("/users/checkLogin").then((res)=>{
                     console.log('checkLogin', res.data)
                     if(res.data.status==="0"){
                         this.loginState=true;
@@ -79,7 +79,7 @@
             },
             // 退出
             logout(){
-                axios.post("/notices/logout").then((response)=>{
+                axios.post("/users/logout").then((response)=>{
                     let res = response.data;
                     if(res.status==="0"){
                         // this.loginState=false;

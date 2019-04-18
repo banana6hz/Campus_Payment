@@ -80,8 +80,7 @@ export default {
                         "oldPassword" : this.passwordform.oldPassword,
                         "newPassword" : encryptPwd
                       };
-
-                /*axios.post('/users/changePassword',postData).then(response=>{
+                axios.post('/users/changePassword',postData).then(response=>{
                     let res = response.data;
                     if(res.status==='0'){
                         this.$message({
@@ -110,7 +109,7 @@ export default {
                     }
                 }).catch(err=>{
                     console.log(err);
-                 });*/
+                 });
             }else{
                 this.$message({
                     message: tip,

@@ -135,7 +135,7 @@
         methods:{
             getUserInfo(){
                 // let loading = this.$loading({lock:true,text:'玩命加载中...'});
-                axios.get(`/notices/userInformation`).then(response=>{
+                axios.get(`/users/userInformation`).then(response=>{
                     let res = response.data;
                     // loading.close();
                     if(res.status==='0'){
@@ -154,12 +154,12 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.PhoneFormVisible = false;
-                        axios.get(`/notices/userInformation/ChangePhone?userPhone=${this.changeForm.newPhone}`)
+                        axios.get(`/users/userInformation/ChangePhone?userPhone=${this.changeForm.newPhone}`)
                             .then(response=>{
                                 let res = response.data;
                                 if(res.status==='0'){
                                     this.$message({
-                                        message: '恭喜你，修改成功!',
+                                        message: res.msg,
                                         type: 'success',
                                         showClose:true
                                     });
@@ -185,10 +185,10 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.addressFormVisible = false;
-                        /*axios.get(`/users/userInformation/ChangeAddress?newAddress=${this.changeForm.newAddress}`)
+                        axios.get(`/users/userInformation/ChangeAddress?newAddress=${this.changeForm.newAddress}`)
                             .then(response=>{
                                 let res = response.data;
-                                if(res.status=='0'){
+                                if(res.status==='0'){
                                     this.$message({
                                         message: '恭喜你，修改成功!',
                                         type: 'success',
@@ -205,7 +205,7 @@
                                 }
                             }).catch(err=>{
                             console.log(err);
-                        })*/
+                        })
                     } else {
                         return false;
                     }

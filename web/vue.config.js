@@ -47,13 +47,10 @@ module.exports = {
         https: false,
         hotOnly: false,
         proxy: {
-            '/notices': {
+            '/api': {
                 target: 'http://localhost:3000',
-                /*changeOrigin: true,
-                ws:true,
-                pathRewrite: {
-                    '^/api': ''
-                }*/
+                changeOrigin: true,
+                ws:true
             }
         }, // 设置代理
         before: app => {

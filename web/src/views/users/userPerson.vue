@@ -78,7 +78,7 @@
         methods:{
             getUserInfo(){
                 // let loading = this.$loading({lock:true,text:'正在加载...'});
-                axios.post("/notices/userInformation").then((response)=>{
+                axios.post("/users/userInformation").then((response)=>{
                     let res = response.data;
                     if(res.status==="0"){
                         console.log(res)
