@@ -1,12 +1,13 @@
-let mongoose = require('mongoose');
-
-let Schema = mongoose.Schema;
+var mongoose = require('./ds');
 
 //数据
-let noticeSchema = new Schema({
+var noticeSchema = new mongoose.Schema({
     "userId": Number,
     "pwd": String,
-    "userType": Number
+    "userType": Number,
+    "userName": String,
+    "userPhone": String,
+    "address": String
 });
 
 module.exports = mongoose.model('user',noticeSchema);
