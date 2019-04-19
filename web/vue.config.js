@@ -50,7 +50,10 @@ module.exports = {
             '/api': {
                 target: 'http://localhost:3000',
                 changeOrigin: true,
-                ws:true
+                ws:true,
+                pathRewrite:{
+                    '^/api':''
+                }
             }
         }, // 设置代理
         before: app => {

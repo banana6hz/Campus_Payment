@@ -222,7 +222,7 @@
               pwd: this.loginForm.passWord,
               userType: this.loginForm.userType
             }
-            this.userLogin('/worker/login', userPost)
+            this.userLogin('/notices/login', userPost)
           } else {
             console.log('登录失败');
             return false
