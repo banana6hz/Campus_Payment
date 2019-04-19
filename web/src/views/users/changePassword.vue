@@ -80,7 +80,7 @@ export default {
                         "oldPassword" : this.passwordform.oldPassword,
                         "newPassword" : encryptPwd
                       };
-                axios.post('/users/changePassword',postData).then(response=>{
+                axios.post('/api/users/changePassword',postData).then(response=>{
                     let res = response.data;
                     if(res.status==='0'){
                         this.$message({
@@ -89,7 +89,7 @@ export default {
                             showClose : true
                         });
                         this.$router.push({path:'/login'});
-                        axios.post("/users/logout").then((response)=>{
+                        axios.post("/api/users/logout").then((response)=>{
                                 let res = response.data;
                                 if(res.status=="0"){
                                     this.$store.commit("saveUserInfo",{userId:'',userName:''});

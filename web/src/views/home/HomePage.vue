@@ -38,7 +38,7 @@
     methods: {
       // 检验是否登录
       checkLogin(){
-        axios.get("/users/checkLogin").then((res)=>{
+        axios.get("/api/users/checkLogin").then((res)=>{
           console.log('checkLoginhome', res.data)
           if(res.data.status==="0"){
             this.loginState=true;

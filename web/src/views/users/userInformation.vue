@@ -135,7 +135,7 @@
         methods:{
             getUserInfo(){
                 // let loading = this.$loading({lock:true,text:'玩命加载中...'});
-                axios.get(`/users/userInformation`).then(response=>{
+                axios.get(`/api/users/userInformation`).then(response=>{
                     let res = response.data;
                     // loading.close();
                     if(res.status==='0'){
@@ -154,7 +154,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.PhoneFormVisible = false;
-                        axios.get(`/users/userInformation/ChangePhone?userPhone=${this.changeForm.newPhone}`)
+                        axios.get(`/api/users/userInformation/ChangePhone?userPhone=${this.changeForm.newPhone}`)
                             .then(response=>{
                                 let res = response.data;
                                 if(res.status==='0'){
@@ -185,7 +185,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.addressFormVisible = false;
-                        axios.get(`/users/userInformation/ChangeAddress?newAddress=${this.changeForm.newAddress}`)
+                        axios.get(`/api/users/userInformation/ChangeAddress?newAddress=${this.changeForm.newAddress}`)
                             .then(response=>{
                                 let res = response.data;
                                 if(res.status==='0'){
