@@ -31,8 +31,7 @@
         props:{
             // 表格数据源
             recordDatas:{
-                type:Array,
-                default:()=>{}
+                type:Array
             },
             // 表格字段展示
             tableLabel:{

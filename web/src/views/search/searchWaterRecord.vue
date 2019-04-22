@@ -1,6 +1,29 @@
 <template>
     <div>
-        <record :recordDatas="recordData" :table-label="tableLabel" :total="total"></record>
+         <div class="table-body">
+            <el-table :data="recordData"
+                      empty-text="暂无数据呢"
+                      border>
+                <el-table-column
+                        v-for="(item,index) in tableLabel"
+                        :min-width="item.width"
+                        :key="index"
+                        :label="item.label"
+                        :prop="item.param"
+                        :fixed="item.fixed"
+                        :stripe="item.stripe">
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                    @size-change="sizeChange"
+                    @current-change="currentChange"
+                    :current-page="currentPage"
+                    :page-sizes="pageSizes"
+                    :page-size="pageSize"
+                    :total="total"
+                    layout='total, sizes, prev, pager, next, jumper'
+            ></el-pagination>
+        </div>
     </div>
 </template>
 <script>
@@ -9,6 +32,7 @@
     export default {
         data () {
             return {
+                pageSizes:[5,10,15],
                 recordData: [],
                 tableLabel: [
                 {label:'序号', param: 'index',width:'6%'},
@@ -22,8 +46,7 @@
                 total: 0,
                 currentPage: 1,
                 current: 0,
-                pageSizes: 5,
-                pageSize: 5,
+                pageSize: 10,
                 showPagination: true
             }
         },
@@ -34,12 +57,18 @@
             this.getWaterRecord()
         },
         methods: {
-            handleCurrentChange: function(val) {
-                console.log('当前页：' + val);
+            currentChange(val) {
+                this.currentPage = val;
+                this.getWaterRecord()
+            },
+            sizeChange(val) {
+                this.pageSize=val;
                 this.getWaterRecord()
             },
             // 获取水费记录
             getWaterRecord(){
+                this.recordData = []
+                console.log(this.currentPage)
                 axios.get(`/api/users/waterRecord?size=${this.pageSize}&page=${this.currentPage}`).then(response=>{
                 let res = response.data;
                 if(res.status==='0'){
@@ -61,6 +90,9 @@
     }
 </script>
 <style>
+.table-body {
+        margin: 2rem;
+    }
     .cell{
         text-align:center;
     }
