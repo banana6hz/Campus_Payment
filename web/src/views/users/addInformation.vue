@@ -10,7 +10,7 @@
             label-width="7rem" class="demo-ruleForm">
                 <el-form-item label="姓名 : " prop="userName">
                     <el-input
-                    placeholder="为了安全,不可二次修改!"
+                    placeholder="请输入你的名字!"
                     v-model.trim="ruleForm.userName"></el-input>
                 </el-form-item>
                 <el-form-item label="性别 : " prop="gender">
@@ -19,13 +19,15 @@
                     <el-radio :label="0">女</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="联系电话 : " prop="phoneNum">
-                    <el-input v-model="ruleForm.phoneNum"></el-input>
+                <el-form-item label="联系电话 : " prop="userPhone">
+                    <el-input v-model="ruleForm.userPhone"></el-input>
                 </el-form-item>
                 <el-form-item label="联系地址 : " prop="address">
-                    <el-input
-                    placeholder="输入您的联系地址便于配送"
-                     v-model="ruleForm.address"></el-input>
+                    <el-cascader
+                    placeholder="输入您的宿舍地址"
+                    :options="options"
+                    v-model="ruleForm.address"
+                    ></el-cascader>
                 </el-form-item>
                 <el-form-item class="completed-info-btn">
                     <el-button type="primary"
@@ -42,21 +44,12 @@ import {gotoNewOrder} from '../../assets/js/gotoNewOrder'
 import axios from 'axios'
 export default {
     data() {
-        let regexpPhoneNumber=(rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请输入联系电话!'));
-            }else if(!/^1[3-8][0-9]{9}$/.test(value)){
-                callback(new Error('手机号码格式不正确!'));
-            }else{
-                callback();
-            }
-        };
       return {
         ruleForm: {
           userName: '',
-          phoneNum:'',
+          userPhone:'',
           gender:1,
-          address:''
+          address:[]
         },
         rules: {
           userName: [
@@ -66,22 +59,48 @@ export default {
             { pattern:/\D/, message: '不能为纯数字', trigger: 'change' },
             { pattern:/\D/, message: '不能为纯数字', trigger: 'blur' }
           ],
-          phoneNum: [
-            { required: true, message: '请输入您的联系方式'},
-            { validator: regexpPhoneNumber, trigger: 'change'},
-            { validator: regexpPhoneNumber, trigger: 'blur'}
+          userPhone: [
+            { required: true, message: '请输入您的联系方式',trigger: 'blur'},
+            { pattern: /^1[3-8][0-9]{9}$/, message: '手机号格式不正确',trigger: 'blur'}
           ],
           gender: [
             { required: true, type:'number', message: '请选择性别', trigger: 'change' }
           ],
           address:[
-              { required: true, message: '请输入联系地址', trigger: 'blur' }
+              { required: true, message: '请输入宿舍地址', trigger: 'blur' }
           ]
-        }
+        },
+        options:[{
+            value: '22栋',
+            label: '22栋',
+            children:[{
+                value:'A',
+                label: 'A',
+                children:[{
+                    value:132,
+                    label: 132,
+                },{
+                    value:232,
+                    label: 232,
+                }]
+            },{
+                value:'B',
+                label: 'B',
+                children:[{
+                    value:332,
+                    label: 332,
+                },{
+                    value:432,
+                    label: 432,
+                }]
+            }]
+        }]
       };
     },
     mounted() {
-        this.ruleForm.phoneNum = this.$store.state.user.userInfo.userId;
+        this.ruleForm.userName = this.$store.state.user.userInfo.userName
+        console.log(this.$store.state.user.userInfo.userPhone)
+        this.ruleForm.userPhone = this.$store.state.user.userInfo.userPhone;
     },
     methods: {
       submitForm(formName) {
@@ -89,11 +108,11 @@ export default {
           if (valid) {
                let addInfo = {
                    userName:this.ruleForm.userName,
-                   phoneNum:this.ruleForm.phoneNum,
+                   userPhone:this.ruleForm.userPhone,
                    gender:this.ruleForm.gender,
-                   address:this.ruleForm.address
+                   address:this.ruleForm.address[0] + this.ruleForm.address[1] + this.ruleForm.address[2]
                }
-                /*axios.post(`/users/addInformation`,addInfo).then(response=>{
+                axios.post('/api/users/addInformation',addInfo).then(response=>{
                     let res = response.data;
                     if(res.status=='0'){
                          this.$notify({
@@ -115,7 +134,7 @@ export default {
                 }).catch(err=>{
                     console.log(err);
 
-                })*/
+                })
           } else {
             return false;
           }
@@ -123,6 +142,7 @@ export default {
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+        this.ruleForm.userName = this.$store.state.user.userInfo.userName
       }
     }
   }

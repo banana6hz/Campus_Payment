@@ -42,6 +42,7 @@
             ...mapState({
                 userId:state=>state.user.userInfo.userId,
                 userType:state=>state.user.userInfo.userType,
+                userPhone:state=>state.user.userInfo.userPhone,
                 userName:state=>state.user.userInfo.userName
                 // vuexUserName:state=>state.user.userInfo.userName,
                 // msgLen:state=>state.user.userInfo.msgLen

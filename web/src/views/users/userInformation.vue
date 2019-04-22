@@ -89,7 +89,11 @@
                              @submit.native.prevent
                              :rules="rules">
                         <el-form-item label="联系地址 :" prop='newAddress'>
-                            <el-input v-model="changeForm.newAddress"></el-input>
+                            <el-cascader
+                            placeholder="输入您的宿舍地址"
+                            :options="options"
+                            v-model="changeForm.newAddress"
+                            ></el-cascader>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
@@ -109,13 +113,39 @@
     export default {
         data(){
             return{
+                options:[{
+                    value: '22栋',
+                    label: '22栋',
+                    children:[{
+                        value:'A',
+                        label: 'A',
+                        children:[{
+                            value:132,
+                            label: 132,
+                        },{
+                            value:232,
+                            label: 232,
+                        }]
+                    },{
+                        value:'B',
+                        label: 'B',
+                        children:[{
+                            value:332,
+                            label: 332,
+                        },{
+                            value:432,
+                            label: 432,
+                        }]
+                    }]
+                }],
                 userInformation:{},
                 PhoneFormVisible:false,
                 addressFormVisible:false,
                 changeForm: {
                     newPhone:'',
-                    newAddress:''
+                    newAddress:[]
                 },
+                newAddress:'',
                 rules: {
                     newPhone: [
                         { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -185,7 +215,8 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.addressFormVisible = false;
-                        axios.get(`/api/users/userInformation/ChangeAddress?newAddress=${this.changeForm.newAddress}`)
+                        this.newAddress = this.changeForm.newAddress[0] + this.changeForm.newAddress[1] + this.changeForm.newAddress[2]
+                        axios.get(`/api/users/userInformation/ChangeAddress?newAddress=${this.newAddress}`)
                             .then(response=>{
                                 let res = response.data;
                                 if(res.status==='0'){

@@ -84,11 +84,11 @@ export default {
                     let res = response.data;
                     if(res.status==='0'){
                         this.$message({
-                            message: '修改成功!',
+                            message: '修改成功!请重新登录！',
                             type: 'success',
                             showClose : true
                         });
-                        this.$router.push({path:'/login'});
+                        this.$router.push({path:'/'});
                         axios.post("/api/users/logout").then((response)=>{
                                 let res = response.data;
                                 if(res.status=="0"){
