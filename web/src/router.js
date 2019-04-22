@@ -45,6 +45,10 @@ export default new Router({
           path:'energyRecord',
           name:'energyRecord',
           component: () => import(/* webpackChunkName: "about" */ './views/users/energyRecord.vue'),
+        },{
+          path:'myMessage',
+          name:'myMessage',
+          component: () => import(/* webpackChunkName: "about" */ './views/users/myMessage.vue'),
         },]
       },{
         path:'/workerPerson',

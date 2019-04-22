@@ -20,7 +20,7 @@
             </el-table-column>
         </el-table>
         <div class="btn-back">
-            <el-button>返回</el-button>
+            <el-button @click="goBack">返回</el-button>
         </div>
     </div>
 </template>
@@ -46,6 +46,11 @@
                     name: '5800',
                     address: '/学年'
                 }]
+            }
+        },
+        methods: {
+            goBack(){
+                this.$router.go(-1)
             }
         }
     }

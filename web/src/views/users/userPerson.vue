@@ -125,7 +125,7 @@
         border: 1px solid rgb(228, 225, 225);
         border-top: none;
         transition: all .5s;
-        background-color: darken(#f4f9fd, 0%) ;
+        background-color: #fff ;
         padding-bottom: 3rem;
     }
     .isCollapse-w{

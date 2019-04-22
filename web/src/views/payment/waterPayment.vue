@@ -13,6 +13,7 @@
             <el-form-item label="交易方式">
                 <el-checkbox-group v-model="form.type">
                     <el-checkbox label="支付宝" name="type"></el-checkbox>
+                    <el-checkbox label="微信" name="type"></el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="缴费金额">
@@ -34,24 +35,23 @@
     </div>
 </template>
 <script>
+    import axios from 'axios'
     export default {
         data() {
             return {
                 form: {
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
                     type: [],
                     payment: 0,
-                    desc: ''
+                    note: ''
                 }
             }
         },
         methods: {
             onSubmit() {
-                console.log('submit!');
-                this.$router.push('/checkPayment')
+                console.log('aa', this.form);
+                axios.post('/api/users/payWater', this.form).then(res=>{
+
+                })
             }
         }
     }
