@@ -248,3 +248,31 @@ router.post('/addInformation',function(req,res,next){
         }
     });
 })
+// 水费记录
+router.get('/waterRecord', (req, res, next)=> {
+    let water = {
+        currentPage : Number.parseInt(req.query.page),
+        pageSize : Number.parseInt(req.query.size)
+     }
+    User.findOne({userId:req.session.userId},(err,doc)=>{
+         if(err){
+           errTip(res);
+         }else{
+             if(!doc){
+               errTip(res,'用户不存在!');
+               return
+             }
+             let record = doc.waterRecord;
+             let start = water.pageSize * (water.currentPage-1);
+             let waterRecord = record.slice(start,start+water.pageSize);
+             res.json({
+               status:"0",
+               msg:'',
+               result:{
+                    waterRecord : waterRecord,
+                    total : record.length
+               }
+             }); 
+         }              
+     });
+ });

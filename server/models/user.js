@@ -7,7 +7,8 @@ var userSchema = new mongoose.Schema({
     "userType": Number,
     "userName": String,
     "userPhone": String,
-    "address": String
+    "address": String,
+    "waterRecord": Array
 });
 
 module.exports = mongoose.model('user',userSchema);
