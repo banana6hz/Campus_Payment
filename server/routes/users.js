@@ -2,6 +2,10 @@ let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
 let AES = require('aes-js');
+var request = require('request');
+var xmlreader = require("xmlreader");
+var fs = require("fs");
+var wxpay = require('../util');
 function errTip(res,errmsg=err.message){
     res.json({
       status:"1",
@@ -181,8 +185,8 @@ router.get('/userInformation/changeAddress',function(req, res, next){
                 status:"0",
                 msg:'',
                 result:doc
-            }) 
-        }              
+            })
+        }
     });
 })
 // 修改密码
@@ -237,13 +241,13 @@ router.post('/addInformation',function(req,res,next){
                 console.log(err1)
                 if(err1){
                 errTip(res);
-                }else{        
+                }else{
                 res.json({
                     status:"0",
                     msg:'',
                     result:''
                 })
-                }              
+                }
             })
         }
     });
@@ -272,7 +276,96 @@ router.get('/waterRecord', (req, res, next)=> {
                     waterRecord : waterRecord,
                     total : record.length
                }
-             }); 
-         }              
+             });
+         }
      });
  });
+// 删除消息
+router.post('/deleteMsg',function(req,res,next){
+    User.findOne({userId:req.session.userId},(err,doc)=>{
+        console.log(req.body)
+        console.log(doc)
+        if(err){
+            errTip(res);
+        }else{
+            if(doc.nModified){ //修改数量不为0
+                res.json({
+                    status:"0",
+                    msg:'',
+                    result:''
+                })
+            }else{
+                errTip(res,'删除失败,请重试!');
+            }
+        }
+    })
+})
+// 缴纳水费
+var appid     = 'wx28f86efd25cc3312';
+var appsecret = 'b8687555bf947b1947b62767c448723';
+var mchid     = '1499403456'
+var mchkey    = '8r435jVd7yA0354nsvkxb4cN3x7Se4322';
+var wxurl     = 'http://XXXXXXXXX/weixinNotify.action';
+router.post('/payWater',(req,res,next)=>{
+    if (req.body.type[0]==='微信'){
+        console.log(req.body)
+    }
+    let money     = req.query.payment;
+
+    //首先生成签名sign
+    appid
+    let mch_id = mchid;
+    let nonce_str = wxpay.createNonceStr();
+    let timestamp = wxpay.createTimeStamp();
+    let body = '测试微信支付';
+    let out_trade_no = orderCode;
+    let total_fee = wxpay.getmoney(money);
+    let spbill_create_ip = req.connection.remoteAddress;
+    let notify_url = wxurl;
+    let trade_type = 'APP';
+
+    let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type,mchkey);
+
+    console.log('sign==',sign);
+
+    //组装xml数据
+    var formData  = "<xml>";
+    formData  += "<appid>"+appid+"</appid>";  //appid
+    formData  += "<body><![CDATA["+"测试微信支付"+"]]></body>";
+    formData  += "<mch_id>"+mch_id+"</mch_id>";  //商户号
+    formData  += "<nonce_str>"+nonce_str+"</nonce_str>"; //随机字符串，不长于32位。
+    formData  += "<notify_url>"+notify_url+"</notify_url>";
+    formData  += "<out_trade_no>"+out_trade_no+"</out_trade_no>";
+    formData  += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>";
+    formData  += "<total_fee>"+total_fee+"</total_fee>";
+    formData  += "<trade_type>"+trade_type+"</trade_type>";
+    formData  += "<sign>"+sign+"</sign>";
+    formData  += "</xml>";
+
+    console.log('formData===',formData);
+
+    var url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+
+    request({url:url,method:'POST',body: formData},function(err,response,body){
+        if(!err && response.statusCode === 200){
+            console.log(body);
+
+            xmlreader.read(body.toString("utf-8"), function (errors, response) {
+                if (null !== errors) {
+                    console.log(errors)
+                    return;
+                }
+                console.log('长度===', response.xml.prepay_id.text().length);
+                var prepay_id = response.xml.prepay_id.text();
+                console.log('解析后的prepay_id==',prepay_id);
+
+
+                //将预支付订单和其他信息一起签名后返回给前端
+                let finalsign = wxpay.paysignjsapifinal(appid,mch_id,prepay_id,nonce_str,timestamp,mchkey);
+
+                res.json({'appId':appid,'partnerId':mchid,'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
+
+            });
+        }
+    })
+})
