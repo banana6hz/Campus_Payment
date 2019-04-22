@@ -1,12 +1,19 @@
 let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
-
+let AES = require('aes-js');
+function errTip(res,errmsg=err.message){
+    res.json({
+      status:"1",
+      msg:errmsg,
+      result:''
+    });
+}
 //判断级别 grade只能为 0 或者 1
-function userGrade(grade){
-    if(Number.parseInt(grade)===0){
+function userGrade(userType){
+    if(Number.parseInt(userType)===0){
         return User;
-    }else if(Number.parseInt(grade)===1){
+    }else if(Number.parseInt(userType)===1){
         return Woker;
     }
 }
@@ -22,6 +29,7 @@ router.post("/login", function(req, res, next){
                 msg: "该用户不存在！",
             });
         } else if (doc[0].pwd !== req.body.pwd) {
+            console.log(doc[0].pwd, req.body.pwd)
             res.json({
                 status:'1',
                 msg: '密码错误！',
@@ -32,6 +40,7 @@ router.post("/login", function(req, res, next){
             })
         } else if(doc[0].pwd === req.body.pwd){
             req.session.userId=doc[0].userId;
+            req.session.userPhone=doc[0].userPhone;
             req.session.userType=Number.parseInt(doc[0].userType);
             req.session.userName=doc[0].userName ||'';
             res.json({
@@ -177,10 +186,65 @@ router.get('/userInformation/changeAddress',function(req, res, next){
     });
 })
 // 修改密码
-router.get('/changePassword',function(req,res,next){
-    let params = {
+router.post('/changePassword',function(req,res,next){
+    let param = {
         oldPassword : req.body.oldPassword,
         newPassword : req.body.newPassword
     }
+    const Who = userGrade(req.session.userType);
+    const key = [4, 9, 16, 14, 3, 6, 2, 8, 4, 5, 8, 2, 7, 9, 4, 5];
+    const encryptedBytes = AES.utils.hex.toBytes(param.newPassword);
+    const aesCtr = new AES.ModeOfOperation.ctr(key, new AES.Counter(5));
+    const decryptedBytes = aesCtr.decrypt(encryptedBytes);
+    const passWord = AES.utils.utf8.fromBytes(decryptedBytes);
+    Who.findOne({userId:req.session.userId, pwd:param.oldPassword},(err,doc)=>{
+        if(err){
+            return errTip(res);
+        }
+        if(!doc){
+            return errTip(res,'账号不存在,或原密码不正确!');
+        }
+        doc.pwd = passWord;
+        doc.save((err1,doc1)=>{
+            if(err1){
+            errTip(res,'储存密码时错误! 请重试');
+            }else{
+            res.json({
+                status:"0",
+                msg:'',
+                result : ''
+            }) ;
+            }
+        })
+    });
 })
 module.exports = router;
+// 完善个人信息
+router.post('/addInformation',function(req,res,next){
+    let param = {
+        userName:req.body.userName,
+        userPhone:req.body.userPhone,
+        gender:req.body.gender,
+        address:req.body.address
+      }
+    User.findOne({userId:req.session.userId},(err,doc)=>{
+        if(err){
+        errTip(res);
+        }else{
+            console.log('111', param)
+            Object.assign(doc, param);
+            doc.save((err1,doc1)=>{
+                console.log(err1)
+                if(err1){
+                errTip(res);
+                }else{        
+                res.json({
+                    status:"0",
+                    msg:'',
+                    result:''
+                })
+                }              
+            })
+        }
+    });
+})

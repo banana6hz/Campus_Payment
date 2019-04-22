@@ -10,5 +10,5 @@ var userSchema = new mongoose.Schema({
     "address": String
 });
 
-module.exports = mongoose.model('test',userSchema);
+module.exports = mongoose.model('user',userSchema);
 // user对应数据库的users表
