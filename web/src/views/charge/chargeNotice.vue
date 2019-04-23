@@ -5,17 +5,17 @@
                 border
                 style="width: 100%">
             <el-table-column
-                    prop="date"
+                    prop="feeName"
                     label="费用"
                     >
             </el-table-column>
             <el-table-column
-                    prop="name"
+                    prop="feeNum"
                     label="单价"
                     >
             </el-table-column>
             <el-table-column
-                    prop="address"
+                    prop="feeUnit"
                     label="单位">
             </el-table-column>
         </el-table>
@@ -26,32 +26,34 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         data() {
             return {
-                tableData: [{
-                    date: '热水费',
-                    name: '10',
-                    address: '/吨'
-                }, {
-                    date: '电费',
-                    name: '0.69',
-                    address: '/度'
-                }, {
-                    date: '网费',
-                    name: '5',
-                    address: '/月'
-                }, {
-                    date: '学费',
-                    name: '5800',
-                    address: '/学年'
-                }]
+                tableData: []
             }
         },
         methods: {
             goBack(){
                 this.$router.go(-1)
+            },
+            getFee(){
+                axios.get('/api/users/getFees').then((res)=>{
+                    console.log(res)
+                    if(res.data.status==='0'){
+                        this.tableData=res.data.result
+                        console.log(res.data.result)
+                    }else{
+                        this.$message({
+                            message:res.data.msg,
+                            type:"error"
+                        })
+                    }
+                })
             }
+        },
+        mounted(){
+            this.getFee()
         }
     }
 </script>

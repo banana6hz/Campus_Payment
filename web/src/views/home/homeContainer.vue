@@ -46,11 +46,11 @@
                     {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),
                         article:`查询`,path:'/workerSearch'
                     },
-                    {id:2,title:'发布消息',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
-                        article:`发布消息`,path:'/postMessage'
+                    {id:2,title:'消息中心',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                        article:`消息中心`,path:'/message'
                     },
-                    {id:3,title:'修改费用',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
-                        article:`修改费用`,path:'/changePayment'
+                    {id:3,title:'费用修改',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
+                        article:`费用修改`,path:'/changePayment'
                     },
                     {id:4,title:'尽情期待',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
                         article:`尽情期待`,path:'/waiting'

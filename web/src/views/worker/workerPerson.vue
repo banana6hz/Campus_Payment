@@ -43,14 +43,6 @@
                             {route:'changePassword',listTitle:'修改密码'},
                             {route:'addInformation',listTitle:'完善个人信息'}
                         ]
-                    },
-                    {
-                        index:"3",
-                        icon:'el-icon-message',
-                        title:'我的消息',
-                        menuItem:[
-                            {route:'myMessage',listTitle:'消息'}
-                        ]
                     }
                 ],
                 isCollapse:false
@@ -99,7 +91,6 @@
         position: relative;
         display: flex;
         width: 80%;
-        margin: 0 auto;
     }
     .user-left-menu{
         background-color: #fff;
@@ -118,13 +109,6 @@
     }
     .isCollapse-w{
         width:  calc(100% - 3.3rem);
-    }
-    .pageination-oder{  //订单页中的分页样式
-        position: absolute;
-        bottom: 0.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-top: 2rem;
     }
     @media only screen and (max-width:1200px){
         .person-user-body{

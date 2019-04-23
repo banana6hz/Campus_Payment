@@ -28,21 +28,16 @@
     export default {
         data () {
             return {
-                defaultActive:'editPayment',
+                defaultActive:'postMessage',
                 leftMenuData:[
                     {
                         index:"1",
                         icon:'el-icon-location',
-                        title:'费用修改',
+                        title:'消息中心',
                         menuItem:[
-                            {route:'editPayment',listTitle:'修改热水费用'}
-                        ]
-                    },{
-                        index:"2",
-                        icon:'el-icon-location',
-                        title:'费用增加',
-                        menuItem:[
-                            {route:'addPayment',listTitle:'增加收费'}
+                            {route:'postMessage',listTitle:'发布消息'},
+                            {route:'workerMessage',listTitle:'已发布'},
+                            {route:'workerSuggest',listTitle:'收件箱'},
                         ]
                     }
                 ],

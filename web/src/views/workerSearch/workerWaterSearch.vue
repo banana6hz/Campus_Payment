@@ -70,13 +70,6 @@
         data () {
             return {
                 roomList:[],
-                RoomList: [{
-                    id:0,
-                    roomName:"1栋"
-                },{
-                    id:1,
-                    roomName:"2栋"
-                }], // 宿舍列表
                 // 查询条件
                 baseData: {
                     date: this.formatDate(), // 默认为当前日期
@@ -214,7 +207,7 @@
         },
         mounted () {
             this.getData()// 数据信息
-            this.getDepartmentList()// 系列表
+            this.getDepartmentList()// 学院列表
             this.getRoomList()// 宿舍列表
         }
     }

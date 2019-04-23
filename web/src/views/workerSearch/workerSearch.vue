@@ -83,7 +83,6 @@
         position: relative;
         display: flex;
         width: 80%;
-        margin: 2rem auto 0;
     }
     .person-user{
         position: relative;

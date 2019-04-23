@@ -8,7 +8,8 @@
                 </template>
                 <div>{{item.msgCount}}</div>
                 <div>
-                    <span class="date">{{item.rules}}{{item.msgTime}}
+                    <span>{{item.msgRule}}</span>
+                    <span class="date">{{item.msgTime}}
                         <el-button @click="delMsg(index)">删除</el-button>
                     </span>
                 </div>
@@ -34,9 +35,15 @@
             getMessage(){
                 axios.get('/api/users/userInformation').then(res=>{
                     this.msgData=res.data.result.message
+                    console.log(res.data.result.message)
                     for(let i =0;i<res.data.result.message.length;i++){
                         this.msgData[i].msgCount=res.data.result.message[i].msgCount
-                        this.msgData[i].time=res.data.result.message[i].time
+                        this.msgData[i].msgTime=res.data.result.message[i].msgTime
+                        if(res.data.result.message[i].msgRule === 1){
+                            this.msgData[i].msgRule='权限：'+ res.data.result.message[i].msgRoom+' '+res.data.result.message[i].msgDepartment
+                        }else{
+                            this.msgData[i].msgRule = '权限：'+'全校学生'
+                        }
                     }
                     console.log(this.msgData)
                 })
@@ -66,7 +73,7 @@
 </script>
 <style lang="scss">
     .message {
-        margin:5rem;
+        margin:3rem 5rem;
         .el-button{
             position: relative;
             left:5px;
@@ -88,7 +95,7 @@
     }
     .date{
         display: block;
-        color:#d5d5d5;
+        color:#9c9d9c;
         position: relative;
         right:66px;
         text-align: right;
@@ -96,4 +103,6 @@
     .el-collapse-item__content{
         padding-bottom: 5px;
     }
+
 </style>
+

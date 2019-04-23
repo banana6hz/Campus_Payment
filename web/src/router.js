@@ -165,10 +165,40 @@ export default new Router({
         path:'/changePayment',
         name:'changePayment',
         component: () => import(/* webpackChunkName: "about" */ './views/worker/changePayment.vue'),
+        children: [{
+          path: '/',
+          redirect: 'editPayment',
+          component: () => import('./views/worker/editPayment')
+        },{
+          path: 'editPayment',
+          name: 'editPayment',
+          component: () => import('./views/worker/editPayment')
+        },{
+          path: 'addPayment',
+          name: 'addPayment',
+          component: () => import('./views/worker/addPayment')
+        },]
       },{
-        path:'/postMessage',
-        name:'postMessage',
-        component: () => import(/* webpackChunkName: "about" */ './views/worker/postMessage.vue'),
+        path:'/message',
+        name:'message',
+        component: () => import(/* webpackChunkName: "about" */ './views/worker/message.vue'),
+        children: [{
+          path: '/',
+          redirect: 'postMessage',
+          component: () => import('./views/worker/postMessage')
+        },{
+          path: 'postMessage',
+          name: 'postMessage',
+          component: () => import('./views/worker/postMessage')
+        },{
+          path: 'workerMessage',
+          name: 'workerMessage',
+          component: () => import('./views/worker/workerMessage')
+        },{
+          path: 'workerSuggest',
+          name: 'workerSuggest',
+          component: () => import('./views/worker/workerSuggest')
+        },]
       },{
         path:'/waiting',
         name:'waiting',
