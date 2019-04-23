@@ -1,11 +1,12 @@
 let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
+let Worker = require('../models/worker');
 let AES = require('aes-js');
 var request = require('request');
 var xmlreader = require("xmlreader");
 var fs = require("fs");
-var wxpay = require('../util');
+//var wxpay = require('../util');
 function errTip(res,errmsg=err.message){
     res.json({
       status:"1",
@@ -18,7 +19,7 @@ function userGrade(userType){
     if(Number.parseInt(userType)===0){
         return User;
     }else if(Number.parseInt(userType)===1){
-        return Woker;
+        return Worker;
     }
 }
 router.post("/", function(req, res, next){
@@ -26,7 +27,8 @@ router.post("/", function(req, res, next){
 });
 // 登录
 router.post("/login", function(req, res, next){
-    User.find({userId:req.body.userId, userType:req.body.userType}, function(err, doc){
+    const Who = userGrade(req.body.userType);
+    Who.find({userId:req.body.userId, userType:req.body.userType}, function(err, doc){
         if(doc.length === 0) {
             res.json({
                 status: '1',
@@ -125,7 +127,8 @@ router.post("/logout", function (req,res,next) {
 
 // 获取用户信息
 router.get('/userInformation', function(req, res, next){
-    User.find({userId: req.session.userId},function(err, doc) {
+    const Who = userGrade(req.session.userType);
+    Who.find({userId: req.session.userId},function(err, doc) {
         if (doc.length !==0 ) {
             res.json({
                 status: '0',
@@ -144,10 +147,11 @@ router.get('/userInformation', function(req, res, next){
 
 // 修改联系电话
 router.get('/userInformation/changePhone', function(req,res,next){
+    const Who = userGrade(req.session.userType);
     let phone = req.query.userPhone
     console.log('phone',phone)
     console.log('userId',req.session.userId)
-    User.update({userId:req.session.userId},{userPhone:phone},{new: true},(err,doc)=>{
+    Who.update({userId:req.session.userId},{userPhone:phone},{new: true},(err,doc)=>{
             if(err){
                 errTip(res);
             }else{
@@ -175,9 +179,10 @@ router.get('/userInformation/changePhone', function(req,res,next){
 });
 // 修改联系地址
 router.get('/userInformation/changeAddress',function(req, res, next){
+    const Who = userGrade(req.session.userType);
     let newAddress = req.query.newAddress;
     console.log('newAddress',newAddress);
-    User.update({userId:req.session.userId},{$set:{address:newAddress}},(err,doc)=>{
+    Who.update({userId:req.session.userId},{$set:{address:newAddress}},(err,doc)=>{
         if(err){
             errTip(res);
         }else{
@@ -225,13 +230,14 @@ router.post('/changePassword',function(req,res,next){
 module.exports = router;
 // 完善个人信息
 router.post('/addInformation',function(req,res,next){
+    const Who = userGrade(req.session.userType);
     let param = {
         userName:req.body.userName,
         userPhone:req.body.userPhone,
         gender:req.body.gender,
         address:req.body.address
       }
-    User.findOne({userId:req.session.userId},(err,doc)=>{
+    Who.findOne({userId:req.session.userId},(err,doc)=>{
         if(err){
         errTip(res);
         }else{
@@ -310,9 +316,21 @@ router.post('/payWater',(req,res,next)=>{
     if (req.body.type[0]==='微信'){
         console.log(req.body)
     }
-    let money     = req.query.payment;
-
-    //首先生成签名sign
+    let money= req.body.payment;
+    if(money){
+        res.json({
+            status:"0",
+            msg:'创建成功',
+            result:''
+        })
+    }else{
+        res.json({
+            status:"1",
+            msg:'创建失败',
+            result:''
+        })
+    }
+    /*//首先生成签名sign
     appid
     let mch_id = mchid;
     let nonce_str = wxpay.createNonceStr();
@@ -367,5 +385,5 @@ router.post('/payWater',(req,res,next)=>{
 
             });
         }
-    })
+    })*/
 })

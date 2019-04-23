@@ -10,5 +10,5 @@ var noticeSchema = new mongoose.Schema({
     "address": String
 });
 
-module.exports = mongoose.model('test',noticeSchema);
+module.exports = mongoose.model('Notice',noticeSchema);
 // user对于数据库的users表
