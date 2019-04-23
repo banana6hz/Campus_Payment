@@ -8,7 +8,18 @@ var userSchema = new mongoose.Schema({
     "userName": String,
     "userPhone": String,
     "address": String,
-    "waterRecord": Array
+    "waterRecord": Array,
+    "roomId":Number,
+    "roomName":String,
+    "departmentId":Number,
+    "departmentName":String,
+    "masterId":Number,
+    "masterName":String,
+    "message":[{
+        "msgTime" : String,
+        "msgHeader" : String,
+        "msgCount" : String
+    }]
 });
 
 module.exports = mongoose.model('user',userSchema);

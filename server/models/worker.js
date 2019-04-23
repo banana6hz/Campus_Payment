@@ -1,11 +1,19 @@
-var mongoose = require('./ds');
+let mongoose = require('./ds');
 
-var workerSchema = new mongoose.Schema({
+let workerSchema = new mongoose.Schema({
     "userId" : Number,
     "pwd" : String,
     "userType" : Number,
     "userPhone" : String,
     "userName" : String,
+    "message":[{
+        "msgHeader":String,
+        "msgCount":String,
+        "msgTime":String,
+        "msgDepartment":String,
+        "msgRoom":String,
+        "msgRule":Number
+    }]
 })
 
 module.exports = mongoose.model('worker', workerSchema);

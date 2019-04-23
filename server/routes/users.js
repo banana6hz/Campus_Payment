@@ -2,10 +2,11 @@ let express = require('express');
 let router = express.Router();
 let User = require('../models/user');
 let Worker = require('../models/worker');
+let Fee = require('../models/fee');
 let AES = require('aes-js');
-var request = require('request');
-var xmlreader = require("xmlreader");
-var fs = require("fs");
+let request = require('request');
+let xmlreader = require("xmlreader");
+let fs = require("fs");
 //var wxpay = require('../util');
 function errTip(res,errmsg=err.message){
     res.json({
@@ -227,6 +228,25 @@ router.post('/changePassword',function(req,res,next){
         })
     });
 })
+// 获取费用详情
+router.get('/getFees',function(req,res,nest){
+    Fee.find(function(err,doc){
+        if(err){
+            errTip(err)
+            res.json({
+                status:"1",
+                msg:"获取详情失败！",
+                result:''
+            })
+        }else{
+            res.json({
+                status:"0",
+                msg:"成功",
+                result:doc
+            })
+        }
+    })
+})
 module.exports = router;
 // 完善个人信息
 router.post('/addInformation',function(req,res,next){
@@ -288,8 +308,9 @@ router.get('/waterRecord', (req, res, next)=> {
  });
 // 删除消息
 router.post('/deleteMsg',function(req,res,next){
-    User.findOne({userId:req.session.userId},(err,doc)=>{
-        console.log(req.body)
+    const Who = userGrade(req.session.userType);
+    console.log('22',req.body)
+    Who.update({userId:req.session.userId},{'$pull':{message:{msgHeader:req.body.msgHeader,msgCount:req.body.msgCount}}},(err,doc)=>{
         console.log(doc)
         if(err){
             errTip(res);

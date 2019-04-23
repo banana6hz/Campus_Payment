@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let Worker = require('../models/worker');
+let User = require('../models/user');
 let Department = require('../models/department');
 let Room = require('../models/room');
 let WaterRecord = require('../models/waterRecord');
@@ -124,4 +125,65 @@ router.post('/getWaterRecord',function(req,res,next){
         }
     })
 })
+//发布消息
+router.post('/addMessage',function(req,res,next){
+    let message = {
+        header: req.body.msgHeader,
+        count:req.body.msgCount,
+        msgTime: req.body.msgTime,
+        msgRule:req.body.msgRule,
+        msgRoom:req.body.msgRoom,
+        msgDepartment:req.body.msgDepartment
+    }
+    console.log(req.body)
+    let param;
+    if(req.body.msgRule===1){
+        if(req.body.room){
+            if(req.body.msgDepartment){
+                param={
+                    userId:req.session.userId,
+                    roomName:req.body.msgRoom,
+                    departmentName:req.body.msgDepartment
+                }
+            }else{
+                param={
+                    userId:req.session.userId,
+                    room:req.body.room
+                }
+            }
+        }
+    }else{
+        param={
+            userId:req.session.userId
+        }
+    }
+    User.update(param,{'$push':{message:{
+                msgHeader:message.header,
+                msgCount:message.header,
+                msgTime: message.msgTime,}}},(err,doc)=>{
+
+    })
+    Worker.update({userId:req.session.userId},
+        {'$push':{message:{
+                    msgHeader:message.header,
+                    msgCount:message.header,
+                    msgTime: message.msgTime,
+                    msgDepartment:message.msgDepartment,
+                    msgRoom:message.msgRoom,
+                    msgRule:message.msgRule}}},(err,doc)=>{
+        console.log('a',doc)
+        if(err){
+            console.log('发布失败');
+            return errTip(res);
+        }else{
+            console.log('a',doc)
+            res.json({
+                status:"0",
+                msg:'发布成功',
+                result : ''
+            }) ;
+        }
+    })
+})
+//获取个人信息
 module.exports = router;
