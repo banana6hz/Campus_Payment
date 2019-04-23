@@ -3,6 +3,7 @@
         <div class="person-user-body">
             <div class="user-left-menu">
                 <leftMenu
+                        :default-active="defaultActive"
                         :leftMenuData='leftMenuData'
                         @isCollapse='handleIsCollapse'>
                 </leftMenu>
@@ -31,7 +32,7 @@
         },
         data(){
             return{
-                defaultActive:'userInformation',
+                defaultActive:'workerInformation',
                 leftMenuData:[
                     {
                         index:"1",

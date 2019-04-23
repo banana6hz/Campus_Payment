@@ -8,11 +8,11 @@
                     <div class="userinfo-cont-left">
                         <div class="cont-left-hedaer">
                             <div class="header-name">
-                                <div class="circle" :class="{'woman':userInformation.gender==0}">
-                                    <span>{{userInformation.userName}}</span>
+                                <div class="circle" :class="{'woman':userInformation.gender==='女'}">
+                                    <!--<span>{{userInformation.userName}}</span>-->
                                 </div>
                                 <div class="gender">
-                                    <span>{{userInformation.gender==0?'女':'男'}}</span>
+                                    <span>{{userInformation.gender==='女'?'女':'男'}}</span>
                                 </div>
                             </div>
                             <ul class="left-info-list">
@@ -24,28 +24,23 @@
                                 <li class="info-item">
                                     <i class="el-icon-star-on" style='color:#7dafa7;'></i>
                                     <span class="title">用户等级 :</span>
-                                    {{userInformation.grade==0?'工作人员':'普通用户'}}
+                                    {{userInformation.userType===0?'普通用户':'工作人员'}}
                                 </li>
                                 <li class="info-item">
                                     <i class="el-icon-phone" style='color:#7dafa7;'></i>
                                     <span class="title">联系电话 :</span>
-                                    {{userInformation.phoneNum}}
+                                    {{userInformation.userPhone}}
                                     <i class="el-icon-edit changeinfo"
                                        @click="PhoneFormVisible = true"></i>
                                 </li>
                                 <li class="info-item">
                                     <i class="el-icon-time" style='color:#7dafa7;'></i>
                                     <span class="title">注册时间 :</span>
-                                    {{userInformation.regDate}}
+                                    {{userInformation.entrance}}
                                 </li>
                             </ul>
                         </div>
                         <div class="cont-left-footer">
-                            <div class="address">
-                                <span class="cont">地址:{{userInformation.address}}</span>
-                                <i class="el-icon-edit changeinfo"
-                                   @click="addressFormVisible = true"></i>
-                            </div>
                             <div class="lastLoginTime">
                                 <!--<em class="title">上次登录 :</em>-->
                                 <span class="time">{{userInformation.lastLoginTime}}</span>
@@ -58,8 +53,8 @@
                             <span class="balance">{{userInformation.balance | priceInit}}</span>
                         </template>
                         <template v-else>
-                            <h4 class="title">缴费总数</h4>
-                            <span class="orderNum">{{userInformation.orderNum }} 笔</span>
+                            <h4 class="title">综合评价</h4>
+                            <span class="orderNum">{{userInformation.orderNum }} 分</span>
                         </template>
                         <i class="line"></i>
                     </div>
@@ -68,7 +63,7 @@
             <div class="changePhone">
                 <el-dialog title="修改联系号码" :visible.sync="PhoneFormVisible">
                     <el-form :model="changeForm"
-                             ref="userphone"
+                             ref="phoneNum"
                              @submit.native.prevent
                              :rules="rules">
                         <el-form-item label="联系电话 :" prop='newPhone'>
@@ -78,24 +73,7 @@
                     <div slot="footer" class="dialog-footer">
                         <el-button @click="PhoneFormVisible = false">取 消</el-button>
                         <el-button type="primary"
-                                   @click="handleChangePhone('userphone')">确 定</el-button>
-                    </div>
-                </el-dialog>
-            </div>
-            <div class="changeAddress">
-                <el-dialog title="修改联系地址" :visible.sync="addressFormVisible">
-                    <el-form :model="changeForm"
-                             ref="newAddress"
-                             @submit.native.prevent
-                             :rules="rules">
-                        <el-form-item label="联系地址 :" prop='newAddress'>
-                            <el-input v-model="changeForm.newAddress"></el-input>
-                        </el-form-item>
-                    </el-form>
-                    <div slot="footer" class="dialog-footer">
-                        <el-button @click="addressFormVisible = false">取 消</el-button>
-                        <el-button type="primary"
-                                   @click="handleChangeAddress('newAddress')">确 定</el-button>
+                                   @click="handleChangePhone('phoneNum')">确 定</el-button>
                     </div>
                 </el-dialog>
             </div>
@@ -135,31 +113,31 @@
         methods:{
             getUserInfo(){
                 // let loading = this.$loading({lock:true,text:'玩命加载中...'});
-                /*axios.get(`/users/userInformation`).then(response=>{
+                axios.get(`/api/users/userInformation`).then(response=>{
                     let res = response.data;
-                    loading.close();
+                    // loading.close();
                     if(res.status==='0'){
                         this.userInformation = res.result;
-                        this.changeForm.newPhone = res.result.phoneNum;
-                        this.changeForm.newAddress = res.result.address;
+                        this.userInformation.newPhone = res.result.userPhone;
+                        console.log('workerInformation', this.userInformation)
                     }else{
                         console.log(res.msg);
                     }
                 }).catch(err=>{
                     console.log(err);
 
-                })*/
+                })
             },
             handleChangePhone(formName){
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.PhoneFormVisible = false;
-                        /*axios.get(`/users/userInformation/ChangePhone?phoneNum=${this.changeForm.newPhone}`)
+                        axios.get(`/api/users/userInformation/ChangePhone?userPhone=${this.changeForm.newPhone}`)
                             .then(response=>{
                                 let res = response.data;
-                                if(res.status=='0'){
+                                if(res.status==='0'){
                                     this.$message({
-                                        message: '恭喜你，修改成功!',
+                                        message: res.msg,
                                         type: 'success',
                                         showClose:true
                                     });
@@ -174,38 +152,7 @@
                                 }
                             }).catch(err=>{
                             console.log(err);
-                        })*/
-                    } else {
-                        return false;
-                    }
-                });
-
-            },
-            handleChangeAddress(formName){
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.addressFormVisible = false;
-                        /*axios.get(`/users/userInformation/ChangeAddress?newAddress=${this.changeForm.newAddress}`)
-                            .then(response=>{
-                                let res = response.data;
-                                if(res.status=='0'){
-                                    this.$message({
-                                        message: '恭喜你，修改成功!',
-                                        type: 'success',
-                                        showClose:true
-                                    });
-                                    this.getUserInfo();
-                                }else{
-                                    console.log(res.msg);
-                                    this.$message({
-                                        message: '修改失败! 请重试',
-                                        type: 'error',
-                                        showClose:true
-                                    });
-                                }
-                            }).catch(err=>{
-                            console.log(err);
-                        })*/
+                        })
                     } else {
                         return false;
                     }
@@ -266,7 +213,7 @@
             width: 60%;
             height: 100%;
             .changeinfo{
-                width: 1.5rem;
+                width: 1rem;
                 height: 1rem;
                 line-height: 1rem;
                 margin-left: 0.2rem;

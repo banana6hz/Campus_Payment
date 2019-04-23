@@ -50,7 +50,19 @@
             onSubmit() {
                 console.log('aa', this.form);
                 axios.post('/api/users/payWater', this.form).then(res=>{
-
+                    if(res.data.status === '0'){
+                        this.$router.push({path: '/checkPayment'})
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                    }else{
+                        console.log(res.data.status)
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                    }
                 })
             }
         }

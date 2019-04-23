@@ -55,9 +55,20 @@ export default new Router({
         name:'workerPerson',
         component: () => import(/* webpackChunkName: "about" */ './views/worker/workerPerson.vue'),
         children: [{
-          path: '/workerInformation.vue',
-          name: 'workerInformation',
+          path: '/',
+          redirect: 'workerInformation',
           component: () => import('./views/worker/workerInformation.vue')
+        },{
+          path:'workerInformation',
+          component: () => import(/* webpackChunkName: "about" */ './views/worker/workerInformation.vue'),
+        },{
+          path:'changePassword',
+          name:'changePassword',
+          component: () => import(/* webpackChunkName: "about" */ './views/users/changePassword.vue'),
+        },{
+          path:'addInformation',
+          name:'addInformation',
+          component: () => import(/* webpackChunkName: "about" */ './views/users/addInformation.vue'),
         }]
       },{
         path:'/search',
@@ -137,6 +148,31 @@ export default new Router({
         path:'/chargeNotice',
         name:'chargeNotice',
         component: () => import(/* webpackChunkName: "about" */ './views/charge/chargeNotice.vue'),
+      },{
+        path:'/workerSearch',
+        name:'workerSearch',
+        component: () => import(/* webpackChunkName: "about" */ './views/workerSearch/workerSearch.vue'),
+        children: [{
+          path: '/',
+          redirect: 'workerWaterSearch',
+          component: () => import('./views/workerSearch/workerWaterSearch')
+        },{
+          path: 'workerWaterSearch',
+          name: 'workerWaterSearch',
+          component: () => import('./views/workerSearch/workerWaterSearch')
+        },]
+      },{
+        path:'/changePayment',
+        name:'changePayment',
+        component: () => import(/* webpackChunkName: "about" */ './views/worker/changePayment.vue'),
+      },{
+        path:'/postMessage',
+        name:'postMessage',
+        component: () => import(/* webpackChunkName: "about" */ './views/worker/postMessage.vue'),
+      },{
+        path:'/waiting',
+        name:'waiting',
+        component: () => import(/* webpackChunkName: "about" */ './views/worker/waiting.vue'),
       }]
     }
   ]

@@ -22,7 +22,7 @@
                 <el-form-item label="联系电话 : " prop="userPhone">
                     <el-input v-model="ruleForm.userPhone"></el-input>
                 </el-form-item>
-                <el-form-item label="联系地址 : " prop="address">
+                <el-form-item label="联系地址 : " prop="address" v-if="gotoPage">
                     <el-cascader
                     placeholder="输入您的宿舍地址"
                     :options="options"
@@ -42,6 +42,7 @@
 <script>
 import {gotoNewOrder} from '../../assets/js/gotoNewOrder'
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
     data() {
       return {
@@ -97,6 +98,23 @@ export default {
         }]
       };
     },
+    computed:{
+        ...mapState({
+            userId:state=>state.user.userInfo.userId,
+            userType:state=>state.user.userInfo.userType,
+            userPhone:state=>state.user.userInfo.userPhone,
+            userName:state=>state.user.userInfo.userName
+            // vuexUserName:state=>state.user.userInfo.userName,
+            // msgLen:state=>state.user.userInfo.msgLen
+        }),
+        gotoPage(){
+            if(this.userType===1){
+                return false
+            }else{
+                return true
+            }
+        }
+    },
     mounted() {
         this.ruleForm.userName = this.$store.state.user.userInfo.userName
         console.log(this.$store.state.user.userInfo.userPhone)
@@ -110,11 +128,11 @@ export default {
                    userName:this.ruleForm.userName,
                    userPhone:this.ruleForm.userPhone,
                    gender:this.ruleForm.gender,
-                   address:this.ruleForm.address[0] + this.ruleForm.address[1] + this.ruleForm.address[2]
-               }
+                   address:''
+          }
                 axios.post('/api/users/addInformation',addInfo).then(response=>{
                     let res = response.data;
-                    if(res.status=='0'){
+                    if(res.status==='0'){
                          this.$notify({
                             title: '修改成功',
                             message: '恭喜你! 修改成功!',
@@ -122,7 +140,12 @@ export default {
                             type: 'success'
                         });
                         gotoNewOrder.$emit('goNewOrder','userInformation');
-                        this.$router.push({path:'userInformation'});
+                        console.log('11',this.gotoPage)
+                        /*if(gotoPage){
+                            this.$router.push({path:'workerInformation'});
+                        }else{
+                            this.$router.push({path:'userInformation'});
+                        }*/
                     }else{
                         this.$notify({
                             title: '修改失败',

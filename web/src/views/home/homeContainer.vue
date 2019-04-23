@@ -7,17 +7,20 @@
                             :bannerImg='bannerImg'></homeBanner>
                 </div>
             </div>
-            <news :newsSoure='newsSoure'></news>
+            <news :newsSoure='newsSoure' v-if="gotoPage"></news>
+            <news :newsSoure='newsSoure1' v-if="!gotoPage"></news>
         </div>
     </div>
 </template>
 <script>
     import homeBanner from '../../components/banner'
     import news from '../../components/news'
+    import { mapState } from 'vuex'
     export default {
         data(){
             return {
                 loginState:true,
+                worker:null,
                 bannerImg: [
                     {id: 1, imgSrc:require( '../../../static/img/banner1.jpg')},
                     {id: 2, imgSrc: require('../../../static/img/banner2.jpg')},
@@ -30,20 +33,27 @@
                         article:`查询`,path:'/search'
                     },
                     {id:2,title:'缴费',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
-                        article:`可是不知道何时起，仿佛自己更加喜欢熟悉的味道，可能觉得那更加踏实吧，
-                        熟悉的味道总是让我们少了很多担心，多了一份踏实很多时候，
-                        可能是害怕太多的顾虑，所有干脆放弃，也许在将来的某一刻，
-                        我会后悔我现在的选择，但是我却从来的没有忘记我当初的决心。`,path:'/payment'
+                        article:`缴费`,path:'/payment'
                     },
                     {id:3,title:'收费公示',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
-                        article:`当我还住在她丢掉的那首歌里，怀抱所有音符；当我仍在她丢掉的那本书里面，
-                封面封底夹着我所有的白昼与黑夜的时候，阿谷，这个如山间清风，
-                拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`,path:'/chargeNotice'
+                        article:`收费公示`,path:'/chargeNotice'
                     },
                     {id:4,title:'投诉建议',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
-                        article:`当我还住在她丢掉的那首歌里，怀抱所有音符；当我仍在她丢掉的那本书里面，
-                封面封底夹着我所有的白昼与黑夜的时候，阿谷，这个如山间清风，
-                拂面朗月的彝族姑娘已经给我发了好多信息。或许，伤悲的基调定性。`,path:'/suggest'
+                        article:`投诉建议`,path:'/suggest'
+                    }
+                ],
+                newsSoure1:[
+                    {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),
+                        article:`查询`,path:'/workerSearch'
+                    },
+                    {id:2,title:'发布消息',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                        article:`发布消息`,path:'/postMessage'
+                    },
+                    {id:3,title:'修改费用',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
+                        article:`修改费用`,path:'/changePayment'
+                    },
+                    {id:4,title:'尽情期待',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                        article:`尽情期待`,path:'/waiting'
                     }
                 ]
             }
@@ -53,14 +63,22 @@
             news
         },
         computed:{
+            ...mapState({
+                userId:state=>state.user.userInfo.userId
+            }),
             currentPage(){
                 return this.$route.path.split('/')[1];
             },
             gotoPage(){
+                if(this.$store.state.user.userInfo.userType === 0){
+                    return true
+                } else {
+                    return false
+                }
                 if(this.grade===1){
                     return 'wokerPerson'
                 }else{
-                    return 'person'
+                    return 'userPerson'
                 }
             }
         }

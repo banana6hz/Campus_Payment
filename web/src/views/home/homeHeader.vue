@@ -8,7 +8,7 @@
                 </a>
             </div>
             <div class="welcome">
-                <p>{{userName}}同学，欢迎你！</p>
+                <p >{{userName}}<span v-if="user">同学，</span>欢迎你！</p>
             </div>
             <div class="header-menu">
                 <router-link :class="{'link-active':currentPage==='home'}"
@@ -35,7 +35,8 @@
         data() {
             return {
                 loginState: true,
-                // userType: 1
+                // userType: 1,
+                user:true
             }
         },
         computed:{
@@ -52,8 +53,10 @@
             },
             gotoPage(){
                 if(this.userType===1){
+                    this.user=false
                     return 'workerPerson'
                 }else{
+                    this.user=true
                     return 'userPerson'
                 }
             }
