@@ -265,7 +265,7 @@
         box-sizing: border-box;
         cursor: pointer;
         color: #666;
-        background-color: #f4f9fd;
+        background-color: #fff;
         .userinfo-body{
             display: flex;
             flex-direction: column;

@@ -1,20 +1,15 @@
 <template>
     <div class="message">
-        <h2 style="text-align: center;margin-bottom: 2rem;">我的消息</h2>
-        <el-collapse v-model="activeName" accordion>
-            <el-collapse-item  v-for="(item,index) in msgData"
-                               :title="item.msgHeader"
-                               :key='item._id'
-                               :class="{'messageIsRead':item.isRead}"
-                               :name="item._id"
-            >
+        <h2 style="text-align: center;margin-bottom: 2rem;">我的建议</h2>
+        <el-collapse accordion v-for="(item,index) in msgData">
+            <el-collapse-item :title="item.suggestTime">
                 <template slot="item.msgHeader">
-                    {{item.msgHeader}}
+                    {{item.suggestTime}}
                 </template>
-                <div>{{item.msgCount}}</div>
+                <div>{{item.suggestText}}</div>
                 <div>
-                    <span class="date">{{item.rules}}{{item.msgTime}}
-                        <el-button @click="delMsg(index)">删除</el-button>
+                    <span class="date">{{item.author}} {{item.suggestTime}}
+                        <el-button @click="delSug(index)">删除</el-button>
                     </span>
                 </div>
             </el-collapse-item>
@@ -26,10 +21,10 @@
     export default {
         data(){
             return {
-                activeName:'',
                 msgData:{
                     msgHeader:'',
-                    msgCount:''
+                    suggestText:'',
+                    suggestTime:''
                 }
             }
         },
@@ -38,17 +33,23 @@
         },
         methods:{
             getMessage(){
-                axios.get('/api/users/userInformation').then(res=>{
-                    this.msgData=res.data.result.message
-                    for(let i =0;i<res.data.result.message.length;i++){
-                        this.msgData[i].msgCount=res.data.result.message[i].msgCount
-                        this.msgData[i].time=res.data.result.message[i].time
+                axios.get('/api/users/messageList').then(res=>{
+                    this.msgData=res.data.result.msgList
+                    for(let i =0;i<res.data.result.msgList.length;i++){
+                        this.msgData[i].author=res.data.result.msgList[i].author
+                        this.msgData[i].suggestTime=res.data.result.msgList[i].suggestTime
+                        this.msgData[i].suggestText=res.data.result.msgList[i].suggestText
+                        if(this.msgData[i].author==="匿名用户"){
+                            this.msgData[i].author='匿名'
+                        }else{
+                            this.msgData[i].author='实名'
+                        }
                     }
                     console.log(this.msgData)
                 })
             },
-            delMsg(index){
-                axios.post('/api/users/deleteMsg',this.msgData[index]).then(res=>{
+            delSug(index){
+                axios.post('/api/users/deleteSug',this.msgData[index]).then(res=>{
                     if(res.data.status==='0'){
                         this.$message({
                             message: '删除成功!',
@@ -102,7 +103,6 @@
     .el-collapse-item__content{
         padding-bottom: 5px;
     }
-    .messageIsRead .el-collapse-item__header{
-        color: #999; //已读消息标题颜色
-    }
+
 </style>
+

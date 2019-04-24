@@ -52,8 +52,8 @@
                     {id:3,title:'费用修改',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
                         article:`费用修改`,path:'/changePayment'
                     },
-                    {id:4,title:'尽情期待',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
-                        article:`尽情期待`,path:'/waiting'
+                    {id:4,title:'收费详情',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                        article:`收费详情`,path:'/waiting'
                     }
                 ]
             }

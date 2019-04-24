@@ -49,6 +49,10 @@ export default new Router({
           path:'myMessage',
           name:'myMessage',
           component: () => import(/* webpackChunkName: "about" */ './views/users/myMessage.vue'),
+        },{
+          path:'mySug',
+          name:'mySug',
+          component: () => import(/* webpackChunkName: "about" */ './views/users/mySug.vue'),
         },]
       },{
         path:'/workerPerson',

@@ -1,6 +1,6 @@
 <template>
     <div class="message">
-        <h2 style="text-align: center;margin-bottom: 2rem;">我的消息</h2>
+        <h2 style="text-align: center;margin-bottom: 2rem;">发件箱</h2>
         <el-collapse accordion v-for="(item,index) in msgData">
             <el-collapse-item :title="item.msgHeader">
                 <template slot="item.msgHeader">
@@ -15,6 +15,19 @@
                 </div>
             </el-collapse-item>
         </el-collapse>
+        <div class="pageination-oder">
+            <el-pagination v-if="showPagination"
+                           background
+                           @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange"
+                           :current-page="currentPage"
+                           :pager-count="5"
+                           :page-sizes="[5, 10, 15]"
+                           :page-size="pageSize"
+                           layout="total, prev, pager, next, sizes,jumper"
+                           :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 <script>
@@ -25,7 +38,11 @@
                 msgData:{
                     msgHeader:'',
                     msgCount:''
-                }
+                },
+                currentPage : 1,
+                pageSize : 5,
+                total : 0,
+                showPagination : true,
             }
         },
         created(){
@@ -33,20 +50,32 @@
         },
         methods:{
             getMessage(){
-                axios.get('/api/users/userInformation').then(res=>{
-                    this.msgData=res.data.result.message
-                    console.log(res.data.result.message)
-                    for(let i =0;i<res.data.result.message.length;i++){
-                        this.msgData[i].msgCount=res.data.result.message[i].msgCount
-                        this.msgData[i].msgTime=res.data.result.message[i].msgTime
-                        if(res.data.result.message[i].msgRule === 1){
-                            this.msgData[i].msgRule='权限：'+ res.data.result.message[i].msgRoom+' '+res.data.result.message[i].msgDepartment
+                axios.get(`/api/users/msgList?size=${this.pageSize}&page=${this.currentPage}`).then(res=>{
+                    this.msgData=res.data.result.msgList
+                    console.log(this.pageSize)
+                    for(let i =0;i<res.data.result.msgList.length;i++){
+                        this.msgData[i].msgCount=res.data.result.msgList[i].msgCount
+                        this.msgData[i].msgTime=res.data.result.msgList[i].msgTime
+                        if(res.data.result.msgList[i].msgRule === 1){
+                            this.msgData[i].msgRule='权限：'+ res.data.result.msgList[i].msgRoom+' '+res.data.result.msgList[i].msgDepartment
                         }else{
                             this.msgData[i].msgRule = '权限：'+'全校学生'
                         }
                     }
+                    this.total = Number.parseInt(res.data.result.total);
+                    /*if(this.total <= this.pageSize){
+                        this.showPagination = false
+                    }*/
                     console.log(this.msgData)
                 })
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this.getMessage();
+            },
+            handleSizeChange(val){
+                this.pageSize = val;
+                this.getMessage();
             },
             delMsg(index){
                 axios.post('/api/users/deleteMsg',this.msgData[index]).then(res=>{

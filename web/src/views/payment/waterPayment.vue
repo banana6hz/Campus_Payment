@@ -29,7 +29,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">立即支付</el-button>
-                <el-button class="btn-cancel">取消</el-button>
+                <el-button class="btn-cancel" @click="cancel">取消</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -64,6 +64,9 @@
                         });
                     }
                 })
+            },
+            cancel(){
+                this.$router.push('/homePage')
             }
         }
     }

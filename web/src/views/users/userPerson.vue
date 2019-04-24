@@ -58,9 +58,10 @@
                     {
                         index:"3",
                         icon:'el-icon-message',
-                        title:'我的消息',
+                        title:'消息中心',
                         menuItem:[
-                            {route:'myMessage',listTitle:'消息'}
+                            {route:'myMessage',listTitle:'我的消息'},
+                            {route:'mySug',listTitle:'我的建议'}
                         ]
                     },
                     {

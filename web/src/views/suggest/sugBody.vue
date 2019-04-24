@@ -4,27 +4,24 @@
     ref="sugCont"
     :class="{'hiden-h':!sugcontshow}"
     v-if="contShow">
+        <h2 style="text-align: center;margin:2rem auto;">发表建议</h2>
         <transition name='transX'>
-            <div class="sug-cont-body" v-if="sugcontshow">
-                    <ul class="sug-list">
-                        <li>
-                            <label>姓名 : <input type="text"
-                            v-model.trim="sugcontForm.userName"></label>
-                        </li>
-                        <li>
-                            <label>电话 : <input type="text"
-                             v-model.trim="sugcontForm.phoneNum"></label>
-                        </li>
-                    </ul>
+            <div class="sug-cont-body" v-if="sugcontshow" v-model="sugcontForm">
                 <div class="textarea">
-                    <span>内容 : </span>
-                    <textarea name="suggestText"
+                    <span style="display: inline-block;width:5rem;">内容 : </span>
+                    <el-input name="suggestText" type="textarea"
                         id="suggestText"
-                        v-model.trim="sugcontForm.suggestText"></textarea>
+                        v-model="sugcontForm.suggestText" :rows="10"></el-input>
+                </div>
+                <div style="text-align: left;margin-top:3rem;">
+                    <span style="display: inline-block;width:5rem;">匿名发送</span>
+                    <el-switch v-model="sugcontForm.delivery"></el-switch>
                 </div>
                 <div class="submit">
                     <input type="button"
-                    @click="$emit('handleSubSuggest',sugcontForm)" value="提交">
+                    @click="handleSubSuggest()" value="提交">
+                    <input type="button"
+                           @click="cancel()" value="返回">
                 </div>
             </div>
         </transition>
@@ -33,6 +30,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
 export default {
     props:{
         sugcontshow:Boolean,
@@ -41,10 +39,74 @@ export default {
     data(){
         return{
             sugcontForm:{
-                userName:'',
-                phoneNum:'',
-                suggestText:''
+                delivery:null,
+                suggestText:'',
+                suggestTime:''
             }
+        }
+    },
+    methods:{
+        CurrentTime() {
+            let now = new Date();
+
+            let year = now.getFullYear();       //年
+            let month = now.getMonth() + 1;     //月
+            let day = now.getDate();            //日
+
+            let hh = now.getHours();            //时
+            let mm = now.getMinutes();          //分
+            let ss = now.getSeconds();           //秒
+
+            this.sugcontForm.suggestTime = year + "-";
+            if(month < 10){
+                this.sugcontForm.suggestTime += "0";
+                this.sugcontForm.suggestTime += month + "-";
+            }else{
+                this.sugcontForm.suggestTime += month + "-";
+            }
+            if(day < 10){
+                this.sugcontForm.suggestTime += "0";
+                this.sugcontForm.suggestTime += day + " ";
+            }else{
+                this.sugcontForm.suggestTime += day + " ";
+            }
+            if(hh < 10){
+                this.sugcontForm.suggestTime += "0";
+                this.sugcontForm.suggestTime += hh + ":";
+            }else{
+                this.sugcontForm.suggestTime += hh + ":";
+            }
+            if (mm < 10) {
+                this.sugcontForm.suggestTime += '0';
+                this.sugcontForm.suggestTime += mm + ":";
+            }else{
+                this.sugcontForm.suggestTime += mm + ":";
+            }
+            if (ss < 10) {
+                this.sugcontForm.suggestTime += '0';
+                this.sugcontForm.suggestTime += ss;
+            }else{
+                this.sugcontForm.suggestTime += ss;
+            }
+        },
+        handleSubSuggest(){
+            this.CurrentTime()
+            axios.post('/api/users/addSuggest',this.sugcontForm).then((res)=>{
+                if(res.data.status==='0'){
+                    this.$message({
+                        message:res.data.msg,
+                        type:'success'
+                    })
+                }else{
+                    this.$message({
+                        message:res.data.msg,
+                        type:'error'
+                    })
+                }
+            })
+        },
+        cancel(){
+            this.$router.go(-1)
         }
     }
 }
@@ -58,11 +120,9 @@ $text-color:#777;
     flex-direction: column;
     width: 50%;
     margin: 0 auto 10rem;
-    border:0.4rem solid #7dafa7;
     box-sizing: border-box;
-    box-shadow: 1rem 1rem 1rem #888;
     transition:.6s;
-    height: 28.5rem;
+    min-height: 28.5rem;
     background-color: #fff;
     border-radius: 2rem;
 }
@@ -71,7 +131,7 @@ $text-color:#777;
     margin-bottom: 10rem + 24.5rem - 2.5rem;
 }
 .sug-cont-body{
-    padding: 3rem 1rem;
+    padding: 0 3rem 3rem 1rem;
 }
 .sug-list{
     width: 100%;
@@ -131,8 +191,9 @@ $text-color:#777;
 .submit{
     width: 100%;
     margin-top: 3rem;
+    text-align: right;
     input{
-        width: 40%;
+        width: 10%;
         height: 2rem;
         border: none;
         border-radius: 1rem;
@@ -141,7 +202,7 @@ $text-color:#777;
         outline: none;
         font-size: 1rem;
         color: #fff;
-        letter-spacing: 10px;
+        margin-left: 2rem;
         &:hover{
             background-image: linear-gradient(to bottom, #91dfd2 0%, #7dafa7 100%);
         }

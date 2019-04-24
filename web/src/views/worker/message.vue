@@ -36,7 +36,7 @@
                         title:'消息中心',
                         menuItem:[
                             {route:'postMessage',listTitle:'发布消息'},
-                            {route:'workerMessage',listTitle:'已发布'},
+                            {route:'workerMessage',listTitle:'发件箱'},
                             {route:'workerSuggest',listTitle:'收件箱'},
                         ]
                     }
