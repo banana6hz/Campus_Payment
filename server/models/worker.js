@@ -12,7 +12,8 @@ let workerSchema = new mongoose.Schema({
         "msgTime":String,
         "msgDepartment":String,
         "msgRoom":String,
-        "msgRule":Number
+        "msgRule":Number,
+        "isRead":Boolean,
     }]
 })
 

@@ -3,6 +3,7 @@ let router = express.Router();
 let User = require('../models/user');
 let Worker = require('../models/worker');
 let Fee = require('../models/fee');
+let Sug = require('../models/suggest');
 let AES = require('aes-js');
 let request = require('request');
 let xmlreader = require("xmlreader");
@@ -145,7 +146,35 @@ router.get('/userInformation', function(req, res, next){
         }
     })
 });
-
+// worker获取消息列表
+router.get('/msgList', function(req, res, next){
+    let msg = {
+        currentPage : Number.parseInt(req.query.page),
+        pageSize : Number.parseInt(req.query.size)
+    }
+    Worker.find({userId: req.session.userId},function(err, doc) {
+        if (err ) {
+            res.json({
+                status: '0',
+                msg: '查找失败',
+                result: ''
+            })
+        } else {
+            let list = doc[0];
+            console.log(list.message)
+            let start = msg.pageSize * (msg.currentPage-1);
+            let msgList = list.message.slice(start,start+msg.pageSize);
+            res.json({
+                status: '0',
+                msg: '查找成功',
+                result: {
+                    msgList:msgList,
+                    total : list.message.length
+                }
+            })
+        }
+    })
+});
 // 修改联系电话
 router.get('/userInformation/changePhone', function(req,res,next){
     const Who = userGrade(req.session.userType);
@@ -307,7 +336,7 @@ router.get('/waterRecord', (req, res, next)=> {
      });
  });
 // 删除消息
-router.post('/deleteMsg',function(req,res,next){
+router.post('/deleteSug',function(req,res,next){
     const Who = userGrade(req.session.userType);
     console.log('22',req.body)
     Who.update({userId:req.session.userId},{'$pull':{message:{msgHeader:req.body.msgHeader,msgCount:req.body.msgCount}}},(err,doc)=>{
@@ -315,15 +344,79 @@ router.post('/deleteMsg',function(req,res,next){
         if(err){
             errTip(res);
         }else{
-            if(doc.nModified){ //修改数量不为0
-                res.json({
-                    status:"0",
-                    msg:'',
-                    result:''
-                })
-            }else{
-                errTip(res,'删除失败,请重试!');
-            }
+            res.json({
+                status:"0",
+                msg:'删除成功',
+                result:''
+            })
+        }
+    })
+})
+// 提出建议
+router.post('/addSuggest',function(req,res,next){
+    let sug
+    if (req.body.delivery){
+        sug=new Sug({
+            suggestText:req.body.suggestText,
+            suggestTime:req.body.suggestTime,
+            author:'匿名用户',
+            userId:req.session.userId,
+            isRead:false
+        })
+    }else{
+        sug=new Sug({
+            suggestText:req.body.suggestText,
+            suggestTime:req.body.suggestTime,
+            author:req.session.userName,
+            userId:req.session.userId,
+            isRead:false
+        })
+    }
+    console.log(sug)
+    sug.save((err,doc)=>{
+        if(err){
+            res.json({
+                status:"1",
+                msg:'很抱歉，提交失败！',
+                result : ''
+            }) ;
+        }else{
+            res.json({
+                status:"0",
+                msg:'恭喜你，提交成功！',
+                result : ''
+            }) ;
+        }
+    })
+})
+// 获取建议列表
+router.get('/messageList',function(req,res,next){
+    let msg = {
+        currentPage : Number.parseInt(req.query.page),
+        pageSize : Number.parseInt(req.query.size)
+    }
+    Sug.find({userId:req.session.userId},(err,doc)=>{
+        console.log('msg',doc)
+        if(err){
+            res.json({
+                status:"1",
+                msg:'很抱歉，获取建议列表失败！',
+                result : ''
+            }) ;
+        }else{
+            let list = doc;
+            let start = msg.pageSize * (msg.currentPage-1);
+            let msgList = list.slice(start,start+msg.pageSize);
+            console.log(start)
+            console.log(msgList)
+            res.json({
+                status:"0",
+                msg:'恭喜你，获取建议列表成功！',
+                result : {
+                    msgList:list,
+                    total : list.length
+                }
+            }) ;
         }
     })
 })

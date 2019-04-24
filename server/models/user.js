@@ -16,9 +16,13 @@ var userSchema = new mongoose.Schema({
     "masterId":Number,
     "masterName":String,
     "message":[{
-        "msgTime" : String,
-        "msgHeader" : String,
-        "msgCount" : String
+        "msgHeader":String,
+        "msgCount":String,
+        "msgTime":String,
+        "msgDepartment":String,
+        "msgRoom":String,
+        "msgRule":Number,
+        "isRead":Boolean,
     }]
 });
 

@@ -4,52 +4,16 @@ let Worker = require('../models/worker');
 let User = require('../models/user');
 let Department = require('../models/department');
 let Room = require('../models/room');
+let Fee = require('../models/fee');
+let Sug = require('../models/suggest');
 let WaterRecord = require('../models/waterRecord');
-// 登录
-/*router.post("/login", function(req, res, next){
-    Worker.find({userId:req.body.userId, userType:req.body.userType}, function(err, doc){
-        if(doc.length === 0) {
-            res.json({
-                status: '1',
-                msg: "该用户不存在！",
-            });
-        } else if (doc[0].pwd !== req.body.pwd) {
-            console.log(doc[0].pwd)
-            res.json({
-                status:'1',
-                msg: '密码错误！',
-                result: {
-                    count: doc.length,
-                    list: doc
-                }
-            })
-        } else if(doc[0].pwd === req.body.pwd){
-            req.session.userId=doc[0].userId;
-            req.session.userType=Number.parseInt(doc[0].userType);
-            req.session.userName=doc[0].userName ||'';
-            res.json({
-                status:'0',
-                msg: '登录成功!',
-                result: {
-                    userId:req.session.userId,
-                    userType:req.session.userType,
-                    userName: req.session.userName,
-                    list: req.session
-                }
-            })
-        }
-        else {
-            res.json({
-                status:'0',
-                msg: '',
-                result: {
-                    count: doc.length,
-                    list: doc
-                }
-            })
-        }
+function errTip(res,errmsg=err.message){
+    res.json({
+        status:"1",
+        msg:errmsg,
+        result:''
     });
-});*/
+}
 //获取学院信息
 router.get('/getDepartment',function(req,res,next){
     Department.find(function(err,doc){
@@ -136,33 +100,6 @@ router.post('/addMessage',function(req,res,next){
         msgDepartment:req.body.msgDepartment
     }
     console.log(req.body)
-    let param;
-    if(req.body.msgRule===1){
-        if(req.body.room){
-            if(req.body.msgDepartment){
-                param={
-                    userId:req.session.userId,
-                    roomName:req.body.msgRoom,
-                    departmentName:req.body.msgDepartment
-                }
-            }else{
-                param={
-                    userId:req.session.userId,
-                    room:req.body.room
-                }
-            }
-        }
-    }else{
-        param={
-            userId:req.session.userId
-        }
-    }
-    User.update(param,{'$push':{message:{
-                msgHeader:message.header,
-                msgCount:message.header,
-                msgTime: message.msgTime,}}},(err,doc)=>{
-
-    })
     Worker.update({userId:req.session.userId},
         {'$push':{message:{
                     msgHeader:message.header,
@@ -170,13 +107,12 @@ router.post('/addMessage',function(req,res,next){
                     msgTime: message.msgTime,
                     msgDepartment:message.msgDepartment,
                     msgRoom:message.msgRoom,
-                    msgRule:message.msgRule}}},(err,doc)=>{
-        console.log('a',doc)
+                    msgRule:message.msgRule,
+                    isRead:false
+                }}},(err,doc)=>{
         if(err){
-            console.log('发布失败');
             return errTip(res);
         }else{
-            console.log('a',doc)
             res.json({
                 status:"0",
                 msg:'发布成功',
@@ -185,5 +121,161 @@ router.post('/addMessage',function(req,res,next){
         }
     })
 })
-//获取个人信息
+router.post('/addUserMessage',function(req,res,next){
+    let message = {
+        header: req.body.msgHeader,
+        count:req.body.msgCount,
+        msgTime: req.body.msgTime,
+        msgRule:req.body.msgRule,
+        msgRoom:req.body.msgRoom,
+        msgDepartment:req.body.msgDepartment
+    }
+    console.log(req.body)
+    let param;
+    if(req.body.msgRule===1){
+        if(req.body.room){
+            if(req.body.msgDepartment){
+                param={
+                    roomName:req.body.msgRoom,
+                    departmentName:req.body.msgDepartment
+                }
+            }else{
+                param={
+                    room:req.body.room
+                }
+            }
+        }
+    }else{
+        param={}
+    }
+    User.update(param,{'$push':{message:{
+                msgHeader:message.header,
+                msgCount:message.header,
+                msgTime: message.msgTime,
+                isRead:false}}},(err,doc)=>{
+        if(err){
+            return errTip(res);
+        }else{
+            res.json({
+                status:"0",
+                msg:'发布成功',
+                result : ''
+            })
+        }
+    })
+})
+//一级费用修改
+router.post('/editWater',function(req,res,next){
+    let param = {
+        feeId:req.body.feeId,
+    }
+    Fee.update(param,{$set:{feeUnit:req.body.feeUnit,feeNum:req.body.feeNum,feeDesc:req.body.feeDesc}},(err,doc)=>{
+        if(err){
+            errTip(res);
+            res.json({
+                status:"1",
+                msg:'很抱歉，修改失败！',
+                result:''
+            })
+        }else{
+            res.json({
+                status:"0",
+                msg:'恭喜你，修改成功！',
+                result:''
+            })
+        }
+    })
+})
+//增加费用
+router.post('/addPayment',function(req,res,next){
+    console.log(req.body)
+    let add = new Fee({
+        feeName:req.body.feeName,
+        feeUnit:req.body.feeUnit,
+        feeNum:req.body.feeNum,
+        feeDesc: req.body.feeDesc
+    })
+    add.save((err,doc)=>{
+        if(err){
+            res.json({
+                status:"1",
+                msg:'很抱歉，添加失败！',
+                result : ''
+            }) ;
+        }else{
+            res.json({
+                status:"0",
+                msg:'恭喜你，添加成功！',
+                result : ''
+            }) ;
+        }
+    })
+})
+// 获取建议列表
+router.get('/messageList',function(req,res,next){
+    let msg = {
+        currentPage : Number.parseInt(req.query.page),
+        pageSize : Number.parseInt(req.query.size)
+    }
+    Sug.find((err,doc)=>{
+        if(err){
+            res.json({
+                status:"1",
+                msg:'很抱歉，获取建议列表失败！',
+                result : ''
+            }) ;
+        }else{
+            let list = doc;
+            let start = msg.pageSize * (msg.currentPage-1);
+            let msgList = list.slice(start,start+msg.pageSize);
+            res.json({
+                status:"0",
+                msg:'恭喜你，获取建议列表成功！',
+                result : {
+                    msgList:msgList,
+                    total : list.length
+                }
+            }) ;
+        }
+    })
+})
+// 删除建议
+router.post('/deleteMessage',(req,res,next)=>{
+    console.log(req.query)
+    Sug.remove({_id:req.query.id},(err,doc)=>{
+        console.log(doc)
+        if(err){
+            errTip(res);
+        }else{
+            if(doc.deletedCount){ //修改数量不为0
+                res.json({
+                    status:"0",
+                    msg:'恭喜你，删除成功！',
+                    result:''
+                })
+            }else{
+                errTip(res,'删除失败,请重试!');
+            }
+        }
+    })
+
+})
+// 建议已读
+router.get('/readSuggest',(req,res,next)=>{
+    Sug.update({_id:req.query.id},{$set:{isRead:true}},(err,doc)=>{
+        if(err){
+            res.json({
+                status:"1",
+                msg:'失败！',
+                result : ''
+            }) ;
+        }else{
+            res.json({
+                status:"0",
+                msg:'成功！',
+                result : ''
+            }) ;
+        }
+    })
+})
 module.exports = router;
