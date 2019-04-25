@@ -35,7 +35,9 @@
                         icon:'el-icon-location',
                         title:'费用修改',
                         menuItem:[
-                            {route:'editPayment',listTitle:'修改热水费用'}
+                            {route:'editPayment',listTitle:'修改热水费用'},
+                            {route:'editPayment',listTitle:'修改电费'},
+                            {route:'editPayment',listTitle:'修改学费'}
                         ]
                     },{
                         index:"2",

@@ -1,6 +1,6 @@
 <template>
     <div class="suggest">
-        <h2 style="text-align: center;margin-bottom: 2rem;">费用修改</h2>
+        <h2 style="text-align: center;margin-bottom: 2rem;">增加费用</h2>
         <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="费用名称">
                 <el-input v-model="form.feeName"></el-input>
@@ -15,8 +15,8 @@
                 <el-input type="textarea" v-model="form.desc"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">提交</el-button>
-                <el-button>取消</el-button>
+                <el-button type="primary" class="btn-color" @click="onSubmit">提交</el-button>
+                <el-button class="btn-color">取消</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -63,5 +63,10 @@
         .el-form{
             text-align: left;
         }
+    }
+    .btn-color{
+        background:#7dafa7;
+        color:#fff;
+        border:none;
     }
 </style>

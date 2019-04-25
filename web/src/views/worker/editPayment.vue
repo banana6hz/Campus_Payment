@@ -15,8 +15,8 @@
                 <el-input type="textarea" v-model="form.desc"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">提交</el-button>
-                <el-button @click="cancel">取消</el-button>
+                <el-button type="primary" class="btn-color" @click="onSubmit">提交</el-button>
+                <el-button @click="cancel" class="btn-color">取消</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -65,6 +65,11 @@
         text-algin:left;
         .el-form{
             text-align: left;
+        }
+        .btn-color{
+            background:#7dafa7;
+            color:#fff;
+            border:none;
         }
     }
 </style>
