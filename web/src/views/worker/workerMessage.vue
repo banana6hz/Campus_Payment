@@ -17,7 +17,6 @@
         </el-collapse>
         <div class="pageination-oder">
             <el-pagination v-if="showPagination"
-                           background
                            @current-change="handleCurrentChange"
                            @size-change="handleSizeChange"
                            :current-page="currentPage"

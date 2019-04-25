@@ -12,11 +12,11 @@
             </div>
             <div class="header-menu">
                 <router-link :class="{'link-active':currentPage==='home'}"
-                             to="/homePage">主页</router-link>
+                             to="/homePage"><span>主页</span></router-link>
                 <router-link :class="{'link-active':currentPage===gotoPage}"
                              :to="'/'+gotoPage">
                     <el-badge is-dot
-                              class="item">个人中心</el-badge>
+                              class="item"><span>个人中心</span></el-badge>
                 </router-link>
             </div>
             <div class="login-and-exit">
@@ -186,6 +186,11 @@
             &:hover{
                 background-color: #eff3f5;
             }
+            .span{
+                display:inline-block;
+                text-align: center;
+                margin:0 auto;
+            }
         }
     }
     .usercont{
@@ -265,5 +270,15 @@
         cursor: pointer;
         z-index: 999;
     }
-
+</style>
+<style lang="scss">
+    .header-menu{
+        a{
+            span{
+                display:inline-block;
+                text-align: center;
+                margin:0 auto;
+            }
+        }
+    }
 </style>

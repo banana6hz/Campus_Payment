@@ -1,5 +1,6 @@
 <template>
     <div class="notice-body">
+        <h2 style="text-align: center;margin-bottom: 2rem;">收费公示</h2>
         <el-table
                 :data="tableData"
                 border

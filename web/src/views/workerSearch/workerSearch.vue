@@ -48,15 +48,6 @@
                     },
                     {
                         index:"3",
-                        icon:'el-icon-edit',
-                        title:'等级考试费',
-                        menuItem:[
-                            {route:'searchExam',listTitle:'未缴纳等级考试费'},
-                            {route:'searchExamRecord',listTitle:'等级考试费缴纳记录'}
-                        ]
-                    },
-                    {
-                        index:"4",
                         icon:'el-icon-bell',
                         title:'学费',
                         menuItem:[
@@ -83,6 +74,9 @@
         position: relative;
         display: flex;
         width: 80%;
+        min-height:100vh;
+        box-sizing: border-box;
+        padding-bottom: 6rem;
     }
     .person-user{
         position: relative;

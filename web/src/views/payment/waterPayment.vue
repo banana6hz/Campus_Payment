@@ -2,7 +2,7 @@
     <div class="paymentForm">
         <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="充值类型">
-                <p>热水卡充值</p>
+                <p>热水充值</p>
             </el-form-item>
             <el-form-item label="账户余额">
                 <p>二五八万</p>

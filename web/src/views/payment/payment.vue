@@ -61,7 +61,6 @@
                         menuItem:[
                             {route:'waterPayment',listTitle:'热水费'},
                             {route:'energyPayment',listTitle:'电费'},
-                            {route:'examPayment',listTitle:'等级考试费'},
                             {route:'schoolPayment',listTitle:'学费'},
                         ]
                     }

@@ -27,12 +27,26 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <el-col :sm="7" :md="7">
+                        <el-form-item label="时间">
+                            <el-date-picker
+                                    v-model="value7"
+                                    type="daterange"
+                                    align="right"
+                                    unlink-panels
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    :picker-options="pickerOptions2">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
-                <el-row :gutter="10" style="text-align: right;">
+                <el-row :gutter="10" style="text-align: right;margin:1rem 0;">
                     <el-col :sm="24" :md="24">
-                        <el-button class="width85-btn" @click="search()">查询</el-button>
-                        <el-button class="width85-btn" @click="reChooseFn('baseData')">重置</el-button>
-                        <el-button class="width150-btn"  @click="Excel()">打印</el-button>
+                        <el-button class="btn-color" @click="search()">查询</el-button>
+                        <el-button class="btn-color" @click="reChooseFn('baseData')">重置</el-button>
+                        <el-button class="btn-color"  @click="Excel()">导出Excel</el-button>
                     </el-col>
                 </el-row>
             </el-form>
@@ -47,9 +61,18 @@
             >
                 <el-table-column type="selection" width="40"></el-table-column>
                 <el-table-column type="index" label="序号" width="50"></el-table-column>
-                <el-table-column prop="roomName" label="宿舍" min-width="70"></el-table-column>
-                <el-table-column prop="departmentName" label="学院" min-width="80"></el-table-column>
-                <el-table-column prop="waterTime" label="交易时间" min-width="80"></el-table-column>
+                <el-table-column prop="roomName" label="宿舍" min-width="50"></el-table-column>
+                <el-table-column prop="departmentName" label="学院" min-width="50"></el-table-column>
+                <el-table-column prop="waterTime" label="交易时间" min-width="50"></el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        min-width="50">
+                    <template slot-scope="scope">
+                        <el-button @click="handleClick(scope.row)" type="text" size="small">查看详情</el-button>
+                        <el-button type="text" size="small">删除</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <el-pagination
                     @size-change="handleSizeChange"
@@ -83,7 +106,36 @@
                 pageSize: 5,
                 total: 0,
                 loading: false,
-                tableData:[]
+                tableData:[],
+                pickerOptions2: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                value6: '',
+                value7: ''
             }
         },
         methods: {
@@ -171,8 +223,22 @@
                 this.baseData.department = val.departmentId
                 this.currentPage = 1
             },
-            Excel() {
+            handleClick(){
 
+            },
+            Excel() {
+                axios.post('/api/worker/excel',{ responseType: 'blob' }).then((res)=>{
+                    console.log(res)
+                    let blob = new Blob([res],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,charset=utf-8'})
+                    let a = document.createElement('a');
+                    let href = window.URL.createObjectURL(blob); // 创建链接对象
+                    a.href = href;
+                    a.download = '热水表.xlsx';   // 自定义文件名
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(href);  //移除链接对象
+                    document.body.removeChild(a); // 移除a元素
+                })
             },
             changeSelectFun() {
 
@@ -227,5 +293,12 @@
     }
     .table-group-wrap{
         margin-top:5px;
+    }
+    .el-pagination{
+        margin-top:2rem;
+    }
+    .btn-color{
+        background: #7dafa7;
+        color:#fff;
     }
 </style>

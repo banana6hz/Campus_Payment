@@ -46,30 +46,11 @@
                     },
                     {
                         index:"2",
-                        icon:'el-icon-tickets',
-                        title:'我的缴费记录',
-                        menuItem:[
-                            {route:'energyRecord',listTitle:'电费记录'},
-                            {route:'newOrder',listTitle:'水费记录'},
-                            {route:'historyOrder',listTitle:'等级考试缴费记录'},
-                            {route:'userFindOrder',listTitle:'学费记录'}
-                        ]
-                    },
-                    {
-                        index:"3",
                         icon:'el-icon-message',
                         title:'消息中心',
                         menuItem:[
                             {route:'myMessage',listTitle:'我的消息'},
                             {route:'mySug',listTitle:'我的建议'}
-                        ]
-                    },
-                    {
-                        index:"4",
-                        icon:'el-icon-edit-outline',
-                        title:'加入我们',
-                        menuItem:[
-                            {route:'joinUs',listTitle:'申请'}
                         ]
                     }
                 ],

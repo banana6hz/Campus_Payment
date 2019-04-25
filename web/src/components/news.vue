@@ -15,7 +15,7 @@
                         </transition>
                         <div class="item-body" >
                             <h4>{{obj.title}}</h4>
-                            <p>{{obj.article}}{{obj.path}}</p>
+                            <p>{{obj.article}}</p>
                         </div>
                     </router-link>
                 </div>
@@ -123,9 +123,9 @@ export default {
     left: -2rem;
     width: 50%;
     height: 1rem;
-    background-color: #00f2fe;
+    background-color: #a8dfe6;
     @include rotate(-45deg);
-    @include box-shadow(0 0 3px 1px #4facfe);
+    @include box-shadow(0 0 3px 1px #a8dfe6);
     z-index: 99;
 }
 .ns-item{
@@ -133,7 +133,9 @@ export default {
     display: flex;
     overflow: hidden;
     margin-top: 4rem;
-    @include box-shadow(0.5rem 0.5rem 3px  #666);
+    border: 3px solid #a8dfe6;
+    border-radius: 13px;
+    @include box-shadow(0.4rem 0.4rem 2px  #cbcccb);
     img{
         display: block;
         width: 10rem;
@@ -146,6 +148,7 @@ export default {
     }
 }
 .item-body{
+    width:100%;
     $title-h:1.2rem;
     position: absolute;
     bottom: 0;

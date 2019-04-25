@@ -32,19 +32,20 @@
                     {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),
                         article:`查询`,path:'/search'
                     },
-                    {id:2,title:'缴费',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                    {id:2,title:'缴费',imgSrc:require('../../../static/img/home-news-pic5.jpg'),
                         article:`缴费`,path:'/payment'
                     },
                     {id:3,title:'收费公示',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
                         article:`收费公示`,path:'/chargeNotice'
                     },
-                    {id:4,title:'投诉建议',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                    {id:4,title:'投诉建议',imgSrc:require('../../../static/img/home-news-pic6.jpg'),
                         article:`投诉建议`,path:'/suggest'
                     }
                 ],
                 newsSoure1:[
                     {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),
-                        article:`查询`,path:'/workerSearch'
+                        article:`查询`,
+                        path:'/workerSearch',
                     },
                     {id:2,title:'消息中心',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
                         article:`消息中心`,path:'/message'
@@ -52,7 +53,7 @@
                     {id:3,title:'费用修改',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
                         article:`费用修改`,path:'/changePayment'
                     },
-                    {id:4,title:'收费详情',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                    {id:4,title:'收费详情',imgSrc:require('../../../static/img/home-news-pic4.jpg'),
                         article:`收费详情`,path:'/waiting'
                     }
                 ]
@@ -92,7 +93,7 @@
         width: 80%;
         border-left:1px solid #7dafa7;
         border-right:1px solid #7dafa7;
-        border-bottom:1px solid #7dafa7;
+        border-bottom:1px solid #fff;
         // background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
     }
     .homeHeader{

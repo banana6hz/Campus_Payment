@@ -21,7 +21,8 @@
         width: 100%;
         bottom: 0;
         left: 0;
-        background-color:darken(#f7f7f7,1%);
+        border-top:1px solid #7dafa7;
+        background-color:darken(#fff,1%);
     }
     @media only screen and (max-width:1200px){
         .app-footer{

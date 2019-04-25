@@ -20,9 +20,14 @@
                     label="单位">
             </el-table-column>
             <el-table-column
+                    prop="desc"
+                    label="备注"
+                    min-width="90">
+            </el-table-column>
+            <el-table-column
                     fixed="right"
                     label="操作"
-                    width="100">
+                    min-width="90">
                 <template slot-scope="scope">
                     <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
                     <el-button type="text" size="small">编辑</el-button>
@@ -30,7 +35,7 @@
             </el-table-column>
         </el-table>
         <div class="btn-back">
-            <el-button @click="goBack">返回</el-button>
+            <el-button @click="goBack" class="btn-color">返回</el-button>
         </div>
     </div>
 </template>
