@@ -104,6 +104,19 @@ export default {
                     })
                 }
             })
+            axios.post('/api/users/addUserSuggest',this.sugcontForm).then((res)=>{
+                if(res.data.status==='0'){
+                    this.$message({
+                        message:res.data.msg,
+                        type:'success'
+                    })
+                }else{
+                    this.$message({
+                        message:res.data.msg,
+                        type:'error'
+                    })
+                }
+            })
         },
         cancel(){
             this.$router.go(-1)

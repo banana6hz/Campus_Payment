@@ -172,7 +172,6 @@
                 console.log(this.baseData)
                 axios.post('/api/worker/addMessage', this.baseData).then(res=>{
                     if(res.data.status === '0'){
-                        this.$router.push({path: '/message/workerMessage'})
                         this.$message({
                             message: res.data.msg,
                             type: 'success'
@@ -187,7 +186,6 @@
                 })
                 axios.post('/api/worker/addUserMessage', this.baseData).then(res=>{
                     if(res.data.status === '0'){
-                        this.$router.push({path: '/message/workerMessage'})
                         this.$message({
                             message: res.data.msg,
                             type: 'success'

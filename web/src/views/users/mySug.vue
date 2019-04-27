@@ -1,7 +1,8 @@
 <template>
     <div class="message">
         <h2 style="text-align: center;margin-bottom: 2rem;">我的建议</h2>
-        <el-collapse accordion v-for="(item,index) in msgData">
+        <h4 style="text-align: center;margin-bottom: 2rem;" v-show="noSug"></h4>
+        <el-collapse accordion v-for="(item,index) in msgData" :key='item._id' :title="item._id" :name="item._id" >
             <el-collapse-item :title="item.suggestTime">
                 <template slot="item.msgHeader">
                     {{item.suggestTime}}
@@ -9,11 +10,23 @@
                 <div>{{item.suggestText}}</div>
                 <div>
                     <span class="date">{{item.author}} {{item.suggestTime}}
-                        <el-button @click="delSug(index)">删除</el-button>
+                        <el-button @click="delUserSug(item._id)">删除</el-button>
                     </span>
                 </div>
             </el-collapse-item>
         </el-collapse>
+        <div class="pageination-oder">
+            <el-pagination v-if="showPagination"
+                           @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange"
+                           :current-page="currentPage"
+                           :pager-count="5"
+                           :page-sizes="[7, 15, 20]"
+                           :page-size="pageSize"
+                           layout="total, prev, pager, next, sizes,jumper"
+                           :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 <script>
@@ -25,7 +38,12 @@
                     msgHeader:'',
                     suggestText:'',
                     suggestTime:''
-                }
+                },
+                noSug:true,
+                currentPage : 1,
+                pageSize : 7,
+                total : 0,
+                showPagination : true,
             }
         },
         created(){
@@ -33,23 +51,28 @@
         },
         methods:{
             getMessage(){
-                axios.get('/api/users/messageList').then(res=>{
+                axios.get(`/api/users/sugList?size=${this.pageSize}&page=${this.currentPage}`).then(res=>{
                     this.msgData=res.data.result.msgList
-                    for(let i =0;i<res.data.result.msgList.length;i++){
-                        this.msgData[i].author=res.data.result.msgList[i].author
-                        this.msgData[i].suggestTime=res.data.result.msgList[i].suggestTime
-                        this.msgData[i].suggestText=res.data.result.msgList[i].suggestText
-                        if(this.msgData[i].author==="匿名用户"){
-                            this.msgData[i].author='匿名'
-                        }else{
-                            this.msgData[i].author='实名'
+                    if(this.msgData.length>0){
+                        this.noSug=false
+                        for(let i =0;i<res.data.result.msgList.length;i++){
+                            this.msgData[i].author=res.data.result.msgList[i].author
+                            this.msgData[i].suggestTime=res.data.result.msgList[i].suggestTime
+                            this.msgData[i].suggestText=res.data.result.msgList[i].suggestText
+                            if(this.msgData[i].author==="匿名用户"){
+                                this.msgData[i].author='匿名'
+                            }else{
+                                this.msgData[i].author='实名'
+                            }
                         }
+                        this.total=res.data.result.total
+                    }else{
+                        this.noSug=true
                     }
-                    console.log(this.msgData)
                 })
             },
-            delSug(index){
-                axios.post('/api/users/deleteSug',this.msgData[index]).then(res=>{
+            delUserSug(id){
+                axios.post(`/api/users/deleteUserSug?id=${id}`).then(res=>{
                     if(res.data.status==='0'){
                         this.$message({
                             message: '删除成功!',
@@ -67,6 +90,14 @@
                 }).catch(err=>{
                     console.log(err);
                 })
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this.getMessage();
+            },
+            handleSizeChange(val){
+                this.pageSize = val;
+                this.getMessage();
             }
         }
     }

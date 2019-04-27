@@ -30,10 +30,11 @@
             <el-pagination v-if="showPagination"
                            background
                            @current-change="handleCurrentChange"
+                           @size-change="handleSizeChange"
                            :current-page="currentPage"
                            :pager-count="5"
                            :page-size="pageSize"
-                           layout="total, prev, pager, next, jumper"
+                           layout="total, prev, pager, sizes, next, jumper"
                            :total="total">
             </el-pagination>
         </div>
@@ -62,7 +63,7 @@
         },
         methods:{
             getMessage(){
-                axios.get(`/api/worker/messageList?size=${this.pageSize}&page=${this.currentPage}`).then(response=>{
+                axios.get(`/api/worker/suggestList?size=${this.pageSize}&page=${this.currentPage}`).then(response=>{
                     let res = response.data;
                     if(res.status==='0'){
                         this.userMessage = res.result.msgList;
@@ -71,12 +72,10 @@
                             this.showPagination = false
                         }
                         let notReadMsg= this.userMessage.filter(it=>!it.isRead);
-                        console.log(notReadMsg)
                         // 红点点
                         if(!notReadMsg.length){
                             this.$store.commit("saveUserInfo",{msgLen:notReadMsg .length});
                         }
-                        console.log(this.userMessage)
                     }else{
                         this.$message({
                             type: 'error',
@@ -142,7 +141,11 @@
             handleCurrentChange(val) {
                 this.currentPage = val;
                 this.getMessage();
-            }
+            },
+            handleSizeChange(val){
+                this.pageSize = val;
+                this.getMessage();
+            },
         }
     }
 </script>

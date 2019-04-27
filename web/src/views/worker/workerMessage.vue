@@ -1,7 +1,9 @@
 <template>
     <div class="message">
         <h2 style="text-align: center;margin-bottom: 2rem;">发件箱</h2>
-        <el-collapse accordion v-for="(item,index) in msgData">
+        <el-collapse accordion v-for="(item,index) in msgData" :key='item._id'
+                     :title="item._id"
+                     :name="item._id">
             <el-collapse-item :title="item.msgHeader">
                 <template slot="item.msgHeader">
                     {{item.msgHeader}}
@@ -10,7 +12,7 @@
                 <div>
                     <span>{{item.msgRule}}</span>
                     <span class="date">{{item.msgTime}}
-                        <el-button @click="delMsg(index)">删除</el-button>
+                        <el-button @click="delMsg(item._id)">删除</el-button>
                     </span>
                 </div>
             </el-collapse-item>
@@ -49,7 +51,7 @@
         },
         methods:{
             getMessage(){
-                axios.get(`/api/users/msgList?size=${this.pageSize}&page=${this.currentPage}`).then(res=>{
+                axios.get(`/api/worker/msgList?size=${this.pageSize}&page=${this.currentPage}`).then(res=>{
                     this.msgData=res.data.result.msgList
                     console.log(this.pageSize)
                     for(let i =0;i<res.data.result.msgList.length;i++){
@@ -76,8 +78,8 @@
                 this.pageSize = val;
                 this.getMessage();
             },
-            delMsg(index){
-                axios.post('/api/users/deleteMsg',this.msgData[index]).then(res=>{
+            delMsg(id){
+                axios.post(`/api/worker/deleteMsg?id=${id}`).then(res=>{
                     if(res.data.status==='0'){
                         this.$message({
                             message: '删除成功!',
