@@ -146,35 +146,6 @@ router.get('/userInformation', function(req, res, next){
         }
     })
 });
-// worker获取消息列表
-router.get('/msgList', function(req, res, next){
-    let msg = {
-        currentPage : Number.parseInt(req.query.page),
-        pageSize : Number.parseInt(req.query.size)
-    }
-    Worker.find({userId: req.session.userId},function(err, doc) {
-        if (err ) {
-            res.json({
-                status: '0',
-                msg: '查找失败',
-                result: ''
-            })
-        } else {
-            let list = doc[0];
-            console.log(list.message)
-            let start = msg.pageSize * (msg.currentPage-1);
-            let msgList = list.message.slice(start,start+msg.pageSize);
-            res.json({
-                status: '0',
-                msg: '查找成功',
-                result: {
-                    msgList:msgList,
-                    total : list.message.length
-                }
-            })
-        }
-    })
-});
 // 修改联系电话
 router.get('/userInformation/changePhone', function(req,res,next){
     const Who = userGrade(req.session.userType);
@@ -335,11 +306,61 @@ router.get('/waterRecord', (req, res, next)=> {
          }
      });
  });
+// 获取消息列表
+router.get('/msgList',function(req,res,next){
+    let msg = {
+        currentPage : Number.parseInt(req.query.page),
+        pageSize : Number.parseInt(req.query.size)
+    }
+    User.find({userId: req.session.userId},(err,doc)=>{
+        if(err){
+            res.json({
+                status:"1",
+                msg:'很抱歉，获取消息列表失败！',
+                result : ''
+            }) ;
+        }else{
+            let list = doc[0].message;
+            let start = msg.pageSize * (msg.currentPage-1);
+            let msgList = list.slice(start,start+msg.pageSize);
+            res.json({
+                status:"0",
+                msg:'恭喜你，获取消息列表成功！',
+                result : {
+                    msgList:msgList,
+                    total : list.length
+                }
+            }) ;
+        }
+    })
+})
+// user消息已读
+router.get('/readMsg',(req,res,next)=>{
+    let param={
+        userId:req.body.userId,
+        message:{_id:req.query.id}
+    }
+    User.updateOne({
+        userId:req.session.userId,
+        "message._id":req.query.id},{"message.$.isRead":true},(err,doc)=>{
+        if(err){
+            res.json({
+                status:"1",
+                msg:'失败！',
+                result : ''
+            }) ;
+        }else{
+            res.json({
+                status:"0",
+                msg:'成功！',
+                result : ''
+            }) ;
+        }
+    })
+})
 // 删除消息
-router.post('/deleteSug',function(req,res,next){
-    const Who = userGrade(req.session.userType);
-    console.log('22',req.body)
-    Who.update({userId:req.session.userId},{'$pull':{message:{msgHeader:req.body.msgHeader,msgCount:req.body.msgCount}}},(err,doc)=>{
+router.post('/deleteMsg',function(req,res,next){
+    User.update({userId:req.session.userId},{'$pull':{message:{msgHeader:req.body.msgHeader,msgCount:req.body.msgCount}}},(err,doc)=>{
         console.log(doc)
         if(err){
             errTip(res);
@@ -352,7 +373,7 @@ router.post('/deleteSug',function(req,res,next){
         }
     })
 })
-// 提出建议
+// 提出建议// 在建议表存储
 router.post('/addSuggest',function(req,res,next){
     let sug
     if (req.body.delivery){
@@ -373,6 +394,7 @@ router.post('/addSuggest',function(req,res,next){
         })
     }
     console.log(sug)
+    // 在建议表存储
     sug.save((err,doc)=>{
         if(err){
             res.json({
@@ -389,14 +411,51 @@ router.post('/addSuggest',function(req,res,next){
         }
     })
 })
+// 提出建议// 在学生表存储
+router.post('/addUserSuggest',function(req,res,next){
+    let userSug
+    if (req.body.delivery){
+        userSug={
+            suggestText: req.body.suggestText,
+            suggestTime: req.body.suggestTime,
+            author: '匿名用户',
+            userId: req.session.userId,
+            isRead: false
+        }
+    }else{
+        userSug={
+            suggestText:req.body.suggestText,
+            suggestTime:req.body.suggestTime,
+            author:req.session.userName,
+            userId:req.session.userId,
+            isRead:false
+        }
+    }
+    User.updateOne({userId: req.session.userId},{'$push':{suggest:{
+                suggestText:userSug.suggestText,
+                suggestTime:userSug.suggestTime,
+                author:userSug.author,
+                userId:userSug.userId,
+                isRead:userSug.isRead
+            }}},function(err, doc){
+        if (err) {
+            console.log(err);
+        } else {
+            res.json({
+                status: "0",
+                msg: '发布成功',
+                result: ''
+            })
+        }
+    })
+})
 // 获取建议列表
-router.get('/messageList',function(req,res,next){
-    let msg = {
+router.get('/sugList',function(req,res,next){
+    let sug = {
         currentPage : Number.parseInt(req.query.page),
         pageSize : Number.parseInt(req.query.size)
     }
-    Sug.find({userId:req.session.userId},(err,doc)=>{
-        console.log('msg',doc)
+    User.find({userId: req.session.userId},(err,doc)=>{
         if(err){
             res.json({
                 status:"1",
@@ -404,19 +463,32 @@ router.get('/messageList',function(req,res,next){
                 result : ''
             }) ;
         }else{
-            let list = doc;
-            let start = msg.pageSize * (msg.currentPage-1);
-            let msgList = list.slice(start,start+msg.pageSize);
-            console.log(start)
-            console.log(msgList)
+            let list = doc[0].suggest;
+            let start = sug.pageSize * (sug.currentPage-1);
+            let sugList = list.slice(start,start+sug.pageSize);
             res.json({
                 status:"0",
                 msg:'恭喜你，获取建议列表成功！',
                 result : {
-                    msgList:list,
+                    msgList:sugList,
                     total : list.length
                 }
             }) ;
+        }
+    })
+})
+// 删除我的建议
+router.post('/deleteUserSug',function(req,res,next){
+    const Who = userGrade(req.session.userType);
+    Who.update({userId:req.session.userId},{'$pull':{suggest:{_id:req.query.id}}},(err,doc)=>{
+        if(err){
+            errTip(res);
+        }else{
+            res.json({
+                status:"0",
+                msg:'删除成功',
+                result:''
+            })
         }
     })
 })

@@ -8,4 +8,4 @@ var messageSchema = new mongoose.Schema({
     'userId':Number
 })
 
-module.exports = mongoose.model('message', messageSchema);
+module.exports = mongoose.model('suggest', messageSchema);

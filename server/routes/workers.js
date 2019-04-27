@@ -8,6 +8,7 @@ let Department = require('../models/department');
 let Room = require('../models/room');
 let Fee = require('../models/fee');
 let Sug = require('../models/suggest');
+let Msg = require('../models/message');
 let WaterRecord = require('../models/waterRecord');
 function errTip(res,errmsg=err.message){
     res.json({
@@ -69,7 +70,6 @@ router.post('/getWaterRecord',function(req,res,next){
     }
     console.log(water)
     WaterRecord.find(water,function(err,doc){
-        console.log(doc)
         if(err){
             errTip(res);
         }else{
@@ -88,81 +88,6 @@ router.post('/getWaterRecord',function(req,res,next){
                     total : record.length
                 }
             });
-        }
-    })
-})
-//发布消息
-router.post('/addMessage',function(req,res,next){
-    let message = {
-        header: req.body.msgHeader,
-        count:req.body.msgCount,
-        msgTime: req.body.msgTime,
-        msgRule:req.body.msgRule,
-        msgRoom:req.body.msgRoom,
-        msgDepartment:req.body.msgDepartment
-    }
-    console.log(req.body)
-    Worker.update({userId:req.session.userId},
-        {'$push':{message:{
-                    msgHeader:message.header,
-                    msgCount:message.header,
-                    msgTime: message.msgTime,
-                    msgDepartment:message.msgDepartment,
-                    msgRoom:message.msgRoom,
-                    msgRule:message.msgRule,
-                    isRead:false
-                }}},(err,doc)=>{
-        if(err){
-            return errTip(res);
-        }else{
-            res.json({
-                status:"0",
-                msg:'发布成功',
-                result : ''
-            }) ;
-        }
-    })
-})
-router.post('/addUserMessage',function(req,res,next){
-    let message = {
-        header: req.body.msgHeader,
-        count:req.body.msgCount,
-        msgTime: req.body.msgTime,
-        msgRule:req.body.msgRule,
-        msgRoom:req.body.msgRoom,
-        msgDepartment:req.body.msgDepartment
-    }
-    console.log(req.body)
-    let param;
-    if(req.body.msgRule===1){
-        if(req.body.room){
-            if(req.body.msgDepartment){
-                param={
-                    roomName:req.body.msgRoom,
-                    departmentName:req.body.msgDepartment
-                }
-            }else{
-                param={
-                    room:req.body.room
-                }
-            }
-        }
-    }else{
-        param={}
-    }
-    User.update(param,{'$push':{message:{
-                msgHeader:message.header,
-                msgCount:message.header,
-                msgTime: message.msgTime,
-                isRead:false}}},(err,doc)=>{
-        if(err){
-            return errTip(res);
-        }else{
-            res.json({
-                status:"0",
-                msg:'发布成功',
-                result : ''
-            })
         }
     })
 })
@@ -213,8 +138,141 @@ router.post('/addPayment',function(req,res,next){
         }
     })
 })
+//发布消息//存储在消息表
+router.post('/addMessage',function(req,res,next){
+    let message = new Msg({
+        msgHeader: req.body.msgHeader,
+        msgCount:req.body.msgCount,
+        msgTime: req.body.msgTime,
+        msgRule:req.body.msgRule,
+        msgRoom:req.body.msgRoom,
+        msgDepartment:req.body.msgDepartment
+    })
+    message.save((err,doc)=>{
+        if(err){
+            res.json({
+                status:"1",
+                msg:'很抱歉，发布失败！',
+                result : ''
+            }) ;
+        }else{
+            res.json({
+                status:"0",
+                msg:'恭喜你，发布成功！',
+                result : ''
+            }) ;
+        }
+    })
+})
+//发布消息//存储在user表
+router.post('/addUserMessage',function(req,res,next){
+    let message ={
+        header: req.body.msgHeader,
+        count:req.body.msgCount,
+        msgTime: req.body.msgTime,
+        msgRule:req.body.msgRule,
+        msgRoom:req.body.msgRoom,
+        msgDepartment:req.body.msgDepartment
+    }
+    let param
+    console.log(req.body.msgRule)
+    if(req.body.msgRule === 0){
+        param={}
+        console.log(param)
+    }else{
+        if(req.body.room!==''&&req.body.department===''){
+            param={
+                roomName:req.body.msgRoom
+            }
+        }else if(req.body.department!==''&&req.body.room===''){
+            param={
+                departmentName:req.body.msgDepartment
+            }
+        }else if(req.body.department!==''&&req.body.room!==''){
+            param={
+                roomName:req.body.msgRoom,
+                departmentName:req.body.msgDepartment
+            }
+        }else{
+            param={}
+            console.log(111)
+        }
+    }
+    console.log(param)
+    User.updateOne(param,
+        {'$push':{message:{
+                    msgHeader:message.header,
+                    msgCount:message.header,
+                    msgTime: message.msgTime,
+                    msgDepartment:message.msgDepartment,
+                    msgRoom:message.msgRoom,
+                    msgRule:message.msgRule,
+                    isRead:false
+                }}},(err,doc)=>{
+            if(err){
+                res.json({
+                    status:"1",
+                    msg:'很抱歉，发布失败！',
+                    result : ''
+                }) ;
+            }else{
+                res.json({
+                    status:"0",
+                    msg:'发布成功',
+                    result : ''
+                }) ;
+            }
+        })
+})
+// worker获取消息列表
+router.get('/msgList', function(req, res, next){
+    let msg = {
+        currentPage : Number.parseInt(req.query.page),
+        pageSize : Number.parseInt(req.query.size)
+    }
+    Msg.find({},function(err, doc) {
+        if (err ) {
+            res.json({
+                status: '0',
+                msg: '查找失败',
+                result: ''
+            })
+        } else {
+            let list = doc;
+            let start = msg.pageSize * (msg.currentPage-1);
+            let msgList = list.slice(start,start+msg.pageSize);
+            res.json({
+                status: '0',
+                msg: '查找成功',
+                result: {
+                    msgList:msgList,
+                    total : list.length
+                }
+            })
+        }
+    })
+});
+// 删除消息（发件箱）
+router.post('/deleteMsg',function(req,res,next){
+    Msg.deleteOne({_id:req.query.id},(err,doc)=>{
+        console.log(doc)
+        if(err){
+            console.log(res);
+        }else{
+            if(doc.deletedCount){ //修改数量不为0
+                res.json({
+                    status:"0",
+                    msg:'恭喜你，删除成功！',
+                    result:''
+                })
+            }else{
+                errTip(res,'删除失败,请重试!');
+            }
+        }
+    })
+})
 // 获取建议列表
-router.get('/messageList',function(req,res,next){
+router.get('/suggestList',function(req,res,next){
     let msg = {
         currentPage : Number.parseInt(req.query.page),
         pageSize : Number.parseInt(req.query.size)
@@ -241,13 +299,13 @@ router.get('/messageList',function(req,res,next){
         }
     })
 })
-// 删除建议
+// 删除建议（收件箱）
 router.post('/deleteMessage',(req,res,next)=>{
     console.log(req.query)
-    Sug.remove({_id:req.query.id},(err,doc)=>{
+    Sug.deleteOne({_id:req.query.id},(err,doc)=>{
         console.log(doc)
         if(err){
-            errTip(res);
+            console.log(res);
         }else{
             if(doc.deletedCount){ //修改数量不为0
                 res.json({

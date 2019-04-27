@@ -23,6 +23,13 @@ var userSchema = new mongoose.Schema({
         "msgRoom":String,
         "msgRule":Number,
         "isRead":Boolean,
+    }],
+    "suggest":[{
+        "suggestText" : String,
+        "suggestTime" : String,
+        "author" : String,
+        "userId" : Number,
+        "isRead" : Boolean,
     }]
 });
 
