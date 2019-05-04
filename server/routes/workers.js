@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
-let Excel = require('node-excel-export')
+let Excel = require('exceljs')
+let fs = require('fs')
 let app = express()
 let Worker = require('../models/worker');
 let User = require('../models/user');
@@ -340,66 +341,35 @@ router.get('/readSuggest',(req,res,next)=>{
 })
 //excel
 router.post('/excel', function (req, res, next) {
-    const styles = {
-        header: {
-            font: {
-                sz: 18,
-                bold: true,
-            }
-        },
-        headerTitle: {
-            font: {
-                sz: 12,
-                bold: true,
-            }
-        },
-    };
-    // 标题
-    const heading = [
-        [{value:'report标题', style: styles.header}],
-    ];
-    // 合并
-    const merges = [
-        { start: { row: 1, column: 1 }, end: { row: 1, column: 3 } },
-    ]
-    // 列结构
-    const specification = {
-        school: {
-            displayName: '学校',
-            headerStyle: styles.headerTitle,
-            width: 100,
-        },
-        academe: {
-            displayName: '院系',
-            headerStyle: styles.headerTitle,
-            width: 160
-        },
-        grade: {
-            displayName: '年级',
-            headerStyle: styles.headerTitle,
-            width: 80
-        },
+    res.set('Content-Type','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    res.setHeader("Content-Disposition","attachment;filename=2017.12.26.xlsx")
+    res.set('Set-Cookie', 'fileDownload=true; path=/')
+    let excelData = req.body
+    let options = {
+        stream: res,
+        useStyles: true,
+        useSharedStrings: true
     }
-    // 数据
-    var  dataset = [{
-        school: "a",
-        academe: "b",
-        grade: "c",
 
-    }]
-    //生成excel文件的二进制流
-    const report = Excel.buildExport(
-        [
-            {
-                name: 'report',
-                heading: heading,
-                merges: merges,
-                specification: specification,
-                data: dataset
-            }
-        ]
-    );
-    res.attachment('report.xlsx');
-    res.end(report);
+    let start_time = Date.now();
+    let workbook = new Excel.stream.xlsx.WorkbookWriter(options);
+    let worksheet = workbook.addWorksheet('Sheet');
+    worksheet.columns = [
+        { header: '宿舍', key: 'roomName' },
+        { header: '学院', key: 'departmentName' },
+        { header: '交易时间', key: 'waterTime' },
+    ];
+
+    for (let i = 0; i < excelData.length; i ++) {
+        worksheet.addRow(excelData[i]).commit();
+    }
+    // worksheet.commit()
+    workbook.commit()
+        .then(function() {
+            // the stream has been written
+            let end_time = new Date();
+            let duration = end_time - start_time;
+            console.log("创建excel程序执行完毕，用时：", duration);
+        });
 })
 module.exports = router;

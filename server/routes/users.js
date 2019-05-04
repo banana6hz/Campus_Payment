@@ -154,7 +154,7 @@ router.get('/userInformation/changePhone', function(req,res,next){
     console.log('userId',req.session.userId)
     Who.update({userId:req.session.userId},{userPhone:phone},{new: true},(err,doc)=>{
             if(err){
-                errTip(res);
+                console.log(res);
             }else{
                 res.json({
                     status:"0",
@@ -185,7 +185,7 @@ router.get('/userInformation/changeAddress',function(req, res, next){
     console.log('newAddress',newAddress);
     Who.update({userId:req.session.userId},{$set:{address:newAddress}},(err,doc)=>{
         if(err){
-            errTip(res);
+            console.log(res)
         }else{
             res.json({
                 status:"0",
@@ -209,7 +209,7 @@ router.post('/changePassword',function(req,res,next){
     const passWord = AES.utils.utf8.fromBytes(decryptedBytes);
     Who.findOne({userId:req.session.userId, pwd:param.oldPassword},(err,doc)=>{
         if(err){
-            return errTip(res);
+            console.log(res)
         }
         if(!doc){
             return errTip(res,'账号不存在,或原密码不正确!');
@@ -232,7 +232,7 @@ router.post('/changePassword',function(req,res,next){
 router.get('/getFees',function(req,res,nest){
     Fee.find(function(err,doc){
         if(err){
-            errTip(err)
+            console.log(res)
             res.json({
                 status:"1",
                 msg:"获取详情失败！",
@@ -259,14 +259,14 @@ router.post('/addInformation',function(req,res,next){
       }
     Who.findOne({userId:req.session.userId},(err,doc)=>{
         if(err){
-        errTip(res);
+        console.log(res)
         }else{
             console.log('111', param)
             Object.assign(doc, param);
             doc.save((err1,doc1)=>{
                 console.log(err1)
                 if(err1){
-                errTip(res);
+                    console.log(res)
                 }else{
                 res.json({
                     status:"0",
@@ -286,7 +286,7 @@ router.get('/waterRecord', (req, res, next)=> {
      }
     User.findOne({userId:req.session.userId},(err,doc)=>{
          if(err){
-           errTip(res);
+             console.log(res)
          }else{
              if(!doc){
                errTip(res,'用户不存在!');
@@ -363,7 +363,7 @@ router.post('/deleteMsg',function(req,res,next){
     User.update({userId:req.session.userId},{'$pull':{message:{msgHeader:req.body.msgHeader,msgCount:req.body.msgCount}}},(err,doc)=>{
         console.log(doc)
         if(err){
-            errTip(res);
+            console.log(res)
         }else{
             res.json({
                 status:"0",
@@ -480,9 +480,10 @@ router.get('/sugList',function(req,res,next){
 // 删除我的建议
 router.post('/deleteUserSug',function(req,res,next){
     const Who = userGrade(req.session.userType);
+    console.log('1',req.query.id)
     Who.update({userId:req.session.userId},{'$pull':{suggest:{_id:req.query.id}}},(err,doc)=>{
         if(err){
-            errTip(res);
+            console.log('?')
         }else{
             res.json({
                 status:"0",
