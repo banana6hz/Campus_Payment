@@ -19,7 +19,7 @@
                     </el-col>
                     <el-col :sm="7" :md="7">
                         <el-button class="btn-color" @click="search()">查询</el-button>
-                        <el-button class="btn-color" @click="reChooseFn('baseData')">重置</el-button>
+                        <el-button class="btn-color" @click="reChooseFn()">重置</el-button>
                     </el-col>
                 </el-row>
             </el-form>
@@ -117,6 +117,12 @@
             sizeChange(val) {
                 this.pageSize=val;
                 this.getWaterRecord()
+            },
+            reChooseFn () {
+                this.value7 = ''
+                /*console.log(this.baseData)
+                this.$refs[formName].resetFields()
+                this.getWaterRecord()*/
             },
             // 获取水费记录
             getWaterRecord(){

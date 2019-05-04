@@ -47,14 +47,14 @@
                         article:`查询`,
                         path:'/workerSearch',
                     },
-                    {id:2,title:'消息中心',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
-                        article:`消息中心`,path:'/message'
-                    },
-                    {id:3,title:'费用管理',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
+                    {id:2,title:'费用管理',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
                         article:`费用管理`,path:'/changePayment'
                     },
-                    {id:4,title:'查看费用',imgSrc:require('../../../static/img/home-news-pic4.jpg'),
+                    {id:3,title:'查看费用',imgSrc:require('../../../static/img/home-news-pic4.jpg'),
                         article:`查看费用`,path:'/waiting'
+                    },
+                    {id:4,title:'消息中心',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
+                        article:`消息中心`,path:'/message'
                     }
                 ]
             }

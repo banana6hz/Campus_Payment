@@ -13,6 +13,7 @@
             <el-form-item label="交易方式">
                 <el-checkbox-group v-model="form.type">
                     <el-checkbox label="支付宝" name="type"></el-checkbox>
+                    <el-checkbox label="微信" name="type"></el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="缴费金额">

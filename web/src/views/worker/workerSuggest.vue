@@ -68,9 +68,9 @@
                     if(res.status==='0'){
                         this.userMessage = res.result.msgList;
                         this.total = Number.parseInt(res.result.total);
-                        if(this.total <= this.pageSize){
+                        /*if(this.total <= this.pageSize){
                             this.showPagination = false
-                        }
+                        }*/
                         let notReadMsg= this.userMessage.filter(it=>!it.isRead);
                         // 红点点
                         if(!notReadMsg.length){

@@ -15,9 +15,9 @@
                     src: require('../../assets/img/waterCard.png'),
                     alt: '热水卡'
                 },{
-                    title: '可用吨数',
+                    title: '可用立方数',
                     test: 222,
-                    unit: '吨',
+                    unit: '立方',
                     src: require('../../assets/img/water.png'),
                     alt: '热水'
                 }]

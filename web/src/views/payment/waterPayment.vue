@@ -49,7 +49,8 @@
         methods: {
             onSubmit() {
                 console.log('aa', this.form);
-                axios.post('/api/users/payWater', this.form).then(res=>{
+                axios.post('/api/users/payWater',this.form).then(res=>{
+
                     if(res.data.status === '0'){
                         this.$router.push({path: '/checkPayment'})
                         this.$message({
@@ -57,13 +58,27 @@
                             type: 'success'
                         });
                     }else{
-                        console.log(res.data.status)
                         this.$message({
                             message: res.data.msg,
                             type: 'error'
                         });
                     }
                 })
+                /*axios.get('/api/pay',this.form).then(res=>{
+
+                    if(res.data.status === '0'){
+                        /!*this.$router.push({path: '/checkPayment'})*!/
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                    }else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                    }
+                })*/
             },
             cancel(){
                 this.$router.push('/homePage')

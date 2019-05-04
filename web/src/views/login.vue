@@ -90,7 +90,7 @@
            @click="handleShowAccount"
            v-if="showTips">
         <div class="crile-tip">
-          <p class="tips">测试账号</p>
+          <p class="tips">温馨提示</p>
         </div>
       </div>
     </transition>
@@ -157,7 +157,13 @@
       },
       handleShowAccount(){
         this.$notify({
-          message : '普通用户: 15279778477 </br> 工作人员: 15279778478 </br> 密码都是: 814233583 </br>请不要更改密码,非常感谢!',
+          message : '【学生用户】 ' +
+                  '</br>&nbsp&nbsp账号：学号 ' +
+                  '</br>&nbsp&nbsp初始密码：学号后6位 ' +
+                  '</br>【工作人员】 ' +
+                  '</br>&nbsp&nbsp账号：手机号 ' +
+                  '</br>&nbsp&nbsp初始密码：手机号后6位' +
+                  '</br>&nbsp&nbsp登录后请及时修改密码！',
           dangerouslyUseHTMLString : true,
           showClose : true,
           type : "success",

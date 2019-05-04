@@ -72,6 +72,7 @@
                 })
             },
             delUserSug(id){
+                console.log(id)
                 axios.post(`/api/users/deleteUserSug?id=${id}`).then(res=>{
                     if(res.data.status==='0'){
                         this.$message({
@@ -109,7 +110,7 @@
             position: relative;
             left:5px;
             padding:4px;
-            font-size:2px
+            font-size:12px;
         }
         .el-collapse{
             border:1px solid #EBEEF5;

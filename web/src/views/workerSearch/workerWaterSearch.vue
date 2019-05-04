@@ -196,7 +196,7 @@
                             type:"error"
                         })
                     }
-                    console.log('?',res)
+                    console.log('?',this.tableData)
                 })
             },
             search(){
@@ -227,11 +227,10 @@
 
             },
             Excel() {
-                axios.post('/api/worker/excel',{ responseType: 'blob' }).then((res)=>{
-                    console.log(res)
-                    let blob = new Blob([res],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,charset=utf-8'})
+                axios.post('/api/worker/excel',this.tableData,{ responseType: 'blob'}).then((res)=>{
+                    //let blob = new Blob([res.data],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,charset=utf-8'})
                     let a = document.createElement('a');
-                    let href = window.URL.createObjectURL(blob); // 创建链接对象
+                    let href = window.URL.createObjectURL(new Blob([res.data])); // 创建链接对象
                     a.href = href;
                     a.download = '热水表.xlsx';   // 自定义文件名
                     document.body.appendChild(a);

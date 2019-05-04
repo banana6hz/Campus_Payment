@@ -106,15 +106,9 @@ export default {
             })
             axios.post('/api/users/addUserSuggest',this.sugcontForm).then((res)=>{
                 if(res.data.status==='0'){
-                    this.$message({
-                        message:res.data.msg,
-                        type:'success'
-                    })
+                    console.log('提交成功')
                 }else{
-                    this.$message({
-                        message:res.data.msg,
-                        type:'error'
-                    })
+                    console.log('提交失败')
                 }
             })
         },

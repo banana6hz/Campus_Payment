@@ -34,7 +34,7 @@
         .imgBox {
             box-sizing: border-box;
             border: 1px solid #77aca4;
-            width: 39%;
+            width: 43%;
             margin: 0 2rem;
             height: 12em;
             float: left;

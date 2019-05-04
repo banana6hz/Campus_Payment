@@ -2,10 +2,10 @@
     <div class="paymentForm">
         <h2 style="text-align: center;line-height:5rem;">信息发布</h2>
         <el-form :model="baseData" ref="baseData" label-width="80px">
-            <el-form-item label="标题">
+            <el-form-item label="标题" class="form-margin">
                 <el-input type="test" v-model="baseData.msgHeader"></el-input>
             </el-form-item>
-            <el-form-item label="内容">
+            <el-form-item label="内容" class="form-margin">
                 <el-input type="textarea" :rows="10" v-model="baseData.msgCount"></el-input>
             </el-form-item>
             <el-form-item label="接收人">
@@ -210,6 +210,9 @@
         width:80%;
         margin:0 auto;
         text-align: left;
+    }
+    .form-margin{
+        margin-bottom:2rem;
     }
 </style>
 <style lang="scss">

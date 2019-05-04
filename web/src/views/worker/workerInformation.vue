@@ -47,17 +47,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="userinfo-cont-right">
+                    <!--<div class="userinfo-cont-right">
                         <template v-if='userInformation.grade==1'>
                             <h4 class="title" >账号余额</h4>
                             <span class="balance">{{userInformation.balance | priceInit}}</span>
                         </template>
                         <template v-else>
-                            <h4 class="title">综合评价</h4>
+                            <h4 class="title">累计登陆</h4>
                             <span class="orderNum">{{userInformation.orderNum }} 分</span>
                         </template>
                         <i class="line"></i>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="changePhone">
