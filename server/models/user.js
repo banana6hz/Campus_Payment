@@ -8,7 +8,12 @@ var userSchema = new mongoose.Schema({
     "userName": String,
     "userPhone": String,
     "address": String,
-    "waterRecord": Array,
+    "waterRecord": [{
+        'paymentTime':String,
+        'createTime': String,
+        'payment': String,
+        'paymentMethod': String
+    }],
     "roomId":Number,
     "roomName":String,
     "departmentId":Number,

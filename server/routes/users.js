@@ -306,6 +306,10 @@ router.get('/waterRecord', (req, res, next)=> {
          }
      });
  });
+//按日期查找水费记录
+router.post('/dateWater',(req,res,next)=>{
+
+});
 // 获取消息列表
 router.get('/msgList',function(req,res,next){
     let msg = {
@@ -504,6 +508,23 @@ router.post('/payWater',(req,res,next)=>{
         console.log(req.body)
     }
     let money= req.body.payment;
+    User.update({userId:req.session.userId},{'$push':{waterRecord:{
+            paymentTime:req.body.paymentTime,
+            createTime:req.body.createTime,
+            payment:req.body.payment,
+            paymentMethod:req.body.type[0]
+            }}},(err,doc)=>{
+        if(err){
+            console.log('payWater',err)
+        }else{
+            console.log('payWater','success')
+            /*res.json({
+                status: "0",
+                msg: '',
+                result: ''
+            })*/
+        }
+    })
     if(money){
         res.json({
             status:"0",
