@@ -60,10 +60,11 @@
                 recordData: [],
                 tableLabel: [
                 {label:'序号', param: 'index',width:'10%'},
-                {label:'交易时间', param:'paymentTime',width:'24%'},
+                {label:'交易时间', param:'paymentTime',width:'20%'},
+                {label:'交易方式', param:'paymentMethod',width:'15%'},
                 {label:'剩余金额（元）', param: 'restMoney',width:'20%'},
                 {label:'剩余吨数(吨）', param: 'restTun',width:'20%'},
-                {label:'充值金额（元）', param: 'money',width:'20%'},
+                {label:'充值金额（元）', param: 'payment',width:'20%'},
                 {label:'充值吨数(吨）', param: 'buyTun',width:'20%'},
                 {label:'余额（元）', param: 'restMoney',width:'20%'},
                 {label:'可用吨数(吨）', param: 'tun',width:'20%'}],
@@ -117,6 +118,13 @@
             sizeChange(val) {
                 this.pageSize=val;
                 this.getWaterRecord()
+            },
+            // 查找
+            search(){
+                let beginTime = new Date(this.value7[0]).getTime() / 1000
+                let endTime = new Date(this.value7[1]).getTime() / 1000
+                console.log(beginTime)
+                console.log(endTime)
             },
             reChooseFn () {
                 this.value7 = ''

@@ -42,15 +42,42 @@
                 form: {
                     type: [],
                     payment: 0,
-                    note: ''
-                }
+                    note: '',
+                    createTime:'',
+                    paymentTime:'',
+                    buyTun:0
+                },
+                totalTime: 120
             }
         },
         methods: {
+            CurrentTime() {
+                let now = new Date();
+                let year = now.getFullYear();       //年
+                let month = now.getMonth() + 1;     //月
+                let day = now.getDate();            //日
+                let hh = now.getHours();            //时
+                let mm = now.getMinutes();          //分
+                let ss = now.getSeconds();           //秒
+                this.form.paymentTime = year + "-";
+                if(month < 10){
+                    this.form.paymentTime += "0";
+                    this.form.paymentTime += month + "-";
+                }else{
+                    this.form.paymentTime += month + "-";
+                }
+                if(day < 10){
+                    this.form.paymentTime += "0";
+                    this.form.paymentTime += day;
+                }else{
+                    this.form.paymentTime += day;
+                }
+            },
             onSubmit() {
+                this.CurrentTime()
+                this.form.createTime = Math.round(new Date()/1000);
                 console.log('aa', this.form);
                 axios.post('/api/users/payWater',this.form).then(res=>{
-
                     if(res.data.status === '0'){
                         this.$router.push({path: '/checkPayment'})
                         this.$message({
