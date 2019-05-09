@@ -20,6 +20,7 @@ Date.prototype.format = function (fmt) {
     if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
     for (var k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    console.log(fmt)
     return fmt;
 }
 
@@ -60,9 +61,10 @@ utl.encodeParams = function (params) {
         var v = params[k];
         if (params[k] !== undefined && params[k] !== "") keys.push(k);
     }
-    keys.sort();   
+    keys.sort();
+
     var unencodeStr = "";
-    var encodeStr = "";   
+    var encodeStr = "";
     var len = keys.length;
     for(var i = 0; i < len; ++i) {
         var k = keys[i];
@@ -72,7 +74,7 @@ utl.encodeParams = function (params) {
         }
         unencodeStr += k + '=' + params[k];
         encodeStr += k + '=' + encodeURIComponent(params[k]);
-    }  
+    }
     return {unencode:unencodeStr, encode:encodeStr};
 };
 
@@ -111,6 +113,7 @@ utl.sign = function (str, privateKey, signType) {
         sha = crypto.createSign('RSA-SHA1');
     }
     sha.update(str, 'utf8');
+    // console.log(sha.sign(privateKey, 'base64'))
     return sha.sign(privateKey, 'base64');
 }
 

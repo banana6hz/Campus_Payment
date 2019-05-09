@@ -35,8 +35,6 @@ function Alipay(opts) {
 var props = Alipay.prototype;
 
 props.makeParams = function(method, biz_content) {
-   
-
     return {
         app_id: this.appId,
         method: method,
@@ -45,7 +43,6 @@ props.makeParams = function(method, biz_content) {
         sign_type: this.signType,
         timestamp: new Date().format('yyyy-MM-dd hh:mm:ss'),
         version: '1.0',
-        return_url:biz_content.return_url,
         biz_content: JSON.stringify(biz_content)
     };
 };
@@ -90,7 +87,6 @@ props.pay = function (opts) {
     };
 
     var params = this.makeParams('alipay.trade.app.pay', biz_content);
-
     params.notify_url = this.notifyUrl;
 
     return utl.processParams(params, this.rsaPrivate, this.signType);
@@ -137,9 +133,10 @@ props.webPay = function (opts) {
         return_url: opts.return_url
     };
 
-    var params = this.makeParams('alipay.trade.page.pay', biz_content);     
+    var params = this.makeParams('alipay.trade.page.pay', biz_content);
     params.notify_url = this.notifyUrl;
- 
+
+    console.log("hhhh")
     return utl.processParams(params, this.rsaPrivate, this.signType);
 };
 
@@ -171,13 +168,28 @@ props.query = function (opts) {
         trade_no: opts.tradeId
     };
 
+    var fmt = ''
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    
+
     var params = {
         app_id: this.appId,
         method: 'alipay.trade.query',
         format: 'JSON',
         charset: 'utf-8',
         sign_type: this.signType,
-        timestamp: new Date().format('yyyy-MM-dd hh:mm:ss'),
+        timestamp: fmt,
         version: '1.0',
         app_auth_token: opts.appAuthToken,
         biz_content: JSON.stringify(biz_content)
@@ -325,3 +337,4 @@ props.billDownloadUrlQuery = function (opts) {
         url: (this.sandbox? alipay_gate_way_sandbox : alipay_gate_way) + '?' + body
     });
 };
+
