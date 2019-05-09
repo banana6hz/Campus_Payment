@@ -17,7 +17,7 @@
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="缴费金额">
-                <el-radio-group v-model="form.payment">
+                <el-radio-group v-model="form.amount">
                     <el-radio label="20"></el-radio>
                     <el-radio label="50"></el-radio>
                     <el-radio label="80"></el-radio>
@@ -40,8 +40,11 @@
         data() {
             return {
                 form: {
+                    subject: '热水支付',// 订单标题
+                    body: '订单描述',// 订单描述
+                    outTradeId: '20150320010101007',// 订单号
+                    amount: 0.1,// 金额
                     type: [],
-                    payment: 0,
                     note: '',
                     createTime:'',
                     paymentTime:'',
@@ -77,19 +80,22 @@
                 this.CurrentTime()
                 this.form.createTime = Math.round(new Date()/1000);
                 console.log('aa', this.form);
-                axios.post('/api/users/payWater',this.form).then(res=>{
-                    if(res.data.status === '0'){
-                        this.$router.push({path: '/checkPayment'})
-                        this.$message({
-                            message: res.data.msg,
-                            type: 'success'
-                        });
-                    }else{
-                        this.$message({
-                            message: res.data.msg,
-                            type: 'error'
-                        });
-                    }
+                let winHandler = window.open('', '_blank')
+                axios.post('/api/pay',this.form).then(res=>{
+                    console.log('back',res.data.result)
+                    winHandler.location.href = res.data.result
+                    // if(res.data.status === '0'){
+                    //     this.$router.push({path: '/checkPayment'})
+                    //     this.$message({
+                    //         message: res.data.msg,
+                    //         type: 'success'
+                    //     });
+                    // }else{
+                    //     this.$message({
+                    //         message: res.data.msg,
+                    //         type: 'error'
+                    //     });
+                    // }
                 })
                 /*axios.get('/api/pay',this.form).then(res=>{
 
