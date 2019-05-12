@@ -42,7 +42,7 @@
                 form: {
                     subject: '热水支付',// 订单标题
                     body: '订单描述',// 订单描述
-                    outTradeId: '20150320010101007',// 订单号
+                    outTradeId: '',// 订单号
                     amount: 0.1,// 金额
                     type: [],
                     note: '',
@@ -79,7 +79,7 @@
             onSubmit() {
                 this.CurrentTime()
                 this.form.createTime = Math.round(new Date()/1000);
-                console.log('aa', this.form);
+                this.form.outTradeId = this.form.createTime.toString() + Math.round(Math.random()*23 + 10000).toString();
                 let winHandler = window.open('', '_blank')
                 axios.post('/api/pay',this.form).then(res=>{
                     console.log('back',res.data.result)
