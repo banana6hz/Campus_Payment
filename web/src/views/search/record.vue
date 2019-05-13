@@ -6,7 +6,6 @@
                       border>
                 <el-table-column
                         v-for="(item,index) in tableLabel"
-                        :min-width="item.width"
                         :key="index"
                         :label="item.label"
                         :prop="item.param"

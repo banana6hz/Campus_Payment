@@ -25,7 +25,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="备注">
-                <el-input type="textarea" v-model="form.desc"></el-input>
+                <el-input type="textarea" v-model="form.body"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">立即支付</el-button>
@@ -41,11 +41,10 @@
             return {
                 form: {
                     subject: '热水支付',// 订单标题
-                    body: '订单描述',// 订单描述
+                    body: '',// 订单描述
                     outTradeId: '',// 订单号
                     amount: 0.1,// 金额
                     type: [],
-                    note: '',
                     createTime:'',
                     paymentTime:'',
                     buyTun:0
@@ -78,29 +77,12 @@
             },
             onSubmit() {
                 this.CurrentTime()
-                this.form.createTime = Math.round(new Date()/1000);
-                this.form.outTradeId = this.form.createTime.toString() + Math.round(Math.random()*23 + 10000).toString();
+                this.form.createTime = new Date();
+                this.form.outTradeId = Math.round(new Date()/1000).toString() + Math.round(Math.random()*23 + 10000).toString();
                 let winHandler = window.open('', '_blank')
-                axios.post('/api/pay',this.form).then(res=>{
-                    console.log('back',res.data.result)
-                    winHandler.location.href = res.data.result
-                    // if(res.data.status === '0'){
-                    //     this.$router.push({path: '/checkPayment'})
-                    //     this.$message({
-                    //         message: res.data.msg,
-                    //         type: 'success'
-                    //     });
-                    // }else{
-                    //     this.$message({
-                    //         message: res.data.msg,
-                    //         type: 'error'
-                    //     });
-                    // }
-                })
-                /*axios.get('/api/pay',this.form).then(res=>{
-
+                axios.post('/api/users/payWater',this.form).then(res=>{
                     if(res.data.status === '0'){
-                        /!*this.$router.push({path: '/checkPayment'})*!/
+                        this.$router.push({path: '/checkPayment', query: this.form})
                         this.$message({
                             message: res.data.msg,
                             type: 'success'
@@ -111,7 +93,24 @@
                             type: 'error'
                         });
                     }
-                })*/
+                })
+                // 支付接口
+                axios.post('/api/pay',this.form).then(res=>{
+                    console.log('back',res.data)
+                    winHandler.location.href = res.data.result
+                    if(res.data.status === '0'){
+                        this.$router.push({path: '/checkPayment', query: this.form})
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                    }else{
+                        this.$message({
+                            message: '失败',
+                            type: 'error'
+                        });
+                    }
+                })
             },
             cancel(){
                 this.$router.push('/homePage')

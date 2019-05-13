@@ -43,7 +43,6 @@
           if(res.data.status==="0"){
             this.loginState=true;
             this.$store.commit("saveUserInfo",res.data.result);
-            console.log(res.data.result.userName)
           }else{
             console.log('loginStatushome', res.data.status)
             //this.$router.push({path: '/'});

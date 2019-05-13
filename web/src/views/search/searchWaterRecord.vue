@@ -1,7 +1,7 @@
 <template>
     <div class="table-body">
         <div class="select-group-wrap">
-            <el-form :model="baseData" ref="baseData">
+            <el-form ref="baseData">
                 <el-row :gutter="10">
                     <el-col :sm="12" :md="12">
                         <el-form-item label="时间">
@@ -30,7 +30,6 @@
                       border>
                 <el-table-column
                         v-for="(item,index) in tableLabel"
-                        :min-width="item.width"
                         :key="index"
                         :label="item.label"
                         :prop="item.param"
@@ -58,16 +57,12 @@
             return {
                 pageSizes:[5,10,15],
                 recordData: [],
+                baseData:[],
                 tableLabel: [
-                {label:'序号', param: 'index',width:'10%'},
-                {label:'交易时间', param:'paymentTime',width:'20%'},
-                {label:'交易方式', param:'paymentMethod',width:'15%'},
-                {label:'剩余金额（元）', param: 'restMoney',width:'20%'},
-                {label:'剩余吨数(吨）', param: 'restTun',width:'20%'},
-                {label:'充值金额（元）', param: 'payment',width:'20%'},
-                {label:'充值吨数(吨）', param: 'buyTun',width:'20%'},
-                {label:'余额（元）', param: 'restMoney',width:'20%'},
-                {label:'可用吨数(吨）', param: 'tun',width:'20%'}],
+                {label:'订单编号', param: 'outTradeId'},
+                {label:'交易时间', param:'paymentTime'},
+                {label:'交易方式', param:'paymentMethod'},
+                {label:'充值金额（元）', param: 'payment'}],
                 total: 0,
                 currentPage: 1,
                 current: 0,
@@ -121,35 +116,50 @@
             },
             // 查找
             search(){
-                let beginTime = new Date(this.value7[0]).getTime() / 1000
-                let endTime = new Date(this.value7[1]).getTime() / 1000
-                console.log(beginTime)
-                console.log(endTime)
+                const between = {
+                    beginTime : this.value7[0],// new Date(this.value7[0]).getTime() / 1000,
+                    endTime : this.value7[1] //new Date(this.value7[1]).getTime() / 1000
+                }
+                axios.post('/api/users/waterByDate', between).then(res=>{
+                    if(res.data.status === '0'){
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                        this.recordData = res.data.result
+                    }else{
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                    }
+                })
             },
             reChooseFn () {
                 this.value7 = ''
                 /*console.log(this.baseData)
                 this.$refs[formName].resetFields()
                 this.getWaterRecord()*/
+                this.getWaterRecord()
             },
             // 获取水费记录
             getWaterRecord(){
                 this.recordData = []
                 console.log(this.currentPage)
                 axios.get(`/api/users/waterRecord?size=${this.pageSize}&page=${this.currentPage}`).then(response=>{
-                let res = response.data;
-                if(res.status==='0'){
-                    this.recordData = res.result.waterRecord;
-                    console.log(this.recordData)
-                    this.total = Number.parseInt(res.result.total);
-                    if(this.total <= this.pageSize){
-                        this.showPagination = false
+                    let res = response.data;
+                    if(res.status==='0'){
+                        this.recordData = res.result.waterRecord;
+                        console.log(this.recordData)
+                        this.total = Number.parseInt(res.result.total);
+                        if(this.total <= this.pageSize){
+                            this.showPagination = false
+                        }
+                    }else{
+                        console.log(res.msg);
                     }
-                }else{
-                    console.log(res.msg);
-                }
                 }).catch(err=>{
-                    console.log(err);
+                console.log(err);
 
                 })
             }
@@ -170,4 +180,7 @@
     .el-pagination{
         margin-top:2rem;
     }
+body .el-table th.gutter{
+    display: table-cell!important;
+}
 </style>

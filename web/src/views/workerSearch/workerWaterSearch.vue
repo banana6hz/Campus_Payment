@@ -59,11 +59,11 @@
                     style="width: 100%"
                     @selection-change="changeSelectFun"
             >
-                <el-table-column type="selection" width="40"></el-table-column>
-                <el-table-column type="index" label="序号" width="50"></el-table-column>
-                <el-table-column prop="roomName" label="宿舍" min-width="50"></el-table-column>
-                <el-table-column prop="departmentName" label="学院" min-width="50"></el-table-column>
-                <el-table-column prop="waterTime" label="交易时间" min-width="50"></el-table-column>
+                <el-table-column type="index" label="序号"></el-table-column>
+                <el-table-column prop="roomName" label="宿舍"></el-table-column>
+                <el-table-column prop="departmentName" label="学院"></el-table-column>
+                <el-table-column prop="paymentTime" label="交易时间"></el-table-column>
+                <el-table-column prop="payment" label="交易金额"></el-table-column>
                 <el-table-column
                         fixed="right"
                         label="操作"

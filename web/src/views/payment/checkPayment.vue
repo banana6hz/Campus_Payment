@@ -1,15 +1,25 @@
 <template>
     <div>
-        <h2 style="text-align: center;margin-bottom: 2rem;margin-top:4rem;">微信支付金額：50元</h2>
-        <el-form>
+        <h2 style="text-align: center;margin-bottom: 2rem;margin-top:4rem;">支付成功</h2>
+        <el-form class="payForm">
             <el-form-item>
-                <img src="../../assets/img/wxcode.png" alt="">
+                <p class="left">交易方式:</p>
+                <p class="right">{{this.$route.query.type}}</p>
             </el-form-item>
             <el-form-item>
-                <p class="tips">{{content}}</p>
+                <p class="left">订单号:</p>
+                <p class="right">{{this.$route.query.outTradeId}}</p>
             </el-form-item>
             <el-form-item>
-                <el-button class="btn-cancel" @click="onSubmit">取消</el-button>
+                <p class="left">交易时间:</p>
+                <p class="right">{{this.$route.query.paymentTime}}</p>
+            </el-form-item>
+            <el-form-item>
+                <p class="left">交易金额:</p>
+                <p class="right">{{this.$route.query.amount}}元</p>
+            </el-form-item>
+            <el-form-item>
+                <el-button class="btn-cancel" @click="back">返回主页</el-button>
             </el-form-item>
         </el-form></div>
 
@@ -18,28 +28,30 @@
     export default{
             data() {
                 return {
-                    test:'假装有二维码',
-                    content:'',
-                    totalTime: 120
+                    totalTime: 120,
+                    paymentMethod: 0,
+                    payment: 0
                 }
             },
         methods:{
-            onSubmit() {
-                this.$router.go(-1);
+            back() {
+                this.$router.push('/homePage');
             },
             countDown() {
-                let clock = window.setInterval(() => {
-                    this.totalTime--
-                    this.content = '剩余操作时间：' + this.totalTime + 's后重新发送'
-                    if (this.totalTime < 0) {     //当倒计时小于0时清除定时器
-                        window.clearInterval(clock)
-                        this.$router.go(-1)
-                    }
-                },1000)
+                // let clock = window.setInterval(() => {
+                //     this.totalTime--
+                //     this.content = '剩余操作时间：' + this.totalTime + 's后重新发送'
+                //     if (this.totalTime < 0) {     //当倒计时小于0时清除定时器
+                //         window.clearInterval(clock)
+                //         this.$router.go(-1)
+                //     }
+                // },1000)
             }
         },
         created() {
             this.countDown()
+            this.$route.query.type = this.$route.query.type[0]
+            console.log(this.$route.query)
         }
     }
 </script>
@@ -48,7 +60,22 @@
         background: #7dafa7;
         color:#fff;
     }
+    .payForm {
+        margin: 0 auto;
+        width: 500px;
+    }
     .tips{
         color:red;
+    }
+    .left{
+        float:left;
+        font-weight: bold;
+        text-align: right;
+        min-width: 40%;
+    }
+    .right {
+        float: left;
+        text-align: left;
+        padding-left: 85px;
     }
 </style>

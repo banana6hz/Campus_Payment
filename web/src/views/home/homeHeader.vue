@@ -44,7 +44,14 @@
                 userId:state=>state.user.userInfo.userId,
                 userType:state=>state.user.userInfo.userType,
                 userPhone:state=>state.user.userInfo.userPhone,
-                userName:state=>state.user.userInfo.userName
+                userName:state=>state.user.userInfo.userName,
+                departmentId:state=>state.user.userInfo.departmentId,
+                departmentName:state=>state.user.userInfo.departmentName,
+                masterName:state=>state.user.userInfo.masterName,
+                roomId:state=>state.user.userInfo.roomId,
+                roomName:state=>state.user.userInfo.roomName,
+                //roomName:state=>state.user.userInfo.roomName,
+                //roomId:state=>state.user.userInfo.roomId
                 // vuexUserName:state=>state.user.userInfo.userName,
                 // msgLen:state=>state.user.userInfo.msgLen
             }),
