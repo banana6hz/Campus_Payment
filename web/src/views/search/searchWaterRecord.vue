@@ -122,10 +122,6 @@
                 }
                 axios.post('/api/users/waterByDate', between).then(res=>{
                     if(res.data.status === '0'){
-                        this.$message({
-                            message: res.data.msg,
-                            type: 'success'
-                        });
                         this.recordData = res.data.result
                     }else{
                         this.$message({

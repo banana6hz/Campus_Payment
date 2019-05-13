@@ -30,31 +30,31 @@
                 ],
                 newsSoure:[
                     {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),
-                        article:`查询`,path:'/search'
+                        article:``,path:'/search'
                     },
                     {id:2,title:'缴费',imgSrc:require('../../../static/img/home-news-pic5.jpg'),
-                        article:`缴费`,path:'/payment'
+                        article:``,path:'/payment'
                     },
                     {id:3,title:'收费公示',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
-                        article:`收费公示`,path:'/chargeNotice'
+                        article:``,path:'/chargeNotice'
                     },
                     {id:4,title:'投诉建议',imgSrc:require('../../../static/img/home-news-pic6.jpg'),
-                        article:`投诉建议`,path:'/suggest'
+                        article:``,path:'/suggest'
                     }
                 ],
                 newsSoure1:[
                     {id:1,title:'查询',imgSrc:require('../../../static/img/home-news-pic1.jpg'),
-                        article:`查询`,
+                        article:``,
                         path:'/workerSearch',
                     },
                     {id:2,title:'费用管理',imgSrc:require('../../../static/img/home-news-pic3.jpg'),
-                        article:`费用管理`,path:'/changePayment'
+                        article:``,path:'/changePayment'
                     },
                     {id:3,title:'查看费用',imgSrc:require('../../../static/img/home-news-pic4.jpg'),
-                        article:`查看费用`,path:'/waiting'
+                        article:``,path:'/waiting'
                     },
                     {id:4,title:'消息中心',imgSrc:require('../../../static/img/home-news-pic2.jpg'),
-                        article:`消息中心`,path:'/message'
+                        article:``,path:'/message'
                     }
                 ]
             }
