@@ -118,25 +118,25 @@ router.post('/editWater',function(req,res,next){
 router.post('/addPayment',function(req,res,next){
     console.log(req.body)
     let add = new Fee({
-        feeName:req.body.feeName,
-        feeUnit:req.body.feeUnit,
-        feeNum:req.body.feeNum,
-        feeDesc: req.body.feeDesc
-    })
-    add.save((err,doc)=>{
-        if(err){
-            res.json({
-                status:"1",
-                msg:'很抱歉，添加失败！',
-                result : ''
-            }) ;
-        }else{
-            res.json({
-                status:"0",
-                msg:'恭喜你，添加成功！',
-                result : ''
-            }) ;
-        }
+            feeName:req.body.feeName,
+            feeUnit:req.body.feeUnit,
+            feeNum:req.body.feeNum,
+            feeDesc: req.body.feeDesc
+        })
+        add.save((err,doc)=>{
+            if(err){
+                res.json({
+                    status:"1",
+                    msg:'很抱歉，添加失败！',
+                    result : ''
+                }) ;
+            }else{
+                res.json({
+                    status:"0",
+                    msg:'恭喜你，添加成功！',
+                    result : ''
+                }) ;
+            }
     })
 })
 //发布消息//存储在消息表
@@ -357,7 +357,7 @@ router.post('/excel', function (req, res, next) {
     worksheet.columns = [
         { header: '宿舍', key: 'roomName' },
         { header: '学院', key: 'departmentName' },
-        { header: '交易时间', key: 'waterTime' },
+        { header: '交易时间', key: 'paymentTime' },
     ];
 
     for (let i = 0; i < excelData.length; i ++) {

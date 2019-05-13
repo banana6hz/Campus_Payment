@@ -16,7 +16,7 @@ var outTradeId = Date.now().toString();
 
 var ali = new Alipay({
   appId: '2016100100638599',
-  notify_url: 'http://127.0.0.1:3000/payment',
+  notify_url: 'http://127.0.0.1:3000/notify_url',
   rsaPrivate: path.resolve('./lib/pem/pre.pem'),
   rsaPublic: path.resolve('./lib/pem/pub.pem'),
   sandbox: true,
@@ -52,7 +52,7 @@ router.post('/pay', function(req, res, next) {
     var url_API = ('https://openapi.alipaydev.com/gateway.do?'+ urlparm)
     res.json({
       status: "0",
-      msg: '',
+      msg: '成功！',
       result: url_API
     })
 });

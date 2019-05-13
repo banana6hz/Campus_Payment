@@ -5,7 +5,14 @@ var waterSchema = new mongoose.Schema({
     "roomName" : String,
     "departmentId" : Number,
     "departmentName" : String,
-    "waterTime":String
+    "waterTime":String,
+    'paymentTime':String,
+    'createTime': String,
+    'payment': String,
+    'paymentMethod': String,
+    'paymentBody': String,
+    'outTradeId': String,
+    'userId': Number
 })
 
 module.exports = mongoose.model('water', waterSchema);
