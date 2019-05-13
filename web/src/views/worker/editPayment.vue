@@ -3,7 +3,7 @@
         <h2 style="text-align: center;margin-bottom: 2rem;">费用修改</h2>
         <el-form ref="form" :model="form" label-width="80px">
             <el-form-item label="费用名称">
-                <p>{{form.feeName}}</p>
+                <p style="font-weight: bold">{{form.feeName}}</p>
             </el-form-item>
             <el-form-item label="费用单位">
                 <el-input v-model="form.feeUnit"></el-input>
@@ -28,8 +28,8 @@
             return {
                 form: {
                     feeNum:null,
-                    feeId:1,
-                    feeName: '修改热水费用',
+                    feeId:0,
+                    feeName: '热水费用',
                     desc: '',
                     feeUnit:''
                 }
@@ -65,6 +65,9 @@
         text-algin:left;
         .el-form{
             text-align: left;
+            .el-input{
+                margin-top: 5px;
+            }
         }
         .btn-color{
             background:#7dafa7;
