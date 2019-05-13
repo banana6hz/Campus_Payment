@@ -97,7 +97,7 @@ router.post('/editWater',function(req,res,next){
     let param = {
         feeId:req.body.feeId,
     }
-    Fee.update(param,{$set:{feeUnit:req.body.feeUnit,feeNum:req.body.feeNum,feeDesc:req.body.feeDesc}},(err,doc)=>{
+    Fee.update(param,{$set:{feeUnit:req.body.feeUnit,feeNum:req.body.feeNum,feeDesc:req.body.desc}},(err,doc)=>{
         if(err){
             errTip(res);
             res.json({
