@@ -355,9 +355,12 @@ router.post('/excel', function (req, res, next) {
     let workbook = new Excel.stream.xlsx.WorkbookWriter(options);
     let worksheet = workbook.addWorksheet('Sheet');
     worksheet.columns = [
-        { header: '宿舍', key: 'roomName' },
-        { header: '学院', key: 'departmentName' },
-        { header: '交易时间', key: 'paymentTime' },
+        { header: '订单编号', key: 'outTradeId', width: 18},
+        { header: '宿舍', key: 'roomName',width: 10 },
+        { header: '学院', key: 'departmentName', width: 20 },
+        { header: '交易时间', key: 'paymentTime', width: 12},
+        { header: '交易金额', key: 'payment', width: 10},
+        { header: '交易方式', key: 'paymentMethod', width: 12},
     ];
 
     for (let i = 0; i < excelData.length; i ++) {
