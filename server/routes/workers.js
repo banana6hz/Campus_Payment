@@ -70,7 +70,7 @@ router.post('/getWaterRecord',function(req,res,next){
         water={}
     }
     console.log(water)
-    WaterRecord.find(water,function(err,doc){
+    WaterRecord.find(water,null,{sort:{_id: -1}},function(err,doc){
         if(err){
             errTip(res);
         }else{
@@ -181,19 +181,22 @@ router.post('/addUserMessage',function(req,res,next){
         param={}
         console.log(param)
     }else{
-        if(req.body.room!==''&&req.body.department===''){
+        if(req.body.msgRoom!==''&&req.body.msgDepartment===''){
             param={
-                roomName:req.body.msgRoom
+                roomId:req.body.msgRoom
             }
-        }else if(req.body.department!==''&&req.body.room===''){
+            console.log(1)
+        }else if(req.body.msgDepartment!==''&&req.body.msgRoom===''){
             param={
                 departmentName:req.body.msgDepartment
             }
-        }else if(req.body.department!==''&&req.body.room!==''){
+            console.log(2)
+        }else if(req.body.msgDepartment!==''&&req.body.msgRoom!==''){
             param={
-                roomName:req.body.msgRoom,
+                roomId:req.body.msgRoom,
                 departmentName:req.body.msgDepartment
             }
+            console.log(3)
         }else{
             param={}
             console.log(111)
@@ -203,7 +206,7 @@ router.post('/addUserMessage',function(req,res,next){
     User.updateOne(param,
         {'$push':{message:{
                     msgHeader:message.header,
-                    msgCount:message.header,
+                    msgCount:message.count,
                     msgTime: message.msgTime,
                     msgDepartment:message.msgDepartment,
                     msgRoom:message.msgRoom,
@@ -231,7 +234,7 @@ router.get('/msgList', function(req, res, next){
         currentPage : Number.parseInt(req.query.page),
         pageSize : Number.parseInt(req.query.size)
     }
-    Msg.find({},function(err, doc) {
+    Msg.find({},null,{sort:{_id: -1}},function(err, doc) {
         if (err ) {
             res.json({
                 status: '0',
@@ -278,7 +281,7 @@ router.get('/suggestList',function(req,res,next){
         currentPage : Number.parseInt(req.query.page),
         pageSize : Number.parseInt(req.query.size)
     }
-    Sug.find((err,doc)=>{
+    Sug.find({},null,{sort:{_id: -1}},(err,doc)=>{
         if(err){
             res.json({
                 status:"1",

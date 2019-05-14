@@ -290,7 +290,7 @@ router.get('/waterRecord', (req, res, next)=> {
         currentPage : Number.parseInt(req.query.page),
         pageSize : Number.parseInt(req.query.size)
      }
-    User.findOne({userId:req.session.userId},(err,doc)=>{
+    WaterRecord.find({userId:req.session.userId},null,{sort:{_id: -1}},(err,doc)=>{
          if(err){
              console.log(res)
          }else{
@@ -298,7 +298,7 @@ router.get('/waterRecord', (req, res, next)=> {
                errTip(res,'用户不存在!');
                return
              }
-             let record = doc.waterRecord;
+             let record = doc;
              let start = water.pageSize * (water.currentPage-1);
              let waterRecord = record.slice(start,start+water.pageSize);
              res.json({
@@ -322,7 +322,7 @@ router.get('/msgList',function(req,res,next){
         currentPage : Number.parseInt(req.query.page),
         pageSize : Number.parseInt(req.query.size)
     }
-    User.find({userId: req.session.userId},(err,doc)=>{
+    User.find({userId:req.session.userId},(err,doc)=>{
         if(err){
             res.json({
                 status:"1",
