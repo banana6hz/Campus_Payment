@@ -15,7 +15,7 @@
                 <div>{{item.msgCount}}</div>
                 <div>
                     <span class="date">{{item.rules}}{{item.msgTime}}
-                        <el-button @click="delMsg(index)">删除</el-button>
+                        <el-button @click="delMsg(index)" style="background: #7dafa7;color:#fff;">删除</el-button>
                     </span>
                 </div>
             </el-collapse-item>
@@ -58,14 +58,17 @@
                 axios.get(`/api/users/msgList?size=${this.pageSize}&page=${this.currentPage}`).then(res=>{
                     this.msgData=res.data.result.msgList
                     for(let i =0;i<res.data.result.msgList.length;i++){
+                        let j = res.data.result.msgList.length - 1
                         this.msgData[i].msgCount=res.data.result.msgList[i].msgCount
                         this.msgData[i].time=res.data.result.msgList[i].time
                     }
                     this.total=res.data.result.total
+                    console.log(this.msgData)
                 })
             },
             delMsg(index){
                 axios.post('/api/users/deleteMsg',this.msgData[index]).then(res=>{
+                    console.log(this.msgData[index])
                     if(res.data.status==='0'){
                         this.$message({
                             message: '删除成功!',
@@ -93,7 +96,6 @@
                 this.getMessage();
             },
             handleReadMsg(data){
-                console.log(data)
                 let flag = this.msgData.filter(it=>!it.isRead && it._id===data);
                 if(data !=='' && flag.length){
                     axios.get(`/api/users/readMsg?id=${flag[0]._id}`).then(response=>{

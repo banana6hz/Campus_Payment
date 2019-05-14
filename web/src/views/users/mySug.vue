@@ -10,7 +10,7 @@
                 <div>{{item.suggestText}}</div>
                 <div>
                     <span class="date">{{item.author}} {{item.suggestTime}}
-                        <el-button @click="delUserSug(item._id)">删除</el-button>
+                        <el-button @click="delUserSug(item._id)" style="background: #7dafa7;color:#fff;">删除</el-button>
                     </span>
                 </div>
             </el-collapse-item>

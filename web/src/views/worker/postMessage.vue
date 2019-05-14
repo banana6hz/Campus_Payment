@@ -64,7 +64,7 @@
                     msgHeader:'',
                     msgCount:'',
                     msgRule:0,
-                    msgRoom:'',
+                    msgRoom:0,
                     msgDepartment:'',
                     type:"全部学生"
                 },
@@ -118,7 +118,7 @@
             // 改变选中table的数据
             selectRoom (val) {
                 this.room = val.roomName
-                this.baseData.msgRoom = val.roomName
+                this.baseData.msgRoom = val.roomId
             },
             selectDepartment(val){
                 this.department = val.departmentName
@@ -186,10 +186,7 @@
                 })
                 axios.post('/api/worker/addUserMessage', this.baseData).then(res=>{
                     if(res.data.status === '0'){
-                        this.$message({
-                            message: res.data.msg,
-                            type: 'success'
-                        });
+                        console.log(res.data.msg)
                     }else{
                         console.log(res.data.status)
                         this.$message({

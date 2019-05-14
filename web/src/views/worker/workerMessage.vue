@@ -12,7 +12,7 @@
                 <div>
                     <span>{{item.msgRule}}</span>
                     <span class="date">{{item.msgTime}}
-                        <el-button @click="delMsg(item._id)">删除</el-button>
+                        <el-button @click="delMsg(item._id)" style="background: #7dafa7;color:#fff;">删除</el-button>
                     </span>
                 </div>
             </el-collapse-item>

@@ -5,7 +5,7 @@
                 <p>热水充值</p>
             </el-form-item>
             <el-form-item label="账户余额">
-                <p>二五八万</p>
+                <p>23元</p>
             </el-form-item>
             <el-form-item label="水卡账号">
                 <p>19900420</p>
@@ -21,7 +21,7 @@
                     <el-radio label="20"></el-radio>
                     <el-radio label="50"></el-radio>
                     <el-radio label="80"></el-radio>
-                    <el-radio label="100元"></el-radio>
+                    <el-radio label="100"></el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="备注">
